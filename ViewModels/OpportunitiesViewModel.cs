@@ -85,19 +85,9 @@ namespace InvestmentDataSampleApp
 		public void FilterLocations(string filter)
 		{
 			if (string.IsNullOrWhiteSpace(filter))
-			{
 				RefreshOpportunitiesData();
-			}
-			else {
-				AllOpportunitiesData = AllOpportunitiesData
-					.Where(x => x.Company.ToLower().Contains(filter.ToLower()) ||
-						  x.DateCreated.ToString().ToLower().Contains(filter.ToLower()) ||
-						  x.DBA.ToLower().Contains(filter.ToLower()) ||
-						  x.LeaseAmountAsCurrency.ToLower().Contains(filter.ToLower()) ||
-						  x.Owner.ToLower().Contains(filter.ToLower()) ||
-						  x.SalesStage.ToString().ToLower().Contains(filter.ToLower()) ||
-						   x.Topic.ToLower().Contains(filter.ToLower()));
-			}
+			else 
+				AllOpportunitiesData = App.Database.GetAllOpportunityData_OldestToNewest_Filter(filter);
 		}
 	}
 }

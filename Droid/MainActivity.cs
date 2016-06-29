@@ -2,6 +2,7 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Xamarin;
 
 namespace InvestmentDataSampleApp.Droid
 {
@@ -11,6 +12,8 @@ namespace InvestmentDataSampleApp.Droid
 		protected override void OnCreate(Bundle bundle)
 		{
  			base.OnCreate(bundle);
+
+			Insights.Initialize(InsightsConstants.InsightsAPIKey, this);
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
