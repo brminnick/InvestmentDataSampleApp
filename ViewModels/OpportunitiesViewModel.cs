@@ -89,14 +89,15 @@ namespace InvestmentDataSampleApp
 				RefreshOpportunitiesData();
 			}
 			else {
-				AllOpportunitiesData = AllOpportunitiesData
-					.Where(x => x.Company.ToLower().Contains(filter.ToLower()) ||
-						  x.DateCreated.ToString().ToLower().Contains(filter.ToLower()) ||
-						  x.DBA.ToLower().Contains(filter.ToLower()) ||
-						  x.LeaseAmountAsCurrency.ToLower().Contains(filter.ToLower()) ||
-						  x.Owner.ToLower().Contains(filter.ToLower()) ||
-						  x.SalesStage.ToString().ToLower().Contains(filter.ToLower()) ||
-						   x.Topic.ToLower().Contains(filter.ToLower()));
+				AllOpportunitiesData = AllOpportunitiesData.Where(x =>
+					x.Company.ToLower().Contains(filter.ToLower()) ||
+				 	x.DateCreated.ToString().ToLower().Contains(filter.ToLower()) ||
+					x.DBA.ToLower().Contains(filter.ToLower()) ||
+					x.LeaseAmountAsCurrency.ToLower().Contains(filter.ToLower()) ||
+					x.Owner.ToLower().Contains(filter.ToLower()) ||
+					x.SalesStage.ToString().ToLower().Contains(filter.ToLower()) ||
+				    x.Topic.ToLower().Contains(filter.ToLower())
+             	);
 			}
 		}
 	}
