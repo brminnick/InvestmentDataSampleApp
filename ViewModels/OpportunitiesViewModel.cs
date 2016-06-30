@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
-using Xamarin.Forms;
+﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
 {
@@ -85,9 +84,7 @@ namespace InvestmentDataSampleApp
 		public void FilterLocations(string filter)
 		{
 			if (string.IsNullOrWhiteSpace(filter))
-			{
 				RefreshOpportunitiesData();
-			}
 			else {
 				AllOpportunitiesData = AllOpportunitiesData.Where(x =>
 					x.Company.ToLower().Contains(filter.ToLower()) ||
