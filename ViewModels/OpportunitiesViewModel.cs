@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
-using Xamarin.Forms;
+﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
 {
@@ -86,8 +85,17 @@ namespace InvestmentDataSampleApp
 		{
 			if (string.IsNullOrWhiteSpace(filter))
 				RefreshOpportunitiesData();
-			else 
-				AllOpportunitiesData = App.Database.GetAllOpportunityData_OldestToNewest_Filter(filter);
+			else {
+				AllOpportunitiesData = AllOpportunitiesData.Where(x =>
+					x.Company.ToLower().Contains(filter.ToLower()) ||
+				 	x.DateCreated.ToString().ToLower().Contains(filter.ToLower()) ||
+					x.DBA.ToLower().Contains(filter.ToLower()) ||
+					x.LeaseAmountAsCurrency.ToLower().Contains(filter.ToLower()) ||
+					x.Owner.ToLower().Contains(filter.ToLower()) ||
+					x.SalesStage.ToString().ToLower().Contains(filter.ToLower()) ||
+				    x.Topic.ToLower().Contains(filter.ToLower())
+             	);
+			}
 		}
 	}
 }
