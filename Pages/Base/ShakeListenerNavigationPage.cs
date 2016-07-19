@@ -15,10 +15,15 @@ namespace InvestmentDataSampleApp
 		double _lastX, _lastY, _lastZ;
 
 		const int ShakeDetectionTimeLapse = 250;
-		const double ShakeThreshold = 20;
+		readonly double ShakeThreshold;
 
 		public ShakeListenerNavigationPage(Page root) : base(root)
 		{
+			if (Device.OS == TargetPlatform.iOS)
+				ShakeThreshold = 20;
+			else if (Device.OS == TargetPlatform.Android)
+				ShakeThreshold = 800;
+			
 			#region Implement ShakeListener
 			CrossDeviceMotion.Current.Start(MotionSensorType.Accelerometer, MotionSensorDelay.Default);
 
