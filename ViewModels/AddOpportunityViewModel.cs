@@ -11,8 +11,6 @@ namespace InvestmentDataSampleApp
 		public readonly OpportunityModel addOpportunityModel;
 		public event EventHandler SaveError;
 
-		long _leaseAmountText;
-
 		public string Topic
 		{
 			get { return addOpportunityModel?.Topic; }

@@ -24,7 +24,7 @@ namespace InvestmentDataSampleApp
 			listView.IsPullToRefreshEnabled = true;
 			listView.Refreshing += (async (sender, e) =>
 			{
-				await opportunitiesViewModel.RefreshOpportunitiesData();
+				await opportunitiesViewModel.RefreshOpportunitiesDataAsync();
 				listView.EndRefresh();
 			});
 
@@ -35,8 +35,6 @@ namespace InvestmentDataSampleApp
 
 			listView.SetBinding(ListView.ItemsSourceProperty, "AllOpportunitiesData");
 			#endregion
-
-			Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 
 			Title = $"Opportunities";
 
@@ -56,6 +54,8 @@ namespace InvestmentDataSampleApp
 			#region Create Stack
 			var listSearchStack = new StackLayout
 			{
+				Padding = 0,
+				Spacing = 0,
 				Children = {
 					searchBar,
 					listView
@@ -69,10 +69,7 @@ namespace InvestmentDataSampleApp
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			Task.Run(async () =>
-			{
-				await opportunitiesViewModel.RefreshOpportunitiesData();
-			});
+			opportunitiesViewModel.RefreshOpportunitiesDataAsync();
 		}
 	}
 }
