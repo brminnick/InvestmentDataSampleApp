@@ -1,20 +1,17 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+
 using Xamarin.UITest;
-using Xamarin.UITest.Queries;
 
 namespace InvestmentDataSampleApp.UITests
 {
 	[TestFixture(Platform.Android)]
 	[TestFixture(Platform.iOS)]
-	public class Tests
+	public class ReplTests
 	{
 		IApp app;
 		Platform platform;
 
-		public Tests(Platform platform)
+		public ReplTests(Platform platform)
 		{
 			this.platform = platform;
 		}
@@ -26,9 +23,9 @@ namespace InvestmentDataSampleApp.UITests
 		}
 
 		[Test]
-		public void AppLaunches()
+		public void ReplTest()
 		{
-			app.Screenshot("First screen.");
+			app.Repl();
 		}
 	}
 }
