@@ -101,7 +101,7 @@ namespace InvestmentDataSampleApp
 
 		public void HandleSaveError(object sender, EventArgs e)
 		{
-			var opportunityModel = ((AddOpportunityViewModel)sender).addOpportunityModel;
+			var opportunityModel = sender as AddOpportunityViewModel;
 			var blankFieldsString = "\n";
 
 			if (opportunityModel.Topic == "")
