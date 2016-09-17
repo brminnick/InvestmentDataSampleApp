@@ -39,6 +39,11 @@
     <Compile Include="AppInitializer.cs" />
     <Compile Include="Tests\Tests.cs" />
     <Compile Include="Tests\ReplTests.cs" />
+    <Compile Include="Pages\AddOpportunityPage.cs" />
+    <Compile Include="Pages\CreditBuilderCarouselPage.cs" />
+    <Compile Include="Pages\OpportunitiesPage.cs" />
+    <Compile Include="Pages\TermsPage.cs" />
+    <Compile Include="Pages\Base\BasePage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -46,6 +51,7 @@
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="Tests\" />
+    <Folder Include="Pages\Base\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\iOS\InvestmentDataSampleApp.iOS.csproj">
