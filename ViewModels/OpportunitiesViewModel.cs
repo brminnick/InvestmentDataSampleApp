@@ -11,15 +11,6 @@ namespace InvestmentDataSampleApp
 	{
 		IEnumerable<OpportunityModel> _allOpportunitiesData;
 
-		public IEnumerable<OpportunityModel> AllOpportunitiesData
-		{
-			get { return _allOpportunitiesData; }
-			set
-			{
-				_allOpportunitiesData = value;
-				OnPropertyChanged("AllOpportunitiesData");
-			}
-		}
 
 		public OpportunitiesViewModel()
 		{
@@ -71,6 +62,15 @@ namespace InvestmentDataSampleApp
 
 					App.Database.SaveOpportunity(tempModel);
 				}
+			}
+		}
+
+		public IEnumerable<OpportunityModel> AllOpportunitiesData
+		{
+			get { return _allOpportunitiesData; }
+			set
+			{
+				SetProperty<IEnumerable<OpportunityModel>>(ref _allOpportunitiesData, value);
 			}
 		}
 
