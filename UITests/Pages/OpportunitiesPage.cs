@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Xamarin.UITest;
+
 namespace InvestmentDataSampleApp.UITests
 {
 	public class OpportunitiesPage : BasePage
 	{
-		public OpportunitiesPageIApp app, Platform platform) : base(app,platform)
+		public OpportunitiesPage(IApp app, Platform platform) : base(app,platform)
 		{
 		}
 	}

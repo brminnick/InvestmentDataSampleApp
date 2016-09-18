@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Xamarin.UITest;
+
 namespace InvestmentDataSampleApp.UITests
 {
 	public class CreditBuilderCarouselPage : BasePage
