@@ -53,11 +53,11 @@ namespace InvestmentDataSampleApp
 					}
 
 					tempModel.Topic = $"{i + 715003} / Investment Data Corp";
-					tempModel.Company = $"{LoremIpsum_Constants.LoremIpsum.Substring(companyIndex, 10)}";
-					tempModel.DBA = $"{LoremIpsum_Constants.LoremIpsum.Substring(dbaIndex, 10)}";
+					tempModel.Company = $"{LoremIpsumConstants.LoremIpsum.Substring(companyIndex, 10)}";
+					tempModel.DBA = $"{LoremIpsumConstants.LoremIpsum.Substring(dbaIndex, 10)}";
 					tempModel.LeaseAmount = leaseAmount;
 					tempModel.SalesStage = salesStage;
-					tempModel.Owner = $"{LoremIpsum_Constants.LoremIpsum.Substring(ownerIndex, 10)}";
+					tempModel.Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}";
 					tempModel.DateCreated = new DateTime(yearIndex, monthIndex, dayIndex);
 
 					App.Database.SaveOpportunity(tempModel);

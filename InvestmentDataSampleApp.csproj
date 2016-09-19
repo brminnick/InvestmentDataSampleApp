@@ -40,13 +40,14 @@
     <Compile Include="ViewModels\OpportunitiesViewModel.cs" />
     <Compile Include="Views\Opportunities\OpportunitiesViewCell.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
-    <Compile Include="Constants\LoremIpsum_Constants.cs" />
+    <Compile Include="Constants\LoremIpsumConstants.cs" />
     <Compile Include="Pages\AddOpportunityPage.cs" />
     <Compile Include="ViewModels\AddOpportunityViewModel.cs" />
     <Compile Include="Pages\CreditBuilderCarouselPage.cs" />
     <Compile Include="Pages\TermsPage.cs" />
     <Compile Include="ViewModels\TermsPageViewModel.cs" />
     <Compile Include="Constants\InsightsConstants.cs" />
+    <Compile Include="Constants\AutomationIdConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SQLite-net">
