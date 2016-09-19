@@ -19,7 +19,7 @@ namespace InvestmentDataSampleApp
 			#region Create Topic Entry
 			var topicText = new EntryCell
 			{
-				Label = "Topic"
+				Label = AutomationIdConstants.TopicEntry
 			};
 			topicText.SetBinding(EntryCell.TextProperty, "Topic");
 			#endregion
@@ -27,7 +27,7 @@ namespace InvestmentDataSampleApp
 			#region Create Company Entry
 			var companyText = new EntryCell
 			{
-				Label = "Company"
+				Label = AutomationIdConstants.CompanyEntry
 			};
 			companyText.SetBinding(EntryCell.TextProperty, "Company");
 			#endregion
@@ -35,7 +35,7 @@ namespace InvestmentDataSampleApp
 			#region Create DBA Entry
 			var dbaText = new EntryCell
 			{
-				Label = "DBA"
+				Label = AutomationIdConstants.DBAEntry
 			};
 			dbaText.SetBinding(EntryCell.TextProperty, "DBA");
 			#endregion
@@ -43,8 +43,9 @@ namespace InvestmentDataSampleApp
 			#region Create LeaseAmount Entry
 			var leaseAmountNumber = new EntryCell
 			{
-				Label = "Lease Amount",
-				Keyboard = Keyboard.Numeric
+				Label = AutomationIdConstants.LeaseAmountEntry,
+				Keyboard = Keyboard.Numeric,
+				Placeholder = "0"
 			};
 			leaseAmountNumber.SetBinding(EntryCell.TextProperty, "LeaseAmount");
 			#endregion
@@ -52,7 +53,7 @@ namespace InvestmentDataSampleApp
 			#region Create Owner Entry
 			var ownerText = new EntryCell
 			{
-				Label = "Owner",
+				Label = AutomationIdConstants.OwnerEntry
 			};
 			ownerText.SetBinding(EntryCell.TextProperty, "Owner");
 			#endregion
@@ -75,18 +76,24 @@ namespace InvestmentDataSampleApp
 			#endregion
 
 			#region Create Save Button
-			var saveButtonToolBar = new ToolbarItem();
-			saveButtonToolBar.Text = _saveToolBarItemText;
+			var saveButtonToolBar = new ToolbarItem
+			{
+				Text = _saveToolBarItemText,
+				Priority = 0,
+				AutomationId = AutomationIdConstants.SaveButton
+			};
 			saveButtonToolBar.SetBinding(ToolbarItem.CommandProperty, "SaveButtonTapped");
-			saveButtonToolBar.Priority = 0;
 			ToolbarItems.Add(saveButtonToolBar);
 			#endregion
 
 			#region Create Cancel Button
-			var cancelButtonToolBar = new ToolbarItem();
-			cancelButtonToolBar.Text = _cancelToolBarItemText;
+			var cancelButtonToolBar = new ToolbarItem
+			{
+				Text = _cancelToolBarItemText,
+				Priority = 1,
+				AutomationId = AutomationIdConstants.CancelButton
+			};
 			cancelButtonToolBar.Clicked += HandleCancelButtonTapped;
-			cancelButtonToolBar.Priority = 1;
 			ToolbarItems.Add(cancelButtonToolBar);
 			#endregion
 

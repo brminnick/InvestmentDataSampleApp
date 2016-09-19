@@ -220,26 +220,26 @@ namespace InvestmentDataSampleApp
 		{
 			var rnd = new Random();
 
-			Term1Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term2Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term3Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term4Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term5Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term6Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term7Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term8Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term9Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term10Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term11Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term12Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term13Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term14Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term15Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term16Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term17Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term18Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term19Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
-			Term20Data = LoremIpsum_Constants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term1Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term2Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term3Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term4Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term5Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term6Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term7Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term8Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term9Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term10Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term11Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term12Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term13Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term14Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term15Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term16Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term17Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term18Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term19Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
+			Term20Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
 		}
 	}
 }

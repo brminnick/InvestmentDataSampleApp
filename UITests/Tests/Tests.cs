@@ -9,26 +9,75 @@ namespace InvestmentDataSampleApp.UITests
 {
 	[TestFixture(Platform.Android)]
 	[TestFixture(Platform.iOS)]
-	public class Tests
+	public class Tests : TestSetUp
 	{
-		IApp app;
-		Platform platform;
-
-		public Tests(Platform platform)
+		public Tests(Platform platform) : base(platform)
 		{
-			this.platform = platform;
-		}
-
-		[SetUp]
-		public void BeforeEachTest()
-		{
-			app = AppInitializer.StartApp(platform);
 		}
 
 		[Test]
-		public void AppLaunches()
+		public void SmokeTest()
 		{
-			app.Screenshot("First screen.");
+			App.Screenshot("First screen.");
+		}
+
+		[TestCase("715022 / Investment Data Corp")]
+		[Test]
+		public void ViewOpportunity(string opportunityTopic)
+		{
+			//Arrange
+			var title = "Terms Page";
+
+			//Act
+			OpportunitiesPage.TapOpportunityViewCell(opportunityTopic);
+			TermsPage.WaitForTermsPageToAppear();
+
+			//Assert
+			Assert.IsTrue(TermsPage.GetTitle().Equals(title));
+		}
+
+		[Test]
+		public void AddNewOpportunity()
+		{
+			//Arrange
+			var topicText = "Test Topic";
+			var companyText = "Test Company";
+			var leaseAmount = 123456789;
+			var ownerText = "Test Owner";
+			var dbaText = "Test DBA";
+
+			//Act
+			OpportunitiesPage.TapAddOpportunityButton();
+
+			AddOpportunityPage.PopulateAllFields(topicText,companyText,leaseAmount,ownerText,dbaText);
+			AddOpportunityPage.TapSaveButton();
+
+			OpportunitiesPage.TapOpportunityViewCell(topicText);
+
+			TermsPage.WaitForTermsPageToAppear();
+
+			//Assert
+			Assert.IsTrue(TermsPage.GetTitle().Equals("Terms Page"));
+		}
+
+		[Test]
+		public void CancelAddNewOpportunity()
+		{
+			//Arrange
+			var topicText = "Test Topic";
+			var companyText = "Test Company";
+			var leaseAmount = 123456789;
+			var ownerText = "Test Owner";
+			var dbaText = "Test DBA";
+
+			//Act
+			OpportunitiesPage.TapAddOpportunityButton();
+
+			AddOpportunityPage.PopulateAllFields(topicText, companyText, leaseAmount, ownerText, dbaText);
+			AddOpportunityPage.TapCancelButton();
+
+			//Assert
+			Assert.IsFalse(OpportunitiesPage.DoesViewCellExist(topicText));
 		}
 	}
 }

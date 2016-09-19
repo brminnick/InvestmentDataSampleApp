@@ -44,12 +44,14 @@ namespace InvestmentDataSampleApp
 			#region Initialize the Toolbar Add Button
 			_addButtonToolBar = new ToolbarItem();
 			_addButtonToolBar.Icon = "Add";
+			_addButtonToolBar.AutomationId = AutomationIdConstants.AddOpportunityButton;
 
 			ToolbarItems.Add(_addButtonToolBar);
 			#endregion
 
 			#region Create Searchbar
 			var searchBar = new SearchBar();
+			searchBar.AutomationId = AutomationIdConstants.OpportunitySearchBar;
 			searchBar.TextChanged += (sender, e) => _opportunitiesViewModel.FilterLocations(searchBar.Text);
 			#endregion
 
