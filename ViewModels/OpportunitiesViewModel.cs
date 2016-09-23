@@ -9,7 +9,7 @@ namespace InvestmentDataSampleApp
 {
 	public class OpportunitiesViewModel : BaseViewModel
 	{
-		IEnumerable<OpportunityModel> _allOpportunitiesData;
+		IList<OpportunityModel> _allOpportunitiesData;
 
 
 		public OpportunitiesViewModel()
@@ -22,8 +22,6 @@ namespace InvestmentDataSampleApp
 
 			Task.Run(async () =>
 			{
-				await RefreshOpportunitiesDataAsync();
-
 				// If the database is empty, initialize the database with dummy data
 				if (await App.Database.GetNumberOfRows() < 20)
 				{
@@ -66,15 +64,16 @@ namespace InvestmentDataSampleApp
 						await App.Database.SaveOpportunity(tempModel);
 					}
 				}
+				await RefreshOpportunitiesDataAsync();
 			});
 		}
 
-		public IEnumerable<OpportunityModel> AllOpportunitiesData
+		public IList<OpportunityModel> AllOpportunitiesData
 		{
 			get { return _allOpportunitiesData; }
 			set
 			{
-				SetProperty<IEnumerable<OpportunityModel>>(ref _allOpportunitiesData, value);
+				SetProperty<IList<OpportunityModel>>(ref _allOpportunitiesData, value);
 			}
 		}
 
@@ -95,7 +94,7 @@ namespace InvestmentDataSampleApp
 					x.Owner.ToLower().Contains(filter.ToLower()) ||
 					x.SalesStage.ToString().ToLower().Contains(filter.ToLower()) ||
 					x.Topic.ToLower().Contains(filter.ToLower())
-				 );
+				 ).ToList();
 			}
 		}
 	}

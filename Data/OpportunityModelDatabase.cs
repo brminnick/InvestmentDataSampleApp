@@ -10,7 +10,7 @@ namespace InvestmentDataSampleApp
 {
 	public class OpportunityModelDatabase
 	{
-		static object locker = new object();
+		static object _locker = new object();
 
 		readonly SQLiteConnection database;
 
@@ -21,11 +21,11 @@ namespace InvestmentDataSampleApp
 			database.CreateTable<OpportunityModel>();
 		}
 
-		public async Task<IEnumerable<OpportunityModel>> GetAllOpportunityData_OldestToNewest_Filter(string filter)
+		public async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest_Filter(string filter)
 		{
 			return await Task.Run(() =>
 			{
-				lock (locker)
+				lock (_locker)
 				{
 					var tempList = (from i in database.Table<OpportunityModel>() select i).ToList();
 					return tempList.Where(x => x.ID > 0 &&
@@ -35,32 +35,32 @@ namespace InvestmentDataSampleApp
 							x.LeaseAmountAsCurrency.ToLower().Contains(filter.ToLower()) ||
 							x.Owner.ToLower().Contains(filter.ToLower()) ||
 							x.SalesStage.ToString().ToLower().Contains(filter.ToLower()) ||
-							  x.Topic.ToLower().Contains(filter.ToLower()));
+							  x.Topic.ToLower().Contains(filter.ToLower())).ToList();
 				}
 			});
 		}
 
-		public async Task<IEnumerable<OpportunityModel>> GetAllOpportunityData_OldestToNewest()
+		public async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest()
 		{
 			return await Task.Run(() =>
 			{
-				lock (locker)
+				lock (_locker)
 				{
 					return (from i in database.Table<OpportunityModel>()
-							select i).ToList().Where(x => x.ID > 0);
+							select i).ToList().Where(x => x.ID > 0).ToList();
 				}
 			});
 		}
 
-		public async Task<IEnumerable<OpportunityModel>> GetAllOpportunityData_NewestToOldest()
+		public async Task<IList<OpportunityModel>> GetAllOpportunityData_NewestToOldest()
 		{
 			return await Task.Run(() =>
 			{
-				lock (locker)
+				lock (_locker)
 				{
 					List<OpportunityModel> tempList = (from i in database.Table<OpportunityModel>()
 													   select i).ToList();
-					return tempList.OrderByDescending(x => x.ID).Where(x => x.ID > 0);
+					return tempList.OrderByDescending(x => x.ID).Where(x => x.ID > 0).ToList();
 				}
 			});
 		}
@@ -69,7 +69,7 @@ namespace InvestmentDataSampleApp
 		{
 			return await Task.Run(() =>
 			{
-				lock (locker)
+				lock (_locker)
 				{
 					return database.Table<OpportunityModel>().FirstOrDefault(x => x.ID == id);
 				}
@@ -80,7 +80,7 @@ namespace InvestmentDataSampleApp
 		{
 			return await Task.Run(() =>
 			{
-				lock (locker)
+				lock (_locker)
 				{
 					return database.Table<OpportunityModel>().FirstOrDefault(x => x.Topic == topic);
 				}
@@ -89,15 +89,21 @@ namespace InvestmentDataSampleApp
 
 		public async Task<int> SaveOpportunity(OpportunityModel opportunity)
 		{
+			var isOpportunityInDatabase = await GetOpportunityByTopic(opportunity.Topic) != null;
+
 			return await Task.Run(() =>
 			{
-				lock (locker)
+				if (isOpportunityInDatabase)
 				{
-					if (GetOpportunityByTopic(opportunity.Topic) != null)
+					lock (_locker)
 					{
 						database.Update(opportunity);
-						return opportunity.ID;
 					}
+					return opportunity.ID;
+				}
+
+				lock (_locker)
+				{
 					return database.Insert(opportunity);
 				}
 			});
@@ -107,7 +113,7 @@ namespace InvestmentDataSampleApp
 		{
 			return await Task.Run(() =>
 			{
-				lock (locker)
+				lock (_locker)
 				{
 					return database.Delete<OpportunityModel>(id);
 				}
@@ -118,7 +124,7 @@ namespace InvestmentDataSampleApp
 		{
 			return await Task.Run(() =>
 			{
-				lock (locker)
+				lock (_locker)
 				{
 					return database.Table<OpportunityModel>().OrderByDescending(x => x.ID).Take(1).First();
 				}
