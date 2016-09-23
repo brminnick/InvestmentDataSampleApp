@@ -14,55 +14,59 @@ namespace InvestmentDataSampleApp
 
 		public OpportunitiesViewModel()
 		{
-			RefreshOpportunitiesDataAsync();
 
-			MessagingCenter.Subscribe<object>(this, "RefreshData", (sender) =>
+			MessagingCenter.Subscribe<object>(this, "RefreshData", async (sender) =>
 		   	{
-			   RefreshOpportunitiesDataAsync();
+				   await RefreshOpportunitiesDataAsync();
 		   	});
 
-			// If the database is empty, initialize the database with dummy data
-			if (App.Database.GetNumberOfRows() < 20)
+			Task.Run(async () =>
 			{
-				for (int i = 0; i < 20; i++)
+				await RefreshOpportunitiesDataAsync();
+
+				// If the database is empty, initialize the database with dummy data
+				if (await App.Database.GetNumberOfRows() < 20)
 				{
-					var tempModel = new OpportunityModel();
-
-					var rnd = new Random();
-					var companyIndex = rnd.Next(50);
-					var dbaIndex = rnd.Next(50);
-					var leaseAmount = rnd.Next(1000000);
-					var ownerIndex = rnd.Next(50);
-					var dayIndex = rnd.Next(1, 28);
-					var monthIndex = rnd.Next(1, 12);
-					var yearIndex = rnd.Next(2000, 2015);
-
-					var salesStageNumber = rnd.Next(2);
-					SalesStages salesStage;
-					switch (salesStageNumber)
+					for (int i = 0; i < 20; i++)
 					{
-						case 0:
-							salesStage = SalesStages.New;
-							break;
-						case 1:
-							salesStage = SalesStages.Pending;
-							break;
-						default:
-							salesStage = SalesStages.Closed;
-							break;
+						var tempModel = new OpportunityModel();
+
+						var rnd = new Random();
+						var companyIndex = rnd.Next(50);
+						var dbaIndex = rnd.Next(50);
+						var leaseAmount = rnd.Next(1000000);
+						var ownerIndex = rnd.Next(50);
+						var dayIndex = rnd.Next(1, 28);
+						var monthIndex = rnd.Next(1, 12);
+						var yearIndex = rnd.Next(2000, 2015);
+
+						var salesStageNumber = rnd.Next(2);
+						SalesStages salesStage;
+						switch (salesStageNumber)
+						{
+							case 0:
+								salesStage = SalesStages.New;
+								break;
+							case 1:
+								salesStage = SalesStages.Pending;
+								break;
+							default:
+								salesStage = SalesStages.Closed;
+								break;
+						}
+
+						tempModel.Topic = $"{i + 715003} / Investment Data Corp";
+						tempModel.Company = $"{LoremIpsumConstants.LoremIpsum.Substring(companyIndex, 10)}";
+						tempModel.DBA = $"{LoremIpsumConstants.LoremIpsum.Substring(dbaIndex, 10)}";
+						tempModel.LeaseAmount = leaseAmount;
+						tempModel.SalesStage = salesStage;
+						tempModel.Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}";
+						tempModel.DateCreated = new DateTime(yearIndex, monthIndex, dayIndex);
+
+						await App.Database.SaveOpportunity(tempModel);
 					}
-
-					tempModel.Topic = $"{i + 715003} / Investment Data Corp";
-					tempModel.Company = $"{LoremIpsumConstants.LoremIpsum.Substring(companyIndex, 10)}";
-					tempModel.DBA = $"{LoremIpsumConstants.LoremIpsum.Substring(dbaIndex, 10)}";
-					tempModel.LeaseAmount = leaseAmount;
-					tempModel.SalesStage = salesStage;
-					tempModel.Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}";
-					tempModel.DateCreated = new DateTime(yearIndex, monthIndex, dayIndex);
-
-					App.Database.SaveOpportunity(tempModel);
 				}
-			}
+			});
 		}
 
 		public IEnumerable<OpportunityModel> AllOpportunitiesData
@@ -74,22 +78,14 @@ namespace InvestmentDataSampleApp
 			}
 		}
 
-		public void RefreshOpportunitiesData()
-		{
-			AllOpportunitiesData = App.Database.GetAllOpportunityData_OldestToNewest();
-		}
-
 		public async Task RefreshOpportunitiesDataAsync()
 		{
-			await Task.Run(() =>
-			{
-				RefreshOpportunitiesData();
-			});
+			AllOpportunitiesData = await App.Database.GetAllOpportunityData_OldestToNewest();
 		}
-		public void FilterLocations(string filter)
+		public async Task FilterLocations(string filter)
 		{
 			if (string.IsNullOrWhiteSpace(filter))
-				RefreshOpportunitiesDataAsync();
+				await RefreshOpportunitiesDataAsync();
 			else {
 				AllOpportunitiesData = AllOpportunitiesData.Where(x =>
 					x.Company.ToLower().Contains(filter.ToLower()) ||
