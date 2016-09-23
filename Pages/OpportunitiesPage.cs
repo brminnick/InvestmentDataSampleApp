@@ -72,10 +72,10 @@ namespace InvestmentDataSampleApp
 			Content = listSearchStack;
 		}
 
-		protected override void OnAppearing()
+		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
-			_opportunitiesViewModel.RefreshOpportunitiesDataAsync();
+			await _opportunitiesViewModel.RefreshOpportunitiesDataAsync();
 			SubscribeEventHandlers();
 		}
 

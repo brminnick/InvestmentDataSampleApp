@@ -127,7 +127,7 @@ namespace InvestmentDataSampleApp
 
 		public async Task PopModalAsync(bool isAnimated)
 		{
-			await Navigation.PopModalAsync(true);
+			await Navigation.PopModalAsync(isAnimated);
 
 			while (ToolbarItems.Count > 0)
 			{
@@ -142,9 +142,9 @@ namespace InvestmentDataSampleApp
 			_viewModel = null;
 		}
 
-		void HandleCancelButtonTapped(object sender, EventArgs e)
+		async void HandleCancelButtonTapped(object sender, EventArgs e)
 		{
-			PopModalAsync(true);
+			await PopModalAsync(true);
 		}
 	}
 }

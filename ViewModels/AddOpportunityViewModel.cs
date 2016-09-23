@@ -97,7 +97,7 @@ namespace InvestmentDataSampleApp
 				}
 
 				DateCreated = DateTime.Now;
-				Task.Run(() => App.Database.SaveOpportunity(new OpportunityModel
+				Task.Run(() => App.Database.SaveOpportunityAsync(new OpportunityModel
 				{
 					Topic = Topic,
 					Company = Company,
