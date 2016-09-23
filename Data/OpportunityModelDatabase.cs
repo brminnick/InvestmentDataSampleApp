@@ -21,7 +21,7 @@ namespace InvestmentDataSampleApp
 			database.CreateTable<OpportunityModel>();
 		}
 
-		public async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest_Filter(string filter)
+		public async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest_Filter(string filter)
 		{
 			return await Task.Run(() =>
 			{
@@ -40,7 +40,7 @@ namespace InvestmentDataSampleApp
 			});
 		}
 
-		public async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest()
+		public async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest()
 		{
 			return await Task.Run(() =>
 			{
@@ -52,7 +52,7 @@ namespace InvestmentDataSampleApp
 			});
 		}
 
-		public async Task<IList<OpportunityModel>> GetAllOpportunityData_NewestToOldest()
+		public async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_NewestToOldest()
 		{
 			return await Task.Run(() =>
 			{
@@ -65,7 +65,7 @@ namespace InvestmentDataSampleApp
 			});
 		}
 
-		public async Task<OpportunityModel> GetOpportunityByID(int id)
+		public async Task<OpportunityModel> GetOpportunityByIDAsync(int id)
 		{
 			return await Task.Run(() =>
 			{
@@ -76,7 +76,7 @@ namespace InvestmentDataSampleApp
 			});
 		}
 
-		public async Task<OpportunityModel> GetOpportunityByTopic(string topic)
+		public async Task<OpportunityModel> GetOpportunityByTopicAsync(string topic)
 		{
 			return await Task.Run(() =>
 			{
@@ -87,9 +87,9 @@ namespace InvestmentDataSampleApp
 			});
 		}
 
-		public async Task<int> SaveOpportunity(OpportunityModel opportunity)
+		public async Task<int> SaveOpportunityAsync(OpportunityModel opportunity)
 		{
-			var isOpportunityInDatabase = await GetOpportunityByTopic(opportunity.Topic) != null;
+			var isOpportunityInDatabase = await GetOpportunityByTopicAsync(opportunity.Topic) != null;
 
 			return await Task.Run(() =>
 			{
@@ -109,7 +109,7 @@ namespace InvestmentDataSampleApp
 			});
 		}
 
-		public async Task<int> DeleteItem(int id)
+		public async Task<int> DeleteItemAsync(int id)
 		{
 			return await Task.Run(() =>
 			{
@@ -120,7 +120,7 @@ namespace InvestmentDataSampleApp
 			});
 		}
 
-		public async Task<OpportunityModel> GetNewestOpportunity()
+		public async Task<OpportunityModel> GetNewestOpportunityAsync()
 		{
 			return await Task.Run(() =>
 			{
@@ -131,7 +131,7 @@ namespace InvestmentDataSampleApp
 			});
 		}
 
-		public async Task<int> GetNumberOfRows()
+		public async Task<int> GetNumberOfRowsAsync()
 		{
 			return await Task.Run(() =>
 			{

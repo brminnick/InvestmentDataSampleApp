@@ -23,7 +23,7 @@ namespace InvestmentDataSampleApp
 			Task.Run(async () =>
 			{
 				// If the database is empty, initialize the database with dummy data
-				if (await App.Database.GetNumberOfRows() < 20)
+				if (await App.Database.GetNumberOfRowsAsync() < 20)
 				{
 					for (int i = 0; i < 20; i++)
 					{
@@ -61,7 +61,7 @@ namespace InvestmentDataSampleApp
 						tempModel.Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}";
 						tempModel.DateCreated = new DateTime(yearIndex, monthIndex, dayIndex);
 
-						await App.Database.SaveOpportunity(tempModel);
+						await App.Database.SaveOpportunityAsync(tempModel);
 					}
 				}
 				await RefreshOpportunitiesDataAsync();
@@ -79,7 +79,7 @@ namespace InvestmentDataSampleApp
 
 		public async Task RefreshOpportunitiesDataAsync()
 		{
-			AllOpportunitiesData = await App.Database.GetAllOpportunityData_OldestToNewest();
+			AllOpportunitiesData = await App.Database.GetAllOpportunityDataAsync_OldestToNewest();
 		}
 		public async Task FilterLocations(string filter)
 		{
