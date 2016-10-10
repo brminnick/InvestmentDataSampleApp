@@ -37,6 +37,20 @@ namespace InvestmentDataSampleApp.UITests
 		}
 
 		[Test]
+		public void AddNewOpportunityEmptyFields()
+		{
+			//Arrange
+
+			//Act
+			OpportunitiesPage.TapAddOpportunityButton();
+
+			AddOpportunityPage.TapSaveButton();
+
+			//Assert
+			Assert.IsTrue(App.Query("OK").Length > 0);
+		}
+
+		[Test]
 		public void AddNewOpportunity()
 		{
 			//Arrange
@@ -49,7 +63,7 @@ namespace InvestmentDataSampleApp.UITests
 			//Act
 			OpportunitiesPage.TapAddOpportunityButton();
 
-			AddOpportunityPage.PopulateAllFields(topicText,companyText,leaseAmount,ownerText,dbaText);
+			AddOpportunityPage.PopulateAllFields(topicText, companyText, leaseAmount, ownerText, dbaText);
 			AddOpportunityPage.TapSaveButton();
 
 			OpportunitiesPage.TapOpportunityViewCell(topicText);
