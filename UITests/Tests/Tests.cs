@@ -4,12 +4,13 @@ using System.Linq;
 using NUnit.Framework;
 using Xamarin.UITest;
 using Xamarin.UITest.Queries;
+using System.Threading.Tasks;
 
 namespace InvestmentDataSampleApp.UITests
 {
 	[TestFixture(Platform.Android)]
 	[TestFixture(Platform.iOS)]
-	public class Tests : TestSetUp
+	public class Tests : BaseTest
 	{
 		public Tests(Platform platform) : base(platform)
 		{
@@ -34,6 +35,20 @@ namespace InvestmentDataSampleApp.UITests
 
 			//Assert
 			Assert.IsTrue(TermsPage.GetTitle().Equals(title));
+		}
+
+		[TestCase("715022 / Investment Data Corp")]
+		[Test]
+		public async void DeleteOpportunity(string opportunityTopic)
+		{
+			//Arrange
+
+			//Act
+			OpportunitiesPage.DeleteViewCell(opportunityTopic);
+			await Task.Delay(1000);
+
+			//Assert
+			Assert.IsFalse(OpportunitiesPage.DoesViewCellExist(opportunityTopic));
 		}
 
 		[Test]
