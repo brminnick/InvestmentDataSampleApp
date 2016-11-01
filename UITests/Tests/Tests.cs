@@ -39,7 +39,7 @@ namespace InvestmentDataSampleApp.UITests
 
 		[TestCase("715022 / Investment Data Corp")]
 		[Test]
-		public async void DeleteOpportunity(string opportunityTopic)
+		public async Task DeleteOpportunity(string opportunityTopic)
 		{
 			//Arrange
 
