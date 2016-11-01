@@ -1,5 +1,5 @@
 ﻿using System;
-namespace InvestmentDataSampleApp
+namespace InvestmentDataSampleApp.Shared
 {
 	public static class LoremIpsumConstants
 	{

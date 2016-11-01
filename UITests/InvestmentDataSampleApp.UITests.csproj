@@ -66,10 +66,7 @@
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\InvestmentDataSampleApp.csproj">
-      <Project>{003FB363-F66D-41FD-B223-54A0334B284C}</Project>
-      <Name>InvestmentDataSampleApp</Name>
-    </ProjectReference>
   </ItemGroup>
+  <Import Project="..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvestmentDataSampleApp.Dro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvestmentDataSampleApp.UITests", "UITests\InvestmentDataSampleApp.UITests.csproj", "{2985A521-564E-4ACD-913D-62A086B0D60B}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "InvestmentDataSampleApp.Shared", "InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.shproj", "{774D7AD5-3977-4300-A44E-F05A8B8DEBD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

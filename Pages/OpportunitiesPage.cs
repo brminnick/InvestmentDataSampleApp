@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
+
+using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp
 {

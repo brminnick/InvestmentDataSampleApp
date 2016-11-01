@@ -1,5 +1,8 @@
 ﻿using System;
+
 using Xamarin.UITest;
+
+using InvestmentDataSampleApp.Shared;
 
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
