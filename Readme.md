@@ -1,3 +1,5 @@
+[![Build Status](https://www.bitrise.io/app/b2853547e55538db.svg?token=wQkjx6ViK_JGSu7GgYVh9Q&branch=master)](https://www.bitrise.io/app/b2853547e55538db)
+
 # Investment Sample App
 This sample app was made for a customer to demonstrate how to port a Desktop App to a Mobile App. This customer has an existing Desktop application. They provided us a mock up of their mobile app (see below) which did not follow [iOS UI best-practices](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/). We created a sample app to demonstrate how to adhere to mobile UI while still maintaining a workflow familiar to their desktop app.
 
