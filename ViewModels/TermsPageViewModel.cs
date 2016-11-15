@@ -1,4 +1,7 @@
 ﻿using System;
+
+using InvestmentDataSampleApp.Shared;
+
 namespace InvestmentDataSampleApp
 {
 	public class TermsPageViewModel : BaseViewModel

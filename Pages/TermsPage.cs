@@ -1,5 +1,7 @@
 ﻿using Xamarin.Forms;
 
+using InvestmentDataSampleApp.Shared;
+
 namespace InvestmentDataSampleApp
 {
 	public class TermsPage : ContentPage

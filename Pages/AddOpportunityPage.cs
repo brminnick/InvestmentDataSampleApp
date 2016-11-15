@@ -1,7 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
+
+using InvestmentDataSampleApp.Shared;
+
 namespace InvestmentDataSampleApp
 {
 	public class AddOpportunityPage : ContentPage

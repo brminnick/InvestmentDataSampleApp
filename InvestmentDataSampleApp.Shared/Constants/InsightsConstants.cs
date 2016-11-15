@@ -1,8 +1,4 @@
-﻿using System;
-
-using Xamarin.Forms;
-
-namespace InvestmentDataSampleApp
+﻿namespace InvestmentDataSampleApp.Shared
 {
 	public static class InsightsConstants
 	{
