@@ -45,6 +45,7 @@
     <Compile Include="Pages\CreditBuilderCarouselPage.cs" />
     <Compile Include="Pages\TermsPage.cs" />
     <Compile Include="ViewModels\TermsPageViewModel.cs" />
+    <Compile Include="Views\Opportunities\WelcomeView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Insights">

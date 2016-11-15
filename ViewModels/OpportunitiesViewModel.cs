@@ -11,9 +11,12 @@ namespace InvestmentDataSampleApp
 {
 	public class OpportunitiesViewModel : BaseViewModel
 	{
+		#region Fields
 		IList<OpportunityModel> _allOpportunitiesData;
+		Command _okButtonTapped;
+		#endregion
 
-
+		#region Constructors
 		public OpportunitiesViewModel()
 		{
 
@@ -69,7 +72,13 @@ namespace InvestmentDataSampleApp
 				await RefreshOpportunitiesDataAsync();
 			});
 		}
+		#endregion
+		public event EventHandler OkButtonTappedEvent;
+		#region Events
 
+		#endregion
+
+		#region Properties
 		public IList<OpportunityModel> AllOpportunitiesData
 		{
 			get { return _allOpportunitiesData; }
@@ -79,6 +88,16 @@ namespace InvestmentDataSampleApp
 			}
 		}
 
+		public Command OkButtonTapped
+		{
+			get {
+				return _okButtonTapped ?? 
+					(_okButtonTapped = new Command(OnOkButtonTapped));
+			}
+		}
+		#endregion
+
+		#region Methods
 		public async Task RefreshOpportunitiesDataAsync()
 		{
 			AllOpportunitiesData = await App.Database.GetAllOpportunityDataAsync_OldestToNewest();
@@ -99,6 +118,13 @@ namespace InvestmentDataSampleApp
 				 ).ToList();
 			}
 		}
+
+		void OnOkButtonTapped()
+		{
+			var handler = OkButtonTappedEvent;
+			handler?.Invoke(null, EventArgs.Empty);
+		}
+		#endregion
 	}
 }
 

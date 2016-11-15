@@ -6,6 +6,9 @@ namespace InvestmentDataSampleApp.Shared
 		#region OpportunitiesPage Constants
 		public const string AddOpportunityButton = "AddOpportunityButton";
 		public const string OpportunitySearchBar = "OpportunitySearchBar";
+		public const string WelcomeViewTitleLabel = "WelcomeViewTitleLabel";
+		public const string WelcomeViewBodyLabel = "WelcomeViewBodyLabel";
+		public const string WelcomeViewOkButton = "WelcomeViewOkButton";
 		#endregion
 
 		#region TermsPage Constants
