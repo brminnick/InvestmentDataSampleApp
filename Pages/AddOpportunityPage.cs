@@ -12,6 +12,8 @@ namespace InvestmentDataSampleApp
 		const string _saveToolBarItemText = "Save";
 		const string _cancelToolBarItemText = "Cancel";
 
+		const int relativeLayoutSpacing = 5;
+
 		AddOpportunityViewModel _viewModel;
 
 		public AddOpportunityPage()
@@ -19,63 +21,165 @@ namespace InvestmentDataSampleApp
 			_viewModel = new AddOpportunityViewModel();
 			BindingContext = _viewModel;
 
-			#region Create Topic Entry
-			var topicText = new EntryCell
+			#region Create Topic Stack
+			var topicLabel = new Label
 			{
-				Label = AutomationIdConstants.TopicEntry
+				Text = "Topic"
 			};
-			topicText.SetBinding(EntryCell.TextProperty, "Topic");
+
+			var topicEntry = new Entry
+			{
+				AutomationId = AutomationIdConstants.TopicEntry
+			};
+			topicEntry.SetBinding(Entry.TextProperty, "Topic");
+
+			var topicStack = new StackLayout
+			{
+				Orientation = StackOrientation.Horizontal,
+				Children = {
+					topicLabel,
+					topicEntry
+				}
+			};
 			#endregion
 
-			#region Create Company Entry
-			var companyText = new EntryCell
+			#region Create Company Stack
+			var companyLabel = new Label
 			{
-				Label = AutomationIdConstants.CompanyEntry
+				Text = "Company"
 			};
-			companyText.SetBinding(EntryCell.TextProperty, "Company");
+
+			var companyEntry = new Entry
+			{
+				AutomationId = AutomationIdConstants.CompanyEntry
+			};
+			companyEntry.SetBinding(Entry.TextProperty, "Company");
+
+			var companyStack = new StackLayout
+			{
+				Orientation = StackOrientation.Horizontal,
+				Children = {
+					companyLabel,
+					companyEntry
+				}
+			};
 			#endregion
 
-			#region Create DBA Entry
-			var dbaText = new EntryCell
+			#region Create DBA Stack
+			var dbaLabel = new Label
 			{
-				Label = AutomationIdConstants.DBAEntry
+				Text = "DBA"
 			};
-			dbaText.SetBinding(EntryCell.TextProperty, "DBA");
+
+			var dbaEntry = new Entry
+			{
+				AutomationId = AutomationIdConstants.DBAEntry
+			};
+			dbaEntry.SetBinding(Entry.TextProperty, "DBA");
+
+			var dbaStack = new StackLayout
+			{
+				Orientation = StackOrientation.Horizontal,
+				Children = {
+					dbaLabel,
+					dbaEntry
+				}
+			};
 			#endregion
 
-			#region Create LeaseAmount Entry
-			var leaseAmountNumber = new EntryCell
+			#region Create LeaseAmount Stack
+			var leaseAmountLabel = new Label
 			{
-				Label = AutomationIdConstants.LeaseAmountEntry,
+				Text = "Lease Amount"
+			};
+
+			var leaseAmountEntry = new Entry
+			{
+				AutomationId = AutomationIdConstants.LeaseAmountEntry,
 				Keyboard = Keyboard.Numeric,
 				Placeholder = "0"
 			};
-			leaseAmountNumber.SetBinding(EntryCell.TextProperty, "LeaseAmount");
+			leaseAmountEntry.SetBinding(Entry.TextProperty, "LeaseAmount");
+
+			var leaseAmountStack = new StackLayout
+			{
+				Orientation = StackOrientation.Horizontal,
+				Children = {
+					leaseAmountLabel,
+					leaseAmountEntry
+				}
+			};
 			#endregion
 
 			#region Create Owner Entry
-			var ownerText = new EntryCell
+			var ownerLabel = new Label
 			{
-				Label = AutomationIdConstants.OwnerEntry
+				Text = "Owner"
 			};
-			ownerText.SetBinding(EntryCell.TextProperty, "Owner");
+
+			var ownerEntry = new Entry
+			{
+				AutomationId = AutomationIdConstants.OwnerEntry
+			};
+			ownerEntry.SetBinding(Entry.TextProperty, "Owner");
+
+			var ownerStack = new StackLayout
+			{
+				Orientation = StackOrientation.Horizontal,
+				Children = {
+					ownerLabel,
+					ownerEntry
+				}
+			};
 			#endregion
 
 			#region create the TableView
-			var tableView = new TableView
-			{
-				Intent = TableIntent.Settings,
-				Root = new TableRoot
-				{
-					new TableSection{
-						topicText,
-						companyText,
-						leaseAmountNumber,
-						ownerText,
-						dbaText,
-					}
-				}
-			};
+			var mainLayout = new RelativeLayout();
+			mainLayout.Children.Add(topicLabel,
+								   Constraint.Constant(0),
+								   Constraint.Constant(0)
+								   );
+			mainLayout.Children.Add(topicEntry,
+									Constraint.Constant(0),
+									Constraint.RelativeToView(topicLabel, (parent, view) => view.Y + view.Height),
+									Constraint.RelativeToParent((parent) => parent.Width)
+								   );
+			mainLayout.Children.Add(companyLabel,
+									Constraint.Constant(0),
+									Constraint.RelativeToView(topicEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+								   );
+			mainLayout.Children.Add(companyEntry,
+									Constraint.Constant(0),
+									Constraint.RelativeToView(companyLabel, (parent, view) => view.Y + view.Height),
+									Constraint.RelativeToParent((parent) => parent.Width)
+								   );
+			mainLayout.Children.Add(leaseAmountLabel,
+									Constraint.Constant(0),
+									Constraint.RelativeToView(companyEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+								   );
+			mainLayout.Children.Add(leaseAmountEntry,
+									Constraint.Constant(0),
+									Constraint.RelativeToView(leaseAmountLabel, (parent, view) => view.Y + view.Height),
+									Constraint.RelativeToParent((parent) => parent.Width)
+								   );
+			mainLayout.Children.Add(ownerLabel,
+									Constraint.Constant(0),
+									Constraint.RelativeToView(leaseAmountEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+								   );
+			mainLayout.Children.Add(ownerEntry,
+									Constraint.Constant(0),
+									Constraint.RelativeToView(ownerLabel, (parent, view) => view.Y + view.Height),
+									Constraint.RelativeToParent((parent) => parent.Width)
+								   );
+			mainLayout.Children.Add(dbaLabel,
+									Constraint.Constant(0),
+									Constraint.RelativeToView(ownerEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+								   );
+			mainLayout.Children.Add(dbaEntry,
+									Constraint.Constant(0),
+									Constraint.RelativeToView(dbaLabel, (parent, view) => view.Y + view.Height),
+									Constraint.RelativeToParent((parent) => parent.Width)
+								   );
 			#endregion
 
 			#region Create Save Button
@@ -102,7 +206,9 @@ namespace InvestmentDataSampleApp
 
 			Title = "Add Opportunity";
 
-			Content = tableView;
+			Padding = new Thickness(20, 5, 20, 0);
+
+			Content = mainLayout;
 
 			_viewModel.SaveError += HandleSaveError;
 
