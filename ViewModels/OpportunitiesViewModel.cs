@@ -123,6 +123,8 @@ namespace InvestmentDataSampleApp
 		{
 			var handler = OkButtonTappedEvent;
 			handler?.Invoke(null, EventArgs.Empty);
+
+			Settings.ShouldShowWelcomeView = false;
 		}
 		#endregion
 	}

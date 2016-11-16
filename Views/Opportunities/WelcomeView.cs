@@ -18,8 +18,9 @@ namespace InvestmentDataSampleApp
 
 		public WelcomeView()
 		{
-			const string titleText = "Welcome!";
+			const string titleText = "Welcome";
 			const string bodyText = "Enjoy InvestmentDataSampleApp";
+			const string okButtonText = "Ok, thanks!";
 
 			_backgroundOverlayBoxView = new BoxView
 			{
@@ -36,7 +37,6 @@ namespace InvestmentDataSampleApp
 
 			var titleLabel = new Label
 			{
-				Style = StyleConstants.LabelStyle,
 				FontAttributes = FontAttributes.Bold,
 				Text = titleText,
 				HorizontalTextAlignment = TextAlignment.Center,
@@ -45,7 +45,6 @@ namespace InvestmentDataSampleApp
 
 			var bodyLabel = new Label
 			{
-				Style = StyleConstants.LabelStyle,
 				Text = bodyText,
 				HorizontalTextAlignment = TextAlignment.Center,
 				AutomationId = AutomationIdConstants.WelcomeViewBodyLabel
@@ -53,21 +52,14 @@ namespace InvestmentDataSampleApp
 
 			var okButton = new Button
 			{
-				Text = "Ok",
+				Style = StyleConstants.WelcomeViewButtonStyle,
+				TextColor = Color.White,
+				FontAttributes = FontAttributes.Bold,
+				Margin = new Thickness(5),
+				Text = okButtonText,
 				AutomationId = AutomationIdConstants.WelcomeViewOkButton
 			};
 			okButton.SetBinding(Button.CommandProperty, "OkButtonTapped");
-
-			var buttonStack = new StackLayout
-			{
-				Spacing = 20,
-				Orientation = StackOrientation.Horizontal,
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
-				Children =
-				{
-					okButton
-				}
-			};
 
 			_textAndButtonStack = new StackLayout
 			{
@@ -76,7 +68,7 @@ namespace InvestmentDataSampleApp
 				Children = {
 					titleLabel,
 					bodyLabel,
-					buttonStack
+					okButton
 				}
 			};
 			_textAndButtonStack.Scale = 0;

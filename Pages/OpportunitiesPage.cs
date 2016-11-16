@@ -133,6 +133,9 @@ namespace InvestmentDataSampleApp
 
 		void DisplayWelcomeView()
 		{
+			if (!(Settings.ShouldShowWelcomeView))
+				return;
+			
 			Device.BeginInvokeOnMainThread(() =>
 			{
 				_welcomeView = new WelcomeView();

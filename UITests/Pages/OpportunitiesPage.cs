@@ -12,11 +12,13 @@ namespace InvestmentDataSampleApp.UITests
 	{
 		readonly Query AddOpportunityButton;
 		readonly Query OpportunitySearchBar;
+		readonly Query WelcomeViewOkButton;
 
 		public OpportunitiesPage(IApp app, Platform platform) : base(app, platform)
 		{
 			AddOpportunityButton = x => x.Marked(AutomationIdConstants.AddOpportunityButton);
 			OpportunitySearchBar = x => x.Marked(AutomationIdConstants.OpportunitySearchBar);
+			WelcomeViewOkButton = x => x.Marked(AutomationIdConstants.WelcomeViewOkButton);
 		}
 
 		public void TapAddOpportunityButton()
@@ -45,6 +47,25 @@ namespace InvestmentDataSampleApp.UITests
 				app.TouchAndHold(topic);
 
 			app.Tap("Delete");
+		}
+
+		public void TapWelcomeViewOkButton()
+		{
+			app.Tap(WelcomeViewOkButton);
+			app.Screenshot("Welcome View Ok Button Tapped");
+		}
+
+		public bool IsWelcomeViewVisible()
+		{
+			try
+			{
+				app.WaitForElement(WelcomeViewOkButton);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		public void Search(string searchString)
