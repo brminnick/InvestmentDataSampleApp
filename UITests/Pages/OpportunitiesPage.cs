@@ -59,7 +59,7 @@ namespace InvestmentDataSampleApp.UITests
 		{
 			try
 			{
-				app.WaitForElement(WelcomeViewOkButton, timeout: TimeSpan.FromSeconds(timeoutInSeconds);
+				app.WaitForElement(WelcomeViewOkButton, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
 				return true;
 			}
 			catch

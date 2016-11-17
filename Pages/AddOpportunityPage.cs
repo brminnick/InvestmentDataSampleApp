@@ -21,7 +21,7 @@ namespace InvestmentDataSampleApp
 			_viewModel = new AddOpportunityViewModel();
 			BindingContext = _viewModel;
 
-			#region Create Topic Stack
+			#region Create Topic Controls
 			var topicLabel = new Label
 			{
 				Text = "Topic"
@@ -32,18 +32,9 @@ namespace InvestmentDataSampleApp
 				AutomationId = AutomationIdConstants.TopicEntry
 			};
 			topicEntry.SetBinding(Entry.TextProperty, "Topic");
-
-			var topicStack = new StackLayout
-			{
-				Orientation = StackOrientation.Horizontal,
-				Children = {
-					topicLabel,
-					topicEntry
-				}
-			};
 			#endregion
 
-			#region Create Company Stack
+			#region Create Company Controls
 			var companyLabel = new Label
 			{
 				Text = "Company"
@@ -54,18 +45,9 @@ namespace InvestmentDataSampleApp
 				AutomationId = AutomationIdConstants.CompanyEntry
 			};
 			companyEntry.SetBinding(Entry.TextProperty, "Company");
-
-			var companyStack = new StackLayout
-			{
-				Orientation = StackOrientation.Horizontal,
-				Children = {
-					companyLabel,
-					companyEntry
-				}
-			};
 			#endregion
 
-			#region Create DBA Stack
+			#region Create DBA Controls
 			var dbaLabel = new Label
 			{
 				Text = "DBA"
@@ -76,18 +58,9 @@ namespace InvestmentDataSampleApp
 				AutomationId = AutomationIdConstants.DBAEntry
 			};
 			dbaEntry.SetBinding(Entry.TextProperty, "DBA");
-
-			var dbaStack = new StackLayout
-			{
-				Orientation = StackOrientation.Horizontal,
-				Children = {
-					dbaLabel,
-					dbaEntry
-				}
-			};
 			#endregion
 
-			#region Create LeaseAmount Stack
+			#region Create LeaseAmount Controls
 			var leaseAmountLabel = new Label
 			{
 				Text = "Lease Amount"
@@ -100,18 +73,9 @@ namespace InvestmentDataSampleApp
 				Placeholder = "0"
 			};
 			leaseAmountEntry.SetBinding(Entry.TextProperty, "LeaseAmount");
-
-			var leaseAmountStack = new StackLayout
-			{
-				Orientation = StackOrientation.Horizontal,
-				Children = {
-					leaseAmountLabel,
-					leaseAmountEntry
-				}
-			};
 			#endregion
 
-			#region Create Owner Entry
+			#region Create Owner Controls
 			var ownerLabel = new Label
 			{
 				Text = "Owner"
@@ -122,18 +86,9 @@ namespace InvestmentDataSampleApp
 				AutomationId = AutomationIdConstants.OwnerEntry
 			};
 			ownerEntry.SetBinding(Entry.TextProperty, "Owner");
-
-			var ownerStack = new StackLayout
-			{
-				Orientation = StackOrientation.Horizontal,
-				Children = {
-					ownerLabel,
-					ownerEntry
-				}
-			};
 			#endregion
 
-			#region create the TableView
+			#region create the Relative Layout
 			var mainLayout = new RelativeLayout();
 			mainLayout.Children.Add(topicLabel,
 								   Constraint.Constant(0),
