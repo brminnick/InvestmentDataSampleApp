@@ -47,7 +47,7 @@ namespace InvestmentDataSampleApp
 				lock (_locker)
 				{
 					return (from i in database.Table<OpportunityModel>()
-							select i).ToList().Where(x => x.ID > 0).ToList();
+							select i).ToList().OrderBy(x => x.Topic).Where(x => x.ID > 0).ToList();
 				}
 			});
 		}
@@ -58,9 +58,8 @@ namespace InvestmentDataSampleApp
 			{
 				lock (_locker)
 				{
-					List<OpportunityModel> tempList = (from i in database.Table<OpportunityModel>()
-													   select i).ToList();
-					return tempList.OrderByDescending(x => x.ID).Where(x => x.ID > 0).ToList();
+					return (from i in database.Table<OpportunityModel>()
+							select i).ToList().OrderByDescending(x => x.Topic).Where(x => x.ID > 0).ToList();
 				}
 			});
 		}

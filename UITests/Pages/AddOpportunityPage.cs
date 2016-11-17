@@ -31,61 +31,6 @@ namespace InvestmentDataSampleApp.UITests
 			CancelButton = x => x.Marked(AutomationIdConstants.CancelButton);
 		}
 
-		public void EnterTopicText(string topicText)
-		{
-			var topicEntryXCoordinate = app.Query(TopicEntry)[0].Rect.CenterX;
-			var topicEntryYCoordinate = app.Query(TopicEntry)[0].Rect.CenterY;
-
-			app.TapCoordinates(topicEntryXCoordinate + _entryCellXOffset, topicEntryYCoordinate);
-			app.EnterText(topicText);
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {topicText} into Topic Entry");
-		}
-
-		public void EnterCompanyText(string companyText)
-		{
-			var companyEntryXCoordinate = app.Query(CompanyEntry)[0].Rect.CenterX;
-			var companyEntryYCoordinate = app.Query(CompanyEntry)[0].Rect.CenterY;
-
-			app.TapCoordinates(companyEntryXCoordinate + _entryCellXOffset, companyEntryYCoordinate);
-			app.EnterText(companyText);
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {companyText} into Company Entry");
-		}
-
-		public void EnterLeaseAmountText(int leaseText)
-		{
-			var leaseAmountEntryXCoordinate = app.Query(LeaseAmountEntry)[0].Rect.CenterX;
-			var leaseAmountEntryYCoordinate = app.Query(LeaseAmountEntry)[0].Rect.CenterY;
-
-			app.TapCoordinates(leaseAmountEntryXCoordinate + _entryCellXOffset, leaseAmountEntryYCoordinate);
-			app.EnterText(leaseText.ToString());
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {leaseText} into Lease Amount Entry");
-		}
-
-		public void EnterOwnerText(string ownerText)
-		{
-			var ownerEntryXCoordinate = app.Query(OwnerEntry)[0].Rect.CenterX;
-			var ownerEntryYCoordinate = app.Query(OwnerEntry)[0].Rect.CenterY;
-
-			app.TapCoordinates(ownerEntryXCoordinate + _entryCellXOffset, ownerEntryYCoordinate);
-			app.EnterText(ownerText);
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {ownerText} into Owner Entry");
-		}
-
-		public void EnterDBAText(string dbaText)
-		{
-			var dbaEntryXCoordinate = app.Query(DBAEntry)[0].Rect.CenterX;
-			var dbaEntryYCoordinate = app.Query(DBAEntry)[0].Rect.CenterY;
-
-			app.TapCoordinates(dbaEntryXCoordinate + _entryCellXOffset, dbaEntryYCoordinate);
-			app.EnterText(dbaText);
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {dbaText} into DBA Entry");
-		}
-
 		public void PopulateAllFields(string topicText, string companyText, int leaseAmount, string ownerText, string dbaText)
 		{
 			EnterTopicText(topicText);
@@ -113,6 +58,51 @@ namespace InvestmentDataSampleApp.UITests
 				app.Tap(x => x.Marked("Cancel"));
 
 			app.Screenshot("Tapped Cancel Button");
+		}
+
+		void EnterTopicText(string topicText)
+		{
+			app.Tap(TopicEntry);
+			app.ClearText();
+			app.EnterText(topicText);
+			app.DismissKeyboard();
+			app.Screenshot($"Entered {topicText} into Topic Entry");
+		}
+
+		void EnterCompanyText(string companyText)
+		{
+			app.Tap(CompanyEntry);
+			app.ClearText();
+			app.EnterText(companyText);
+			app.DismissKeyboard();
+			app.Screenshot($"Entered {companyText} into Company Entry");
+		}
+
+		void EnterLeaseAmountText(int leaseText)
+		{
+			app.Tap(LeaseAmountEntry);
+			app.ClearText();
+			app.EnterText(leaseText.ToString());
+			app.DismissKeyboard();
+			app.Screenshot($"Entered {leaseText} into Lease Amount Entry");
+		}
+
+		void EnterOwnerText(string ownerText)
+		{
+			app.Tap(OwnerEntry);
+			app.ClearText();
+			app.EnterText(ownerText);
+			app.DismissKeyboard();
+			app.Screenshot($"Entered {ownerText} into Owner Entry");
+		}
+
+		void EnterDBAText(string dbaText)
+		{
+			app.Tap(DBAEntry);
+			app.ClearText();
+			app.EnterText(dbaText);
+			app.DismissKeyboard();
+			app.Screenshot($"Entered {dbaText} into DBA Entry");
 		}
 	}
 }

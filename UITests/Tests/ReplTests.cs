@@ -13,6 +13,7 @@ namespace InvestmentDataSampleApp.UITests
 		{
 		}
 
+		[Ignore]
 		[Test]
 		public void ReplTest()
 		{

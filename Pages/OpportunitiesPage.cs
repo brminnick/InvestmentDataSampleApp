@@ -12,6 +12,10 @@ namespace InvestmentDataSampleApp
 		ToolbarItem _addButtonToolBar;
 		bool _areEventHandlersSubscribed;
 
+		RelativeLayout _mainLayout;
+
+		WelcomeView _welcomeView;
+
 		public OpportunitiesPage()
 		{
 			_opportunitiesViewModel = new OpportunitiesViewModel();
@@ -67,9 +71,17 @@ namespace InvestmentDataSampleApp
 			};
 			#endregion
 
+			_mainLayout = new RelativeLayout();
+			_mainLayout.Children.Add(listSearchStack,
+				Constraint.Constant(0),
+				Constraint.Constant(0)
+			);
+
 			SubscribeEventHandlers();
 
-			Content = listSearchStack;
+			Content = _mainLayout;
+
+			DisplayWelcomeView();
 		}
 
 		protected async override void OnAppearing()
@@ -82,8 +94,8 @@ namespace InvestmentDataSampleApp
 		protected override void OnDisappearing()
 		{
 			base.OnDisappearing();
-			_addButtonToolBar.Clicked -= HandleAddButtonClicked;
-			_areEventHandlersSubscribed = false;
+
+			UnsubscribeEventHandlers();
 		}
 
 		void SubscribeEventHandlers()
@@ -91,14 +103,51 @@ namespace InvestmentDataSampleApp
 			if (_areEventHandlersSubscribed)
 				return;
 
+			_opportunitiesViewModel.OkButtonTappedEvent += HandleWelcomeViewDisappearing;
 			_addButtonToolBar.Clicked += HandleAddButtonClicked;
 			_areEventHandlersSubscribed = true;
 
 		}
 
+		void UnsubscribeEventHandlers()
+		{
+			_opportunitiesViewModel.OkButtonTappedEvent -= HandleWelcomeViewDisappearing;
+			_addButtonToolBar.Clicked -= HandleAddButtonClicked;
+			_areEventHandlersSubscribed = false;
+		}
+
 		void HandleAddButtonClicked(object sender, EventArgs e)
 		{
 			Navigation.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
+		}
+
+		void HandleWelcomeViewDisappearing(object sender, EventArgs e)
+		{
+			Device.BeginInvokeOnMainThread(async () =>
+			{
+				await _welcomeView?.FadeTo(0);
+				_welcomeView.IsVisible = false;
+				_welcomeView.InputTransparent = true;
+			});
+		}
+
+		void DisplayWelcomeView()
+		{
+			if (!(Settings.ShouldShowWelcomeView))
+				return;
+			
+			Device.BeginInvokeOnMainThread(() =>
+			{
+				_welcomeView = new WelcomeView();
+
+				_mainLayout.Children.Add(_welcomeView,
+				   Constraint.Constant(0),
+				   Constraint.Constant(0)
+				);
+
+				_welcomeView.DisplayView();
+
+			});
 		}
 	}
 }

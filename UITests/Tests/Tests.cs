@@ -22,7 +22,7 @@ namespace InvestmentDataSampleApp.UITests
 			App.Screenshot("First screen.");
 		}
 
-		[TestCase("715022 / Investment Data Corp")]
+		[TestCase("715005 / Investment Data Corp")]
 		[Test]
 		public void ViewOpportunity(string opportunityTopic)
 		{
@@ -37,7 +37,7 @@ namespace InvestmentDataSampleApp.UITests
 			Assert.IsTrue(TermsPage.GetTitle().Equals(title));
 		}
 
-		[TestCase("715022 / Investment Data Corp")]
+		[TestCase("715003 / Investment Data Corp")]
 		[Test]
 		public async Task DeleteOpportunity(string opportunityTopic)
 		{
@@ -69,7 +69,7 @@ namespace InvestmentDataSampleApp.UITests
 		public void AddNewOpportunity()
 		{
 			//Arrange
-			var topicText = "Test Topic";
+			var topicText = "714999 / Investment Data Corp";
 			var companyText = "Test Company";
 			var leaseAmount = 123456789;
 			var ownerText = "Test Owner";

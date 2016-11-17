@@ -12,11 +12,13 @@ namespace InvestmentDataSampleApp.UITests
 	{
 		readonly Query AddOpportunityButton;
 		readonly Query OpportunitySearchBar;
+		readonly Query WelcomeViewOkButton;
 
 		public OpportunitiesPage(IApp app, Platform platform) : base(app, platform)
 		{
 			AddOpportunityButton = x => x.Marked(AutomationIdConstants.AddOpportunityButton);
 			OpportunitySearchBar = x => x.Marked(AutomationIdConstants.OpportunitySearchBar);
+			WelcomeViewOkButton = x => x.Marked(AutomationIdConstants.WelcomeViewOkButton);
 		}
 
 		public void TapAddOpportunityButton()
@@ -47,6 +49,25 @@ namespace InvestmentDataSampleApp.UITests
 			app.Tap("Delete");
 		}
 
+		public void TapWelcomeViewOkButton()
+		{
+			app.Tap(WelcomeViewOkButton);
+			app.Screenshot("Welcome View Ok Button Tapped");
+		}
+
+		public bool IsWelcomeViewVisible(int timeoutInSeconds = 30)
+		{
+			try
+			{
+				app.WaitForElement(WelcomeViewOkButton, timeout: TimeSpan.FromSeconds(timeoutInSeconds);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
 		public void Search(string searchString)
 		{
 			app.Tap(OpportunitySearchBar);
@@ -55,11 +76,11 @@ namespace InvestmentDataSampleApp.UITests
 			app.Screenshot($"Entered {searchString} into Search Bar");
 		}
 
-		public bool DoesViewCellExist(string topic)
+		public bool  DoesViewCellExist(string topic, int timeoutInSeconds = 10)
 		{
 			try
 			{
-				app.ScrollDownTo(topic);
+				app.ScrollDownTo(topic, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
 			}
 			catch (Exception e)
 			{

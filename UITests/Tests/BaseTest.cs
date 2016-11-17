@@ -28,6 +28,11 @@ namespace InvestmentDataSampleApp.UITests
 			OpportunitiesPage = new OpportunitiesPage(App, Platform);
 			AddOpportunityPage = new AddOpportunityPage(App, Platform);
 			TermsPage = new TermsPage(App, Platform);
+
+			App.Screenshot("App Launched");
+
+			if (OpportunitiesPage.IsWelcomeViewVisible())
+				OpportunitiesPage.TapWelcomeViewOkButton();
 		}
 	}
 
