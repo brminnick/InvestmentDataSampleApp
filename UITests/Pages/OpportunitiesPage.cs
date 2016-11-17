@@ -55,11 +55,11 @@ namespace InvestmentDataSampleApp.UITests
 			app.Screenshot("Welcome View Ok Button Tapped");
 		}
 
-		public bool IsWelcomeViewVisible()
+		public bool IsWelcomeViewVisible(int timeoutInSeconds = 30)
 		{
 			try
 			{
-				app.WaitForElement(WelcomeViewOkButton);
+				app.WaitForElement(WelcomeViewOkButton, timeout: TimeSpan.FromSeconds(timeoutInSeconds);
 				return true;
 			}
 			catch
@@ -76,11 +76,11 @@ namespace InvestmentDataSampleApp.UITests
 			app.Screenshot($"Entered {searchString} into Search Bar");
 		}
 
-		public bool DoesViewCellExist(string topic)
+		public bool  DoesViewCellExist(string topic, int timeoutInSeconds = 10)
 		{
 			try
 			{
-				app.ScrollDownTo(topic);
+				app.ScrollDownTo(topic, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
 			}
 			catch (Exception e)
 			{
