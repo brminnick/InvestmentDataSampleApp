@@ -6,7 +6,7 @@ namespace InvestmentDataSampleApp
 {
 	public class TermsPage : ContentPage
 	{
-		TermsPageViewModel viewModel;
+		readonly TermsPageViewModel viewModel;
 
 		public TermsPage(int pageNumber, int totalPageNumbers)
 		{
@@ -23,7 +23,7 @@ namespace InvestmentDataSampleApp
 			scenarioPicker.Items.Add("1");
 			scenarioPicker.Items.Add("2");
 			scenarioPicker.Items.Add("3");
-			scenarioPicker.SetBinding(Picker.SelectedIndexProperty, "PickerValue");
+			scenarioPicker.SetBinding<TermsPageViewModel>(Picker.SelectedIndexProperty, vm => vm.PickerValue);
 
 			var scenarioStack = new StackLayout
 			{
@@ -123,64 +123,64 @@ namespace InvestmentDataSampleApp
 
 			#region Create Labels for Scenario Data
 			var term1Data = new Label();
-			term1Data.SetBinding(Label.TextProperty, "Term1Data");
+			term1Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term1Data);
 
 			var term2Data = new Label();
-			term2Data.SetBinding(Label.TextProperty, "Term2Data");
+			term2Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term2Data);
 
 			var term3Data = new Label();
-			term3Data.SetBinding(Label.TextProperty, "Term3Data");
+			term3Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term3Data);
 
 			var term4Data = new Label();
-			term4Data.SetBinding(Label.TextProperty, "Term4Data");
+			term4Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term4Data);
 
 			var term5Data = new Label();
-			term5Data.SetBinding(Label.TextProperty, "Term5Data");
+			term5Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term5Data);
 
 			var term6Data = new Label();
-			term6Data.SetBinding(Label.TextProperty, "Term6Data");
+			term6Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term6Data);
 
 			var term7Data = new Label();
-			term7Data.SetBinding(Label.TextProperty, "Term7Data");
+			term7Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term7Data);
 
 			var term8Data = new Label();
-			term8Data.SetBinding(Label.TextProperty, "Term8Data");
+			term8Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term8Data);
 
 			var term9Data = new Label();
-			term9Data.SetBinding(Label.TextProperty, "Term9Data");
+			term9Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term9Data);
 
 			var term10Data = new Label();
-			term10Data.SetBinding(Label.TextProperty, "Term10Data");
+			term10Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term10Data);
 
 			var term11Data = new Label();
-			term11Data.SetBinding(Label.TextProperty, "Term11Data");
+			term11Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term11Data);
 
 			var term12Data = new Label();
-			term12Data.SetBinding(Label.TextProperty, "Term12Data");
+			term12Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term12Data);
 
 			var term13Data = new Label();
-			term13Data.SetBinding(Label.TextProperty, "Term13Data");
+			term13Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term13Data);
 
 			var term14Data = new Label();
-			term14Data.SetBinding(Label.TextProperty, "Term14Data");
+			term14Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term14Data);
 
 			var term15Data = new Label();
-			term15Data.SetBinding(Label.TextProperty, "Term15Data");
+			term15Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term15Data);
 
 			var term16Data = new Label();
-			term16Data.SetBinding(Label.TextProperty, "Term16Data");
+			term16Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term16Data);
 
 			var term17Data = new Label();
-			term17Data.SetBinding(Label.TextProperty, "Term17Data");
+			term17Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term17Data);
 
 			var term18Data = new Label();
-			term18Data.SetBinding(Label.TextProperty, "Term18Data");
+			term18Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term18Data);
 
 			var term19Data = new Label();
-			term19Data.SetBinding(Label.TextProperty, "Term19Data");
+			term19Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term19Data);
 
 			var term20Data = new Label();
-			term20Data.SetBinding(Label.TextProperty, "Term20Data");
+			term20Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term20Data);
 			#endregion
 
 			#region Create & Populate Grid
@@ -272,7 +272,7 @@ namespace InvestmentDataSampleApp
 			var scenarioListStack = new StackLayout
 			{
 				Children = {
-					pageNumberLabel,	
+					pageNumberLabel,
 					scenarioStack,
 					termsScrollView
 				}

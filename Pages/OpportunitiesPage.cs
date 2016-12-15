@@ -40,7 +40,7 @@ namespace InvestmentDataSampleApp
 				Navigation.PushAsync(new CreditBuilderCarouselPage());
 			};
 
-			_listView.SetBinding(ListView.ItemsSourceProperty, "AllOpportunitiesData");
+			_listView.SetBinding<OpportunitiesViewModel>(ListView.ItemsSourceProperty, vm => vm.AllOpportunitiesData);
 			#endregion
 
 			Title = $"Opportunities";
@@ -135,7 +135,7 @@ namespace InvestmentDataSampleApp
 		{
 			if (!(Settings.ShouldShowWelcomeView))
 				return;
-			
+
 			Device.BeginInvokeOnMainThread(() =>
 			{
 				_welcomeView = new WelcomeView();

@@ -23,7 +23,7 @@ namespace InvestmentDataSampleApp
 				FontAttributes = FontAttributes.Bold
 			};
 			var topic = new Label();
-			topic.SetBinding(Label.TextProperty, "Topic");
+			topic.SetBinding<OpportunityModel>(Label.TextProperty, vm => vm.Topic);
 
 			var topicStack = new StackLayout
 			{
@@ -41,7 +41,7 @@ namespace InvestmentDataSampleApp
 				FontAttributes = FontAttributes.Bold
 			};
 			var company = new Label();
-			company.SetBinding(Label.TextProperty, "Company");
+			company.SetBinding<OpportunityModel>(Label.TextProperty, vm => vm.Company);
 
 			var companyStack = new StackLayout
 			{
@@ -59,7 +59,7 @@ namespace InvestmentDataSampleApp
 				FontAttributes = FontAttributes.Bold
 			};
 			var leaseAmount = new Label();
-			leaseAmount.SetBinding(Label.TextProperty, "LeaseAmountAsCurrency");
+			leaseAmount.SetBinding<OpportunityModel>(Label.TextProperty, vm => vm.LeaseAmountAsCurrency);
 
 			var leaseAmountStack = new StackLayout
 			{
@@ -77,7 +77,7 @@ namespace InvestmentDataSampleApp
 				FontAttributes = FontAttributes.Bold
 			};
 			var owner = new Label();
-			owner.SetBinding(Label.TextProperty, "Owner");
+			owner.SetBinding<OpportunityModel>(Label.TextProperty, vm => vm.Owner);
 
 			var ownerStack = new StackLayout
 			{
@@ -94,7 +94,6 @@ namespace InvestmentDataSampleApp
 				Text = "Delete",
 				IsDestructive = true
 			};
-			deleteAction.SetBinding(MenuItem.CommandProperty, "DeleteActionSelected");
 
 			deleteAction.Clicked += async (sender, e) =>
 			{
@@ -103,7 +102,7 @@ namespace InvestmentDataSampleApp
 				await App.Database.DeleteItemAsync(thisModel.ID);
 
 				//Wait for the iOS animation to finish
-				if(Device.OS == TargetPlatform.iOS)
+				if (Device.OS == TargetPlatform.iOS)
 					await Task.Delay(300);
 
 				MessagingCenter.Send<object>(this, "RefreshData");
