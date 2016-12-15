@@ -31,7 +31,7 @@ namespace InvestmentDataSampleApp
 			{
 				AutomationId = AutomationIdConstants.TopicEntry
 			};
-			topicEntry.SetBinding(Entry.TextProperty, "Topic");
+			topicEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.Topic);
 			#endregion
 
 			#region Create Company Controls
@@ -44,7 +44,7 @@ namespace InvestmentDataSampleApp
 			{
 				AutomationId = AutomationIdConstants.CompanyEntry
 			};
-			companyEntry.SetBinding(Entry.TextProperty, "Company");
+			companyEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.Company);
 			#endregion
 
 			#region Create DBA Controls
@@ -57,7 +57,7 @@ namespace InvestmentDataSampleApp
 			{
 				AutomationId = AutomationIdConstants.DBAEntry
 			};
-			dbaEntry.SetBinding(Entry.TextProperty, "DBA");
+			dbaEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.DBA);
 			#endregion
 
 			#region Create LeaseAmount Controls
@@ -72,7 +72,7 @@ namespace InvestmentDataSampleApp
 				Keyboard = Keyboard.Numeric,
 				Placeholder = "0"
 			};
-			leaseAmountEntry.SetBinding(Entry.TextProperty, "LeaseAmount");
+			leaseAmountEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.LeaseAmount);
 			#endregion
 
 			#region Create Owner Controls
@@ -85,56 +85,56 @@ namespace InvestmentDataSampleApp
 			{
 				AutomationId = AutomationIdConstants.OwnerEntry
 			};
-			ownerEntry.SetBinding(Entry.TextProperty, "Owner");
+			ownerEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.Owner);
 			#endregion
 
 			#region create the Relative Layout
 			var mainLayout = new RelativeLayout();
 			mainLayout.Children.Add(topicLabel,
-								   Constraint.Constant(0),
-								   Constraint.Constant(0)
-								   );
+			   	Constraint.Constant(0),
+			   	Constraint.Constant(0)
+		   	);
 			mainLayout.Children.Add(topicEntry,
-									Constraint.Constant(0),
-									Constraint.RelativeToView(topicLabel, (parent, view) => view.Y + view.Height),
-									Constraint.RelativeToParent((parent) => parent.Width)
-								   );
+				Constraint.Constant(0),
+				Constraint.RelativeToView(topicLabel, (parent, view) => view.Y + view.Height),
+				Constraint.RelativeToParent((parent) => parent.Width)
+		   	);
 			mainLayout.Children.Add(companyLabel,
-									Constraint.Constant(0),
-									Constraint.RelativeToView(topicEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
-								   );
+				Constraint.Constant(0),
+				Constraint.RelativeToView(topicEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+		   	);
 			mainLayout.Children.Add(companyEntry,
-									Constraint.Constant(0),
-									Constraint.RelativeToView(companyLabel, (parent, view) => view.Y + view.Height),
-									Constraint.RelativeToParent((parent) => parent.Width)
-								   );
+				Constraint.Constant(0),
+				Constraint.RelativeToView(companyLabel, (parent, view) => view.Y + view.Height),
+				Constraint.RelativeToParent((parent) => parent.Width)
+		   	);
 			mainLayout.Children.Add(leaseAmountLabel,
-									Constraint.Constant(0),
-									Constraint.RelativeToView(companyEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
-								   );
+				Constraint.Constant(0),
+				Constraint.RelativeToView(companyEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+		   	);
 			mainLayout.Children.Add(leaseAmountEntry,
-									Constraint.Constant(0),
-									Constraint.RelativeToView(leaseAmountLabel, (parent, view) => view.Y + view.Height),
-									Constraint.RelativeToParent((parent) => parent.Width)
-								   );
+				Constraint.Constant(0),
+				Constraint.RelativeToView(leaseAmountLabel, (parent, view) => view.Y + view.Height),
+				Constraint.RelativeToParent((parent) => parent.Width)
+		   	);
 			mainLayout.Children.Add(ownerLabel,
-									Constraint.Constant(0),
-									Constraint.RelativeToView(leaseAmountEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
-								   );
+				Constraint.Constant(0),
+				Constraint.RelativeToView(leaseAmountEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+		  	);
 			mainLayout.Children.Add(ownerEntry,
-									Constraint.Constant(0),
-									Constraint.RelativeToView(ownerLabel, (parent, view) => view.Y + view.Height),
-									Constraint.RelativeToParent((parent) => parent.Width)
-								   );
+				Constraint.Constant(0),
+				Constraint.RelativeToView(ownerLabel, (parent, view) => view.Y + view.Height),
+				Constraint.RelativeToParent((parent) => parent.Width)
+		   	);
 			mainLayout.Children.Add(dbaLabel,
-									Constraint.Constant(0),
-									Constraint.RelativeToView(ownerEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
-								   );
+				Constraint.Constant(0),
+				Constraint.RelativeToView(ownerEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+		   	);
 			mainLayout.Children.Add(dbaEntry,
-									Constraint.Constant(0),
-									Constraint.RelativeToView(dbaLabel, (parent, view) => view.Y + view.Height),
-									Constraint.RelativeToParent((parent) => parent.Width)
-								   );
+				Constraint.Constant(0),
+				Constraint.RelativeToView(dbaLabel, (parent, view) => view.Y + view.Height),
+				Constraint.RelativeToParent((parent) => parent.Width)
+		   	);
 			#endregion
 
 			#region Create Save Button
@@ -144,7 +144,7 @@ namespace InvestmentDataSampleApp
 				Priority = 0,
 				AutomationId = AutomationIdConstants.SaveButton
 			};
-			saveButtonToolBar.SetBinding(ToolbarItem.CommandProperty, "SaveButtonTapped");
+			saveButtonToolBar.SetBinding<AddOpportunityViewModel>(ToolbarItem.CommandProperty, vm=>vm.SaveButtonTapped);
 			ToolbarItems.Add(saveButtonToolBar);
 			#endregion
 
@@ -161,7 +161,7 @@ namespace InvestmentDataSampleApp
 
 			Title = "Add Opportunity";
 
-			Padding = new Thickness(20, 5, 20, 0);
+			Padding = new Thickness(20, 10, 20, 0);
 
 			Content = mainLayout;
 
