@@ -13,8 +13,15 @@ namespace InvestmentDataSampleApp.iOS
 		{
 
 			Insights.Initialize(InsightsConstants.InsightsAPIKey);
-			// if you want to use a different Application Delegate class from "AppDelegate"
-			// you can specify it here.
+
+			Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
+			{
+				if (isStartupCrash)
+				{
+					Insights.PurgePendingCrashReports().Wait();
+				}
+			};
+			
  			UIApplication.Main(args, null, "AppDelegate");
 		}
 	}

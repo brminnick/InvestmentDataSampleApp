@@ -22,7 +22,7 @@ namespace InvestmentDataSampleApp
 			BindingContext = _opportunitiesViewModel;
 
 			#region Create the ListView
-			_listView = new ListView()
+			_listView = new ListView
 			{
 				ItemTemplate = new DataTemplate(typeof(OpportunitiesViewCell)),
 				RowHeight = 75
