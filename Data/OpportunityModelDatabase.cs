@@ -1,10 +1,10 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using SQLite;
 
 using Xamarin.Forms;
-using System.Threading.Tasks;
 
 namespace InvestmentDataSampleApp
 {
@@ -12,30 +12,33 @@ namespace InvestmentDataSampleApp
 	{
 		static object _locker = new object();
 
-		readonly SQLiteConnection database;
+		readonly SQLiteConnection _database;
 
 		public OpportunityModelDatabase()
 		{
-			database = DependencyService.Get<ISQLite>().GetConnection();
+			_database = DependencyService.Get<ISQLite>().GetConnection();
 			// create the tables
-			database.CreateTable<OpportunityModel>();
+			_database.CreateTable<OpportunityModel>();
 		}
 
 		public async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest_Filter(string filter)
 		{
+			var filterAsLowerCase = filter.ToLower();
+			var allOpportunityData = await GetAllOpportunityDataAsync_OldestToNewest();
+
 			return await Task.Run(() =>
 			{
 				lock (_locker)
 				{
-					var tempList = (from i in database.Table<OpportunityModel>() select i).ToList();
-					return tempList.Where(x => x.ID > 0 &&
-							  (x.Company.ToLower().Contains(filter.ToLower())) ||
-							x.DateCreated.ToString().ToLower().Contains(filter.ToLower()) ||
-							x.DBA.ToLower().Contains(filter.ToLower()) ||
-							x.LeaseAmountAsCurrency.ToLower().Contains(filter.ToLower()) ||
-							x.Owner.ToLower().Contains(filter.ToLower()) ||
-							x.SalesStage.ToString().ToLower().Contains(filter.ToLower()) ||
-							  x.Topic.ToLower().Contains(filter.ToLower())).ToList();
+					return allOpportunityData.Where(x =>
+						(x?.Company?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+						(x?.DateCreated.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+						(x?.DBA?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+						(x?.LeaseAmountAsCurrency?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+						(x?.Owner?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+						(x?.SalesStage.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+						(x?.Topic?.ToLower()?.Contains(filterAsLowerCase) ?? false)
+						)?.ToList();
 				}
 			});
 		}
@@ -46,8 +49,7 @@ namespace InvestmentDataSampleApp
 			{
 				lock (_locker)
 				{
-					return (from i in database.Table<OpportunityModel>()
-							select i).ToList().OrderBy(x => x.Topic).Where(x => x.ID > 0).ToList();
+					return _database.Table<OpportunityModel>().OrderBy(x => x.Topic).Where(x => x.ID > 0).ToList();
 				}
 			});
 		}
@@ -58,8 +60,7 @@ namespace InvestmentDataSampleApp
 			{
 				lock (_locker)
 				{
-					return (from i in database.Table<OpportunityModel>()
-							select i).ToList().OrderByDescending(x => x.Topic).Where(x => x.ID > 0).ToList();
+					return _database.Table<OpportunityModel>().OrderByDescending(x => x.Topic).Where(x => x.ID > 0).ToList();
 				}
 			});
 		}
@@ -70,7 +71,7 @@ namespace InvestmentDataSampleApp
 			{
 				lock (_locker)
 				{
-					return database.Table<OpportunityModel>().FirstOrDefault(x => x.ID == id);
+					return _database.Table<OpportunityModel>().FirstOrDefault(x => x.ID == id);
 				}
 			});
 		}
@@ -81,7 +82,7 @@ namespace InvestmentDataSampleApp
 			{
 				lock (_locker)
 				{
-					return database.Table<OpportunityModel>().FirstOrDefault(x => x.Topic == topic);
+					return _database.Table<OpportunityModel>().FirstOrDefault(x => x.Topic == topic);
 				}
 			});
 		}
@@ -96,14 +97,14 @@ namespace InvestmentDataSampleApp
 				{
 					lock (_locker)
 					{
-						database.Update(opportunity);
+						_database.Update(opportunity);
 					}
 					return opportunity.ID;
 				}
 
 				lock (_locker)
 				{
-					return database.Insert(opportunity);
+					return _database.Insert(opportunity);
 				}
 			});
 		}
@@ -114,7 +115,7 @@ namespace InvestmentDataSampleApp
 			{
 				lock (_locker)
 				{
-					return database.Delete<OpportunityModel>(id);
+					return _database.Delete<OpportunityModel>(id);
 				}
 			});
 		}
@@ -125,7 +126,7 @@ namespace InvestmentDataSampleApp
 			{
 				lock (_locker)
 				{
-					return database.Table<OpportunityModel>().OrderByDescending(x => x.ID).Take(1).First();
+					return _database.Table<OpportunityModel>().OrderByDescending(x => x.ID).FirstOrDefault();
 				}
 			});
 		}
@@ -134,7 +135,7 @@ namespace InvestmentDataSampleApp
 		{
 			return await Task.Run(() =>
 			{
-				return database.Table<OpportunityModel>().Count();
+				return _database.Table<OpportunityModel>().Count();
 			});
 		}
 	}
