@@ -67,7 +67,7 @@ namespace InvestmentDataSampleApp
 				Constraint.Constant(0)
 			);
 
-			Title = $"Opportunities";
+			Title = PageTitleConstants.OpportunitiesPageTitle;
 
 			Content = _mainLayout;
 
@@ -115,7 +115,7 @@ namespace InvestmentDataSampleApp
 		{
 			var itemSelected = e?.SelectedItem as OpportunityModel;
 
-			Device.BeginInvokeOnMainThread(async () => await Navigation?.PushAsync(new OpportunitiesDetailPage(itemSelected)));
+			Device.BeginInvokeOnMainThread(async () => await Navigation?.PushAsync(new OpportunityDetailPage(itemSelected)));
 		}
 
 		void HandlePullToRefreshDataCompleted(object sender, EventArgs e)

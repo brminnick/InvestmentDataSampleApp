@@ -4,14 +4,14 @@ using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp
 {
-	public class OpportunitiesDetailPage : ContentPage
+	public class OpportunityDetailPage : ContentPage
 	{
 		#region Constant Fields
 		const int _relativeLayoutSpacing = 5;
 		#endregion
 
 		#region Constructors
-		public OpportunitiesDetailPage(OpportunityModel opportunityModelSelected)
+		public OpportunityDetailPage(OpportunityModel opportunityModelSelected)
 		{
 			BindingContext = opportunityModelSelected;
 
@@ -114,7 +114,7 @@ namespace InvestmentDataSampleApp
 		   	);
 			#endregion
 
-			Title = "Opportunity Details";
+			Title = PageTitleConstants.OpportunityDetailPageTitle;
 
 			var termsScrollView = new ScrollView
 			{

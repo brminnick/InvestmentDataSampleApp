@@ -50,7 +50,7 @@
     <Compile Include="Tests\ReplTests.cs" />
     <Compile Include="Pages\AddOpportunityPage.cs" />
     <Compile Include="Pages\OpportunitiesPage.cs" />
-    <Compile Include="Pages\TermsPage.cs" />
+    <Compile Include="Pages\OpportunityDetailPage.cs" />
     <Compile Include="Pages\Base\BasePage.cs" />
     <Compile Include="Tests\BaseTest.cs" />
   </ItemGroup>

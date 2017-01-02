@@ -8,6 +8,7 @@ namespace InvestmentDataSampleApp.UITests
 {
 	public class AddOpportunityPage : BasePage
 	{
+		#region Constant Fields
 		const int _entryCellXOffset = 200;
 
 		readonly Query TopicEntry;
@@ -18,7 +19,9 @@ namespace InvestmentDataSampleApp.UITests
 
 		readonly Query SaveButton;
 		readonly Query CancelButton;
+		#endregion
 
+		#region Construvtors
 		public AddOpportunityPage(IApp app, Platform platform) : base(app, platform)
 		{
 			TopicEntry = x => x.Marked(AutomationIdConstants.TopicEntry);
@@ -30,7 +33,13 @@ namespace InvestmentDataSampleApp.UITests
 			SaveButton = x => x.Marked(AutomationIdConstants.SaveButton);
 			CancelButton = x => x.Marked(AutomationIdConstants.CancelButton);
 		}
+		#endregion
 
+		#region Properties
+		public bool IsErrorMessageDisplayed => app.Query("OK").Length > 0;
+		#endregion
+
+		#region Methods
 		public void PopulateAllFields(string topicText, string companyText, int leaseAmount, string ownerText, string dbaText)
 		{
 			EnterTopicText(topicText);
@@ -104,5 +113,6 @@ namespace InvestmentDataSampleApp.UITests
 			app.DismissKeyboard();
 			app.Screenshot($"Entered {dbaText} into DBA Entry");
 		}
+		#endregion
 	}
 }

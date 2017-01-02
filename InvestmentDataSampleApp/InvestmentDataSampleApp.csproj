@@ -37,12 +37,12 @@
     <Compile Include="Data\OpportunityModelDatabase.cs" />
     <Compile Include="Services\ISQLite.cs" />
     <Compile Include="Pages\OpportunitiesPage.cs" />
-    <Compile Include="ViewModels\AddOpportunitiesViewModel.cs" />
+    <Compile Include="ViewModels\OpportunitiesViewModel.cs" />
     <Compile Include="Views\Opportunities\OpportunitiesViewCell.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="Pages\AddOpportunityPage.cs" />
-    <Compile Include="ViewModels\OpportunitiesDetailViewModel.cs" />
-    <Compile Include="Pages\OpportunitiesDetailPage.cs" />
+    <Compile Include="ViewModels\AddOpportunityViewModel.cs" />
+    <Compile Include="Pages\OpportunityDetailPage.cs" />
     <Compile Include="Views\Opportunities\WelcomeView.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Pages\Base\BaseContentPage.cs" />

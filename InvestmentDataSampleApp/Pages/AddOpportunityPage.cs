@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
 using InvestmentDataSampleApp.Shared;
-using System.Text;
 
 namespace InvestmentDataSampleApp
 {
@@ -157,7 +157,7 @@ namespace InvestmentDataSampleApp
 			ToolbarItems.Add(_cancelButtonToolBarItem);
 			#endregion
 
-			Title = "Add Opportunity";
+			Title = PageTitleConstants.AddOpportunityPageTitle;
 
 			Padding = new Thickness(20, 10, 20, 0);
 
