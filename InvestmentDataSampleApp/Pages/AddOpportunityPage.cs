@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -7,20 +8,18 @@ using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp
 {
-	public class AddOpportunityPage : ContentPage
+	public class AddOpportunityPage : BaseContentPage<AddOpportunityViewModel>
 	{
+		#region Constant Fields
 		const string _saveToolBarItemText = "Save";
 		const string _cancelToolBarItemText = "Cancel";
+		const int _relativeLayoutSpacing = 5;
+		readonly ToolbarItem _cancelButtonToolBarItem;
+		#endregion
 
-		const int relativeLayoutSpacing = 5;
-
-		AddOpportunityViewModel _viewModel;
-
+		#region Constructors
 		public AddOpportunityPage()
 		{
-			_viewModel = new AddOpportunityViewModel();
-			BindingContext = _viewModel;
-
 			#region Create Topic Controls
 			var topicLabel = new Label
 			{
@@ -101,7 +100,7 @@ namespace InvestmentDataSampleApp
 		   	);
 			mainLayout.Children.Add(companyLabel,
 				Constraint.Constant(0),
-				Constraint.RelativeToView(topicEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+				Constraint.RelativeToView(topicEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing)
 		   	);
 			mainLayout.Children.Add(companyEntry,
 				Constraint.Constant(0),
@@ -110,7 +109,7 @@ namespace InvestmentDataSampleApp
 		   	);
 			mainLayout.Children.Add(leaseAmountLabel,
 				Constraint.Constant(0),
-				Constraint.RelativeToView(companyEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+				Constraint.RelativeToView(companyEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing)
 		   	);
 			mainLayout.Children.Add(leaseAmountEntry,
 				Constraint.Constant(0),
@@ -119,7 +118,7 @@ namespace InvestmentDataSampleApp
 		   	);
 			mainLayout.Children.Add(ownerLabel,
 				Constraint.Constant(0),
-				Constraint.RelativeToView(leaseAmountEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+				Constraint.RelativeToView(leaseAmountEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing)
 		  	);
 			mainLayout.Children.Add(ownerEntry,
 				Constraint.Constant(0),
@@ -128,7 +127,7 @@ namespace InvestmentDataSampleApp
 		   	);
 			mainLayout.Children.Add(dbaLabel,
 				Constraint.Constant(0),
-				Constraint.RelativeToView(ownerEntry, (parent, view) => view.Y + view.Height + relativeLayoutSpacing)
+				Constraint.RelativeToView(ownerEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing)
 		   	);
 			mainLayout.Children.Add(dbaEntry,
 				Constraint.Constant(0),
@@ -144,72 +143,79 @@ namespace InvestmentDataSampleApp
 				Priority = 0,
 				AutomationId = AutomationIdConstants.SaveButton
 			};
-			saveButtonToolBar.SetBinding<AddOpportunityViewModel>(ToolbarItem.CommandProperty, vm=>vm.SaveButtonTapped);
+			saveButtonToolBar.SetBinding<AddOpportunityViewModel>(ToolbarItem.CommandProperty, vm => vm.SaveButtonTapped);
 			ToolbarItems.Add(saveButtonToolBar);
 			#endregion
 
 			#region Create Cancel Button
-			var cancelButtonToolBar = new ToolbarItem
+			_cancelButtonToolBarItem = new ToolbarItem
 			{
 				Text = _cancelToolBarItemText,
 				Priority = 1,
 				AutomationId = AutomationIdConstants.CancelButton
 			};
-			cancelButtonToolBar.Clicked += HandleCancelButtonTapped;
-			ToolbarItems.Add(cancelButtonToolBar);
+			ToolbarItems.Add(_cancelButtonToolBarItem);
 			#endregion
 
-			Title = "Add Opportunity";
+			Title = PageTitleConstants.AddOpportunityPageTitle;
 
 			Padding = new Thickness(20, 10, 20, 0);
 
 			Content = mainLayout;
-
-			_viewModel.SaveError += HandleSaveError;
-
-			_viewModel.SaveToDatabaseCompleted += HandleCancelButtonTapped;
 		}
+		#endregion
 
-		public void HandleSaveError(object sender, EventArgs e)
+		#region Methods
+		void HandleSaveError(object sender, EventArgs e)
 		{
 			var opportunityModel = sender as AddOpportunityViewModel;
-			var blankFieldsString = "\n";
+			var blankFieldsString = new StringBuilder("\n");
 
-			if (opportunityModel.Topic == null || opportunityModel.Topic == "")
-				blankFieldsString += "Topic\n";
-			if (opportunityModel.Company == null || opportunityModel.Company == "")
-				blankFieldsString += "Company\n";
-			if (opportunityModel.LeaseAmount == 0)
-				blankFieldsString += "Lease Amount\n";
-			if (opportunityModel.Owner == null || opportunityModel.Owner == "")
-				blankFieldsString += "Owner\n";
-			if (opportunityModel.DBA == null || opportunityModel.DBA == "")
-				blankFieldsString += "DBA";
+			if (string.IsNullOrEmpty(opportunityModel?.Topic))
+				blankFieldsString.AppendLine("Topic");
+			if (string.IsNullOrEmpty(opportunityModel?.Company))
+				blankFieldsString.AppendLine("Company");
+			if (opportunityModel?.LeaseAmount == 0)
+				blankFieldsString.AppendLine("Lease Amount");
+			if (string.IsNullOrEmpty(opportunityModel?.Owner))
+				blankFieldsString.AppendLine("Owner");
+			if (string.IsNullOrEmpty(opportunityModel?.DBA))
+				blankFieldsString.AppendLine("DBA");
 
-			DisplayAlert("Error: Missing Data", $"The following fields are empty: {blankFieldsString}", "OK");
-		}
-
-		public async Task PopModalAsync(bool isAnimated)
-		{
-			await Navigation.PopModalAsync(isAnimated);
-
-			while (ToolbarItems.Count > 0)
-			{
-				if (string.Equals(ToolbarItems[0]?.Text, _cancelToolBarItemText))
-					ToolbarItems[0].Clicked -= HandleCancelButtonTapped;
-
-				ToolbarItems.RemoveAt(0);
-			}
-
-			_viewModel.SaveToDatabaseCompleted -= HandleCancelButtonTapped;
-			_viewModel.SaveError -= HandleSaveError;
-			_viewModel = null;
+			Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Error: Missing Data", $"The following fields are empty: {blankFieldsString}", "OK"));
 		}
 
 		async void HandleCancelButtonTapped(object sender, EventArgs e)
 		{
 			await PopModalAsync(true);
 		}
+
+		async Task PopModalAsync(bool isAnimated)
+		{
+			await Navigation.PopModalAsync(isAnimated);
+		}
+
+		protected override void SubscribeEventHandlers()
+		{
+			if (AreEventHandlersSubscribed)
+				return;
+
+			_cancelButtonToolBarItem.Clicked += HandleCancelButtonTapped;
+			ViewModel.SaveError += HandleSaveError;
+			ViewModel.SaveToDatabaseCompleted += HandleCancelButtonTapped;
+
+			AreEventHandlersSubscribed = true;
+		}
+
+		protected override void UnsubscribeEventHandlers()
+		{
+			_cancelButtonToolBarItem.Clicked -= HandleCancelButtonTapped;
+			ViewModel.SaveError -= HandleSaveError;
+			ViewModel.SaveToDatabaseCompleted -= HandleCancelButtonTapped;
+
+			AreEventHandlersSubscribed = false;
+		}
+		#endregion
 	}
 }
 

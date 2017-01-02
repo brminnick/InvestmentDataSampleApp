@@ -162,7 +162,7 @@
     <BundleResource Include="Resources\Add%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\InvestmentDataSampleApp.csproj">
+    <ProjectReference Include="..\InvestmentDataSampleApp\InvestmentDataSampleApp.csproj">
       <Project>{003FB363-F66D-41FD-B223-54A0334B284C}</Project>
       <Name>InvestmentDataSampleApp</Name>
     </ProjectReference>

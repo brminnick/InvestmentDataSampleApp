@@ -10,17 +10,20 @@ namespace InvestmentDataSampleApp
 {
 	public class OpportunityModelDatabase
 	{
-		static object _locker = new object();
-
+		#region Constant Fields
+		readonly static object _locker = new object();
 		readonly SQLiteConnection _database;
+		#endregion
 
+		#region Constructors
 		public OpportunityModelDatabase()
 		{
 			_database = DependencyService.Get<ISQLite>().GetConnection();
-			// create the tables
 			_database.CreateTable<OpportunityModel>();
 		}
+		#endregion
 
+		#region Methods
 		public async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest_Filter(string filter)
 		{
 			var filterAsLowerCase = filter.ToLower();
@@ -138,6 +141,7 @@ namespace InvestmentDataSampleApp
 				return _database.Table<OpportunityModel>().Count();
 			});
 		}
+		#endregion
 	}
 }
 

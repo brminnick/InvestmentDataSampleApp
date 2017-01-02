@@ -142,7 +142,7 @@
     <AndroidResource Include="Resources\values-v21\style.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\InvestmentDataSampleApp.csproj">
+    <ProjectReference Include="..\InvestmentDataSampleApp\InvestmentDataSampleApp.csproj">
       <Project>{003FB363-F66D-41FD-B223-54A0334B284C}</Project>
       <Name>InvestmentDataSampleApp</Name>
     </ProjectReference>

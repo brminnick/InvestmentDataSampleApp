@@ -13,7 +13,7 @@ namespace InvestmentDataSampleApp.UITests
 
 		protected OpportunitiesPage OpportunitiesPage;
 		protected AddOpportunityPage AddOpportunityPage;
-		protected TermsPage TermsPage;
+		protected OpportunityDetailPage OpportunityDetailPage;
 
 		protected BaseTest(Platform platform)
 		{
@@ -27,11 +27,11 @@ namespace InvestmentDataSampleApp.UITests
 
 			OpportunitiesPage = new OpportunitiesPage(App, Platform);
 			AddOpportunityPage = new AddOpportunityPage(App, Platform);
-			TermsPage = new TermsPage(App, Platform);
+			OpportunityDetailPage = new OpportunityDetailPage(App, Platform);
 
 			App.Screenshot("App Launched");
 
-			if (OpportunitiesPage.IsWelcomeViewVisible())
+			if (OpportunitiesPage.IsWelcomeViewVisible)
 				OpportunitiesPage.TapWelcomeViewOkButton();
 		}
 	}

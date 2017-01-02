@@ -50,7 +50,7 @@
     <Compile Include="Tests\ReplTests.cs" />
     <Compile Include="Pages\AddOpportunityPage.cs" />
     <Compile Include="Pages\OpportunitiesPage.cs" />
-    <Compile Include="Pages\TermsPage.cs" />
+    <Compile Include="Pages\OpportunityDetailPage.cs" />
     <Compile Include="Pages\Base\BasePage.cs" />
     <Compile Include="Tests\BaseTest.cs" />
   </ItemGroup>
@@ -76,7 +76,7 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems')" />
+  <Import Project="..\Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\Shared\InvestmentDataSampleApp.Shared.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
 </Project>

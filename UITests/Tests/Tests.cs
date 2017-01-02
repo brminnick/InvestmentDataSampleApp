@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.Threading.Tasks;
+
 using NUnit.Framework;
+
 using Xamarin.UITest;
-using Xamarin.UITest.Queries;
-using System.Threading.Tasks;
+
+using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp.UITests
 {
@@ -19,7 +19,7 @@ namespace InvestmentDataSampleApp.UITests
 		[Test]
 		public void SmokeTest()
 		{
-			App.Screenshot("First screen.");
+			App.Screenshot("First screen");
 		}
 
 		[TestCase("715005 / Investment Data Corp")]
@@ -27,14 +27,13 @@ namespace InvestmentDataSampleApp.UITests
 		public void ViewOpportunity(string opportunityTopic)
 		{
 			//Arrange
-			var title = "Terms Page";
 
 			//Act
 			OpportunitiesPage.TapOpportunityViewCell(opportunityTopic);
-			TermsPage.WaitForTermsPageToAppear();
+			OpportunityDetailPage.WaitForPageToAppear();
 
 			//Assert
-			Assert.IsTrue(TermsPage.GetTitle().Equals(title));
+			Assert.AreEqual(PageTitleConstants.OpportunityDetailPageTitle, OpportunityDetailPage.Title);
 		}
 
 		[TestCase("715003 / Investment Data Corp")]
@@ -62,7 +61,7 @@ namespace InvestmentDataSampleApp.UITests
 			AddOpportunityPage.TapSaveButton();
 
 			//Assert
-			Assert.IsTrue(App.Query("OK").Length > 0);
+			Assert.IsTrue(AddOpportunityPage.IsErrorMessageDisplayed);
 		}
 
 		[Test]
@@ -83,10 +82,10 @@ namespace InvestmentDataSampleApp.UITests
 
 			OpportunitiesPage.TapOpportunityViewCell(topicText);
 
-			TermsPage.WaitForTermsPageToAppear();
+			OpportunityDetailPage.WaitForPageToAppear();
 
 			//Assert
-			Assert.IsTrue(TermsPage.GetTitle().Equals("Terms Page"));
+			Assert.AreEqual(PageTitleConstants.OpportunityDetailPageTitle, OpportunityDetailPage.Title);
 		}
 
 		[Test]

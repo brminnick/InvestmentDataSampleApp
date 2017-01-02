@@ -9,7 +9,7 @@ namespace InvestmentDataSampleApp
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		protected void SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyname = "", Action onChanged = null)
+		protected void SetProperty<T>(ref T backingStore, T value, Action onChanged = null, [CallerMemberName] string propertyname = "")
 		{
 			if (EqualityComparer<T>.Default.Equals(backingStore, value))
 				return;

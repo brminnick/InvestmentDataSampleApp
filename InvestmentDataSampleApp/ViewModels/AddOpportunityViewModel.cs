@@ -8,23 +8,26 @@ namespace InvestmentDataSampleApp
 {
 	public class AddOpportunityViewModel : BaseViewModel
 	{
-		string _topic;
-		string _company;
-		string _dba;
+		#region Fields
+		string _topic, _company, _dba, _owner;
 		long _leaseAmount;
 		SalesStages _salesStage;
-		string _owner;
 		DateTime _dateCreated;
+		ICommand _saveButtonTapped;
+		#endregion
 
+		#region Events
 		public event EventHandler SaveError;
 		public event EventHandler SaveToDatabaseCompleted;
+		#endregion
 
+		#region Properties
 		public string Topic
 		{
 			get { return _topic; }
 			set
 			{
-				SetProperty<string>(ref _topic, value);
+				SetProperty(ref _topic, value);
 			}
 		}
 
@@ -33,7 +36,7 @@ namespace InvestmentDataSampleApp
 			get { return _company; }
 			set
 			{
-				SetProperty<string>(ref _company, value);
+				SetProperty(ref _company, value);
 			}
 		}
 
@@ -42,7 +45,7 @@ namespace InvestmentDataSampleApp
 			get { return _dba; }
 			set
 			{
-				SetProperty<string>(ref _dba, value);
+				SetProperty(ref _dba, value);
 			}
 		}
 
@@ -51,7 +54,7 @@ namespace InvestmentDataSampleApp
 			get { return _leaseAmount; }
 			set
 			{
-				SetProperty<long>(ref _leaseAmount, value);
+				SetProperty(ref _leaseAmount, value);
 			}
 		}
 
@@ -60,7 +63,7 @@ namespace InvestmentDataSampleApp
 			get { return _salesStage; }
 			set
 			{
-				SetProperty<SalesStages>(ref _salesStage, value);
+				SetProperty(ref _salesStage, value);
 			}
 		}
 
@@ -69,7 +72,7 @@ namespace InvestmentDataSampleApp
 			get { return _owner; }
 			set
 			{
-				SetProperty<string>(ref _owner, value);
+				SetProperty(ref _owner, value);
 			}
 		}
 
@@ -78,52 +81,52 @@ namespace InvestmentDataSampleApp
 			get { return _dateCreated; }
 			set
 			{
-				SetProperty<DateTime>(ref _dateCreated, value);
+				SetProperty(ref _dateCreated, value);
 			}
 		}
 
-		public ICommand SaveButtonTapped { protected set; get; }
+		public ICommand SaveButtonTapped => _saveButtonTapped ??
+			(_saveButtonTapped = new Command(async () => await ExecuteSaveButtonTapped()));
+		#endregion
 
 		public AddOpportunityViewModel()
 		{
 			SalesStage = SalesStages.New;
+		}
 
-			SaveButtonTapped = new Command(() =>
+		async Task ExecuteSaveButtonTapped()
+		{
+			if (Topic?.Length == 0 || Company?.Length == 0 || Owner?.Length == 0 || DBA?.Length == 0 || LeaseAmount == 0)
 			{
-				if (Topic?.Length == 0 || Company?.Length == 0 || Owner?.Length == 0 || DBA?.Length == 0 || LeaseAmount == 0)
-				{
-					OnSaveError();
-					return;
-				}
+				OnSaveError();
+				return;
+			}
 
-				DateCreated = DateTime.Now;
-				Task.Run(() => App.Database.SaveOpportunityAsync(new OpportunityModel
-				{
-					Topic = Topic,
-					Company = Company,
-					DBA = DBA,
-					LeaseAmount = LeaseAmount,
-					SalesStage = SalesStage,
-					Owner = Owner,
-					DateCreated = DateCreated
-				}));
-				OnSaveToDatabaseCompleted();
+			DateCreated = DateTime.Now;
+			await App.Database.SaveOpportunityAsync(new OpportunityModel
+			{
+				Topic = Topic,
+				Company = Company,
+				DBA = DBA,
+				LeaseAmount = LeaseAmount,
+				SalesStage = SalesStage,
+				Owner = Owner,
+				DateCreated = DateCreated
 			});
+
+			OnSaveToDatabaseCompleted();
 		}
 
 		void OnSaveError()
 		{
 			var handle = SaveError;
-
 			handle?.Invoke(this, EventArgs.Empty);
 		}
 
 		void OnSaveToDatabaseCompleted()
 		{
 			var handle = SaveToDatabaseCompleted;
-
 			handle?.Invoke(this, EventArgs.Empty);
-			
 		}
 	}
 }

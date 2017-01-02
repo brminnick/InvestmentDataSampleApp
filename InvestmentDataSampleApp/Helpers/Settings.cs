@@ -13,9 +13,6 @@ namespace InvestmentDataSampleApp
 	{
 		#region Constant Feilds
 		const string ShouldShowWelcomeViewKey = "ShouldShowWelcomeViewKey";
-		#endregion
-
-		#region Fields
 		static readonly bool ShouldShowWelcomeViewDefault = true;
 		#endregion
 
@@ -24,11 +21,11 @@ namespace InvestmentDataSampleApp
 		{
 			get
 			{
-				return AppSettings.GetValueOrDefault<bool>(ShouldShowWelcomeViewKey, ShouldShowWelcomeViewDefault);
+				return AppSettings.GetValueOrDefault(ShouldShowWelcomeViewKey, ShouldShowWelcomeViewDefault);
 			}
 			set
 			{
-				AppSettings.AddOrUpdateValue<bool>(ShouldShowWelcomeViewKey, value);
+				AppSettings.AddOrUpdateValue(ShouldShowWelcomeViewKey, value);
 			}
 		}
 

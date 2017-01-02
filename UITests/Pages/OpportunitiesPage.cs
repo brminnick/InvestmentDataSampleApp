@@ -10,17 +10,26 @@ namespace InvestmentDataSampleApp.UITests
 {
 	public class OpportunitiesPage : BasePage
 	{
+		#region Constant Fields
 		readonly Query AddOpportunityButton;
 		readonly Query OpportunitySearchBar;
 		readonly Query WelcomeViewOkButton;
+		#endregion
 
+		#region Constructors
 		public OpportunitiesPage(IApp app, Platform platform) : base(app, platform)
 		{
 			AddOpportunityButton = x => x.Marked(AutomationIdConstants.AddOpportunityButton);
 			OpportunitySearchBar = x => x.Marked(AutomationIdConstants.OpportunitySearchBar);
 			WelcomeViewOkButton = x => x.Marked(AutomationIdConstants.WelcomeViewOkButton);
 		}
+		#endregion
 
+		#region Properties
+		public bool IsWelcomeViewVisible => IsWelcomeViewOnScreen();
+		#endregion
+
+		#region Methods
 		public void TapAddOpportunityButton()
 		{
 			if (OniOS)
@@ -55,19 +64,6 @@ namespace InvestmentDataSampleApp.UITests
 			app.Screenshot("Welcome View Ok Button Tapped");
 		}
 
-		public bool IsWelcomeViewVisible(int timeoutInSeconds = 30)
-		{
-			try
-			{
-				app.WaitForElement(WelcomeViewOkButton, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
-
 		public void Search(string searchString)
 		{
 			app.Tap(OpportunitySearchBar);
@@ -76,7 +72,7 @@ namespace InvestmentDataSampleApp.UITests
 			app.Screenshot($"Entered {searchString} into Search Bar");
 		}
 
-		public bool  DoesViewCellExist(string topic, int timeoutInSeconds = 10)
+		public bool DoesViewCellExist(string topic, int timeoutInSeconds = 10)
 		{
 			try
 			{
@@ -89,5 +85,20 @@ namespace InvestmentDataSampleApp.UITests
 
 			return true;
 		}
+
+		bool IsWelcomeViewOnScreen(int timeoutInSeconds = 10)
+		{
+			try
+			{
+				app.WaitForElement(WelcomeViewOkButton, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
+			}
+			catch
+			{
+				return false;
+			}
+
+			return true;
+		}
+		#endregion
 	}
 }
