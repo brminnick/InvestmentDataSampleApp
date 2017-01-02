@@ -1,11 +1,13 @@
 ﻿using System;
 
 using InvestmentDataSampleApp.Shared;
+using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
 {
-	public class TermsPageViewModel : BaseViewModel
+	public class TermsViewModel : BaseViewModel
 	{
+		#region Fields
 		double _pickerValue;
 
 		string _term1Data;
@@ -29,196 +31,141 @@ namespace InvestmentDataSampleApp
 		string _term19Data;
 		string _term20Data;
 
+		Command _updateTermDataCommand;
+		#endregion
+
+		#region Properties
 		public double PickerValue
 		{
 			get { return _pickerValue; }
-			set
-			{
-				SetProperty<double>(ref _pickerValue, value);
-				UpdateTermData();
-			}
+			set { SetProperty(ref _pickerValue, value, UpdateTermData); }
 		}
 
 		public string Term1Data
 		{
 			get { return _term1Data; }
-			set
-			{
-				SetProperty<string>(ref _term1Data, value);
-			}
+			set { SetProperty(ref _term1Data, value); }
 		}
 
 		public string Term2Data
 		{
 			get { return _term2Data; }
-			set
-			{
-				SetProperty<string>(ref _term2Data, value);
-			}
+			set { SetProperty(ref _term2Data, value); }
 		}
 
 		public string Term3Data
 		{
 			get { return _term3Data; }
-			set
-			{
-				SetProperty<string>(ref _term3Data, value);
-			}
+			set { SetProperty(ref _term3Data, value); }
 		}
 
 		public string Term4Data
 		{
 			get { return _term4Data; }
-			set
-			{
-				SetProperty<string>(ref _term4Data, value);
-			}
+			set { SetProperty(ref _term4Data, value); }
 		}
 
 		public string Term5Data
 		{
 			get { return _term5Data; }
-			set
-			{
-				SetProperty<string>(ref _term5Data, value);
-			}
+			set { SetProperty(ref _term5Data, value); }
 		}
 
 		public string Term6Data
 		{
 			get { return _term6Data; }
-			set
-			{
-				SetProperty<string>(ref _term6Data, value);
-			}
+			set { SetProperty(ref _term6Data, value); }
 		}
 
 		public string Term7Data
 		{
 			get { return _term7Data; }
-			set
-			{
-				SetProperty<string>(ref _term7Data, value);
-			}
+			set { SetProperty(ref _term7Data, value); }
 		}
 
 		public string Term8Data
 		{
 			get { return _term8Data; }
-			set
-			{
-				SetProperty<string>(ref _term8Data, value);
-			}
+			set { SetProperty(ref _term8Data, value); }
 		}
 
 		public string Term9Data
 		{
 			get { return _term9Data; }
-			set
-			{
-				SetProperty<string>(ref _term9Data, value);
-			}
+			set { SetProperty(ref _term9Data, value); }
 		}
 
 		public string Term10Data
 		{
 			get { return _term10Data; }
-			set
-			{
-				SetProperty<string>(ref _term10Data, value);
-			}
+			set { SetProperty(ref _term10Data, value); }
 		}
 
 		public string Term11Data
 		{
 			get { return _term11Data; }
-			set
-			{
-				SetProperty<string>(ref _term11Data, value);
-			}
+			set { SetProperty(ref _term11Data, value); }
 		}
 
 		public string Term12Data
 		{
 			get { return _term12Data; }
-			set
-			{
-				SetProperty<string>(ref _term12Data, value);
-			}
+			set { SetProperty(ref _term12Data, value); }
 		}
 
 		public string Term13Data
 		{
 			get { return _term13Data; }
-			set
-			{
-				SetProperty<string>(ref _term13Data, value);
-			}
+			set { SetProperty(ref _term13Data, value); }
 		}
 
 		public string Term14Data
 		{
 			get { return _term14Data; }
-			set
-			{
-				SetProperty<string>(ref _term14Data, value);
-			}
+			set { SetProperty(ref _term14Data, value); }
 		}
 
 		public string Term15Data
 		{
 			get { return _term15Data; }
-			set
-			{
-				SetProperty<string>(ref _term15Data, value);
-			}
+			set { SetProperty(ref _term15Data, value); }
 		}
 
 		public string Term16Data
 		{
 			get { return _term16Data; }
-			set
-			{
-				SetProperty<string>(ref _term16Data, value);
-			}
+			set { SetProperty(ref _term16Data, value); }
 		}
 
 		public string Term17Data
 		{
 			get { return _term17Data; }
-			set
-			{
-				SetProperty<string>(ref _term17Data, value);
-			}
+			set { SetProperty(ref _term17Data, value); }
 		}
 
 		public string Term18Data
 		{
 			get { return _term18Data; }
-			set
-			{
-				SetProperty<string>(ref _term18Data, value);
-			}
+			set { SetProperty(ref _term18Data, value); }
 		}
 
 		public string Term19Data
 		{
 			get { return _term19Data; }
-			set
-			{
-				SetProperty<string>(ref _term19Data, value);
-			}
+			set { SetProperty(ref _term19Data, value); }
 		}
 
 		public string Term20Data
 		{
 			get { return _term20Data; }
-			set
-			{
-				SetProperty<string>(ref _term20Data, value);
-			}
+			set { SetProperty(ref _term20Data, value); }
 		}
 
+		public Command UpdateTermDataCommand => _updateTermDataCommand ??
+			(_updateTermDataCommand = new Command(ExecuteUpdateTermDataCommand));
+		#endregion
+
+		#region Methods
 		public void UpdateTermData()
 		{
 			var rnd = new Random();
@@ -244,6 +191,12 @@ namespace InvestmentDataSampleApp
 			Term19Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
 			Term20Data = LoremIpsumConstants.LoremIpsum.Substring(rnd.Next(100), 10);
 		}
+
+		void ExecuteUpdateTermDataCommand(object obj)
+		{
+			UpdateTermData();
+		}
+		#endregion
 	}
 }
 

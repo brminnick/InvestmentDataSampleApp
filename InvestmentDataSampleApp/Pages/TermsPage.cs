@@ -4,15 +4,11 @@ using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp
 {
-	public class TermsPage : ContentPage
+	public class TermsPage : BaseContentPage<TermsViewModel>
 	{
-		readonly TermsPageViewModel viewModel;
-
+		#region Constructors
 		public TermsPage(int pageNumber, int totalPageNumbers)
 		{
-			viewModel = new TermsPageViewModel();
-			BindingContext = viewModel;
-
 			#region Create Scenario Stack
 			var scenarioLabel = new Label
 			{
@@ -23,7 +19,7 @@ namespace InvestmentDataSampleApp
 			scenarioPicker.Items.Add("1");
 			scenarioPicker.Items.Add("2");
 			scenarioPicker.Items.Add("3");
-			scenarioPicker.SetBinding<TermsPageViewModel>(Picker.SelectedIndexProperty, vm => vm.PickerValue);
+			scenarioPicker.SetBinding<TermsViewModel>(Picker.SelectedIndexProperty, vm => vm.PickerValue);
 
 			var scenarioStack = new StackLayout
 			{
@@ -123,64 +119,64 @@ namespace InvestmentDataSampleApp
 
 			#region Create Labels for Scenario Data
 			var term1Data = new Label();
-			term1Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term1Data);
+			term1Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term1Data);
 
 			var term2Data = new Label();
-			term2Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term2Data);
+			term2Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term2Data);
 
 			var term3Data = new Label();
-			term3Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term3Data);
+			term3Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term3Data);
 
 			var term4Data = new Label();
-			term4Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term4Data);
+			term4Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term4Data);
 
 			var term5Data = new Label();
-			term5Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term5Data);
+			term5Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term5Data);
 
 			var term6Data = new Label();
-			term6Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term6Data);
+			term6Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term6Data);
 
 			var term7Data = new Label();
-			term7Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term7Data);
+			term7Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term7Data);
 
 			var term8Data = new Label();
-			term8Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term8Data);
+			term8Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term8Data);
 
 			var term9Data = new Label();
-			term9Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term9Data);
+			term9Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term9Data);
 
 			var term10Data = new Label();
-			term10Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term10Data);
+			term10Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term10Data);
 
 			var term11Data = new Label();
-			term11Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term11Data);
+			term11Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term11Data);
 
 			var term12Data = new Label();
-			term12Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term12Data);
+			term12Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term12Data);
 
 			var term13Data = new Label();
-			term13Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term13Data);
+			term13Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term13Data);
 
 			var term14Data = new Label();
-			term14Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term14Data);
+			term14Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term14Data);
 
 			var term15Data = new Label();
-			term15Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term15Data);
+			term15Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term15Data);
 
 			var term16Data = new Label();
-			term16Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term16Data);
+			term16Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term16Data);
 
 			var term17Data = new Label();
-			term17Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term17Data);
+			term17Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term17Data);
 
 			var term18Data = new Label();
-			term18Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term18Data);
+			term18Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term18Data);
 
 			var term19Data = new Label();
-			term19Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term19Data);
+			term19Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term19Data);
 
 			var term20Data = new Label();
-			term20Data.SetBinding<TermsPageViewModel>(Label.TextProperty, vm => vm.Term20Data);
+			term20Data.SetBinding<TermsViewModel>(Label.TextProperty, vm => vm.Term20Data);
 			#endregion
 
 			#region Create & Populate Grid
@@ -277,15 +273,30 @@ namespace InvestmentDataSampleApp
 					termsScrollView
 				}
 			};
+
 			Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 			Content = scenarioListStack;
 		}
+		#endregion
 
+		#region Methods
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			viewModel.UpdateTermData();
+
+			ViewModel?.UpdateTermDataCommand?.Execute(null);
 		}
+
+		protected override void SubscribeEventHandlers()
+		{
+			
+		}
+
+		protected override void UnsubscribeEventHandlers()
+		{
+			
+		}
+		#endregion
 	}
 }
 

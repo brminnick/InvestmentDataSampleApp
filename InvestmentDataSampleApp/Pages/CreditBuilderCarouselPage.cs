@@ -1,9 +1,10 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
+
 namespace InvestmentDataSampleApp
 {
 	public class CreditBuilderCarouselPage : CarouselPage 
 	{
+		#region Constructors
 		public CreditBuilderCarouselPage()
 		{
 			Title = "Terms Page";
@@ -16,6 +17,7 @@ namespace InvestmentDataSampleApp
 			Children.Add(termsPage2);
 			Children.Add(termsPage3);
 		}
+		#endregion
 	}
 }
 

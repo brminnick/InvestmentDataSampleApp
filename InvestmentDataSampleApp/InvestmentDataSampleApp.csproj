@@ -44,9 +44,10 @@
     <Compile Include="ViewModels\AddOpportunityViewModel.cs" />
     <Compile Include="Pages\CreditBuilderCarouselPage.cs" />
     <Compile Include="Pages\TermsPage.cs" />
-    <Compile Include="ViewModels\TermsPageViewModel.cs" />
+    <Compile Include="ViewModels\TermsViewModel.cs" />
     <Compile Include="Views\Opportunities\WelcomeView.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Pages\Base\BaseContentPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

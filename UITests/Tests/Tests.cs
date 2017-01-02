@@ -19,7 +19,7 @@ namespace InvestmentDataSampleApp.UITests
 		[Test]
 		public void SmokeTest()
 		{
-			App.Screenshot("First screen.");
+			App.Screenshot("First screen");
 		}
 
 		[TestCase("715005 / Investment Data Corp")]

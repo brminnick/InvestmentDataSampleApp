@@ -1,9 +1,25 @@
 ﻿using System;
+
 using SQLite;
+
 namespace InvestmentDataSampleApp
 {
 	public class OpportunityModel
 	{
+		#region Constructors
+		public OpportunityModel()
+		{
+			Topic = "";
+			Company = "";
+			DBA = "";
+			LeaseAmount = 0;
+			SalesStage = SalesStages.New;
+			Owner = "";
+			DateCreated = DateTime.Now;
+		}
+		#endregion
+
+		#region Properties
 		[PrimaryKey]
 		[AutoIncrement]
 		[Unique]
@@ -17,28 +33,14 @@ namespace InvestmentDataSampleApp
 
 		public long LeaseAmount { get; set; }
 
-		public string LeaseAmountAsCurrency
-		{
-			get { return $"{LeaseAmount:C}"; }
-		}
+		public string LeaseAmountAsCurrency => $"{LeaseAmount:C}";
 
 		public SalesStages SalesStage { get; set; }
 
 		public string Owner { get; set; }
 
 		public DateTime DateCreated { get; set; }
-
-		public OpportunityModel()
-		{
-			Topic = "";
-			Company = "";
-			DBA = "";
-			LeaseAmount = 0;
-			SalesStage = SalesStages.New;
-			Owner = "";
-			DateCreated = DateTime.Now;
-		}
-
+		#endregion
 	}
 
 	public enum SalesStages { New, Pending, Closed }

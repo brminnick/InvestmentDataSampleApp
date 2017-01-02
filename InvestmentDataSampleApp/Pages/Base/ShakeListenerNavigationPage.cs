@@ -10,72 +10,78 @@ namespace InvestmentDataSampleApp
 {
 	public class ShakeListenerNavigationPage : NavigationPage
 	{
+		#region Constant Fields
+		const int _shakeDetectionTimeLapse = 250;
+		readonly double _shakeThreshold;
+		#endregion
+
+		#region Fields
 		bool _hasUpdated;
 		DateTime _lastUpdate;
 		double _lastX, _lastY, _lastZ;
+		#endregion
 
-		const int ShakeDetectionTimeLapse = 250;
-		readonly double ShakeThreshold;
-
+		#region Constructors
 		public ShakeListenerNavigationPage(Page root) : base(root)
 		{
 			if (Device.OS == TargetPlatform.iOS)
-				ShakeThreshold = 20;
+				_shakeThreshold = 20;
 			else if (Device.OS == TargetPlatform.Android)
-				ShakeThreshold = 800;
-			
+				_shakeThreshold = 800;
+
 			#region Implement ShakeListener
 			CrossDeviceMotion.Current.Start(MotionSensorType.Accelerometer, MotionSensorDelay.Default);
 
-			CrossDeviceMotion.Current.SensorValueChanged += (s, a) =>
-			{
-				if (a.SensorType == MotionSensorType.Accelerometer)
-				{
-					double x = ((MotionVector)a.Value).X;
-					double y = ((MotionVector)a.Value).Y;
-					double z = ((MotionVector)a.Value).Z;
-
-					var curTime = DateTime.Now;
-					if (_hasUpdated == false)
-					{
-						_hasUpdated = true;
-						_lastUpdate = curTime;
-						_lastX = x;
-						_lastY = y;
-						_lastZ = z;
-					}
-					else
-					{
-						if ((curTime - _lastUpdate).TotalMilliseconds > ShakeDetectionTimeLapse)
-						{
-							var diffTime = (curTime - _lastUpdate).TotalMilliseconds;
-							_lastUpdate = curTime;
-							var total = x + y + z - _lastX - _lastY - _lastZ;
-							var speed = Math.Abs(total) / diffTime * 10000;
-
-							Debug.WriteLine($"Speed: {speed}");
-
-							if (speed > ShakeThreshold)
-							{
-								HandleShake();
-							}
-
-							_lastX = x;
-							_lastY = y;
-							_lastZ = z;
-						}
-					}
-				}
-
-			};
+			CrossDeviceMotion.Current.SensorValueChanged += HandleSensorValueChanged;
 			#endregion
 		}
+		#endregion
 
-		public void HandleShake()
+		#region Methods
+		void HandleSensorValueChanged(object sender, SensorValueChangedEventArgs e)
 		{
-			Device.BeginInvokeOnMainThread(() => DisplayAlert("Shake Detected", "You shook your device!", "Ok"));
+			if (e.SensorType == MotionSensorType.Accelerometer)
+			{
+				double x = ((MotionVector)e.Value).X;
+				double y = ((MotionVector)e.Value).Y;
+				double z = ((MotionVector)e.Value).Z;
+
+				var currentTime = DateTime.Now;
+
+				if (_hasUpdated == false)
+				{
+					_hasUpdated = true;
+					_lastUpdate = currentTime;
+				}
+				else
+				{
+					var hasMinimumTimeElapsed = (currentTime - _lastUpdate).TotalMilliseconds > _shakeDetectionTimeLapse;
+
+					if (!hasMinimumTimeElapsed)
+						return;
+
+					_lastUpdate = currentTime;
+
+					var timeSinceLastShakeInMilliseconds = (currentTime - _lastUpdate).TotalMilliseconds;
+					var totalMovementDistance = x + y + z - _lastX - _lastY - _lastZ;
+					var shakeSpeed = Math.Abs(totalMovementDistance) / timeSinceLastShakeInMilliseconds * 10000;
+
+					Debug.WriteLine($"Shake Speed: {shakeSpeed}");
+
+					if (shakeSpeed > _shakeThreshold)
+						HandleShake();
+				}
+
+				_lastX = x;
+				_lastY = y;
+				_lastZ = z;
+			}
 		}
 
-
+		void HandleShake()
+		{
+			Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Shake Detected", "You shook your device!", "Ok"));
+		}
+		#endregion
 	}
 }

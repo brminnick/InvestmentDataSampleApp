@@ -5,22 +5,22 @@ using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp
 {
-	public class OpportunitiesPage : ContentPage
+	public class OpportunitiesPage : BaseContentPage<OpportunitiesViewModel>
 	{
+		#region Constant Fields
+		readonly RelativeLayout _mainLayout;
+		readonly SearchBar _searchBar;
+		#endregion
+
+		#region Fields
 		ListView _listView;
-		OpportunitiesViewModel _opportunitiesViewModel;
 		ToolbarItem _addButtonToolBar;
-		bool _areEventHandlersSubscribed;
-
-		RelativeLayout _mainLayout;
-
 		WelcomeView _welcomeView;
+		#endregion
 
+		#region Constructors
 		public OpportunitiesPage()
 		{
-			_opportunitiesViewModel = new OpportunitiesViewModel();
-			BindingContext = _opportunitiesViewModel;
-
 			#region Create the ListView
 			_listView = new ListView
 			{
@@ -29,34 +29,23 @@ namespace InvestmentDataSampleApp
 			};
 
 			_listView.IsPullToRefreshEnabled = true;
-			_listView.Refreshing += (async (sender, e) =>
-			{
-				await _opportunitiesViewModel.RefreshOpportunitiesDataAsync();
-				_listView.EndRefresh();
-			});
-
-			_listView.ItemSelected += (sender, e) =>
-			{
-				Navigation.PushAsync(new CreditBuilderCarouselPage());
-			};
-
 			_listView.SetBinding<OpportunitiesViewModel>(ListView.ItemsSourceProperty, vm => vm.AllOpportunitiesData);
 			#endregion
 
-			Title = $"Opportunities";
-
 			#region Initialize the Toolbar Add Button
-			_addButtonToolBar = new ToolbarItem();
-			_addButtonToolBar.Icon = "Add";
-			_addButtonToolBar.AutomationId = AutomationIdConstants.AddOpportunityButton;
-
+			_addButtonToolBar = new ToolbarItem
+			{
+				Icon = "Add",
+				AutomationId = AutomationIdConstants.AddOpportunityButton
+			};
 			ToolbarItems.Add(_addButtonToolBar);
 			#endregion
 
 			#region Create Searchbar
-			var searchBar = new SearchBar();
-			searchBar.AutomationId = AutomationIdConstants.OpportunitySearchBar;
-			searchBar.TextChanged += (sender, e) => _opportunitiesViewModel.FilterLocations(searchBar.Text);
+			_searchBar = new SearchBar
+			{
+				AutomationId = AutomationIdConstants.OpportunitySearchBar
+			};
 			#endregion
 
 			#region Create Stack
@@ -65,7 +54,7 @@ namespace InvestmentDataSampleApp
 				Padding = 0,
 				Spacing = 0,
 				Children = {
-					searchBar,
+					_searchBar,
 					_listView
 				}
 			};
@@ -77,48 +66,77 @@ namespace InvestmentDataSampleApp
 				Constraint.Constant(0)
 			);
 
-			SubscribeEventHandlers();
+			Title = $"Opportunities";
 
 			Content = _mainLayout;
 
 			DisplayWelcomeView();
 		}
 
-		protected async override void OnAppearing()
+		#endregion
+
+		#region Methods
+		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			await _opportunitiesViewModel.RefreshOpportunitiesDataAsync();
-			SubscribeEventHandlers();
+
+			ViewModel?.RefreshAllDataCommand?.Execute(false);
 		}
 
-		protected override void OnDisappearing()
+		protected override void SubscribeEventHandlers()
 		{
-			base.OnDisappearing();
-
-			UnsubscribeEventHandlers();
-		}
-
-		void SubscribeEventHandlers()
-		{
-			if (_areEventHandlersSubscribed)
+			if (AreEventHandlersSubscribed)
 				return;
 
-			_opportunitiesViewModel.OkButtonTappedEvent += HandleWelcomeViewDisappearing;
+			ViewModel.PullToRefreshDataCompleted += HandlePullToRefreshDataCompleted;
+			ViewModel.OkButtonTappedEvent += HandleWelcomeViewDisappearing;
+			_searchBar.TextChanged += HandleSearchBarTextChanged;
+			_listView.Refreshing += HandleListViewRefreshing;
+			_listView.ItemSelected += HandleListViewItemSelected;
 			_addButtonToolBar.Clicked += HandleAddButtonClicked;
-			_areEventHandlersSubscribed = true;
 
+			AreEventHandlersSubscribed = true;
 		}
 
-		void UnsubscribeEventHandlers()
+		protected override void UnsubscribeEventHandlers()
 		{
-			_opportunitiesViewModel.OkButtonTappedEvent -= HandleWelcomeViewDisappearing;
+			ViewModel.PullToRefreshDataCompleted -= HandlePullToRefreshDataCompleted;
+			ViewModel.OkButtonTappedEvent -= HandleWelcomeViewDisappearing;
+			_searchBar.TextChanged -= HandleSearchBarTextChanged;
+			_listView.Refreshing -= HandleListViewRefreshing;
+			_listView.ItemSelected -= HandleListViewItemSelected;
 			_addButtonToolBar.Clicked -= HandleAddButtonClicked;
-			_areEventHandlersSubscribed = false;
+
+			AreEventHandlersSubscribed = false;
 		}
 
-		void HandleAddButtonClicked(object sender, EventArgs e)
+		void HandleListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
-			Navigation.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
+			Device.BeginInvokeOnMainThread(async () => await Navigation.PushAsync(new CreditBuilderCarouselPage()));
+		}
+
+		void HandlePullToRefreshDataCompleted(object sender, EventArgs e)
+		{
+			Device.BeginInvokeOnMainThread(() =>
+			{
+				_listView.IsRefreshing = false;
+				_listView.SelectedItem = null;
+			});
+		}
+
+		void HandleListViewRefreshing(object sender, EventArgs e)
+		{
+			ViewModel?.RefreshAllDataCommand?.Execute(true);
+		}
+
+		void HandleSearchBarTextChanged(object sender, TextChangedEventArgs e)
+		{
+			ViewModel?.FilterTextEnteredCommand.Execute(e.NewTextValue);
+		}
+
+		async void HandleAddButtonClicked(object sender, EventArgs e)
+		{
+			await Navigation.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
 		}
 
 		void HandleWelcomeViewDisappearing(object sender, EventArgs e)
@@ -146,9 +164,9 @@ namespace InvestmentDataSampleApp
 				);
 
 				_welcomeView.DisplayView();
-
 			});
 		}
+		#endregion
 	}
 }
 
