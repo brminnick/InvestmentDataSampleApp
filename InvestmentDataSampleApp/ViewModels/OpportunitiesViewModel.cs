@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -13,7 +12,8 @@ namespace InvestmentDataSampleApp
 	public class OpportunitiesViewModel : BaseViewModel
 	{
 		#region Fields
-		IList<OpportunityModel> _allOpportunitiesData;
+		string _searchBarText;
+		IList<OpportunityModel> _allOpportunitiesData, _viewableOpportunitiesData;
 		Command _okButtonTapped;
 		Command<string> _filterTextEnteredCommand;
 		Command<bool> _refreshAllDataCommand;
@@ -46,17 +46,29 @@ namespace InvestmentDataSampleApp
 		#endregion
 
 		#region Properties
+		public string SearchBarText
+		{
+			get { return _searchBarText; }
+			set { SetProperty(ref _searchBarText, value, () => FilterList(value)); }
+		}
+
 		public IList<OpportunityModel> AllOpportunitiesData
 		{
 			get { return _allOpportunitiesData; }
-			set { SetProperty(ref _allOpportunitiesData, value); }
+			set { SetProperty(ref _allOpportunitiesData, value, () => FilterList(SearchBarText)); }
+		}
+
+		public IList<OpportunityModel> ViewableOpportunitiesData
+		{
+			get { return _viewableOpportunitiesData; }
+			set { SetProperty(ref _viewableOpportunitiesData, value); }
 		}
 
 		public Command OkButtonTapped => _okButtonTapped ??
 			(_okButtonTapped = new Command(ExecuteOkButtonTapped));
 
 		public Command<string> FilterTextEnteredCommand => _filterTextEnteredCommand ??
-			(_filterTextEnteredCommand = new Command<string>(async s => await ExecuteFilterTextEnteredCommand(s)));
+			(_filterTextEnteredCommand = new Command<string>(ExecuteFilterTextEnteredCommand));
 
 		public Command<bool> RefreshAllDataCommand => _refreshAllDataCommand ??
 			(_refreshAllDataCommand = new Command<bool>(async b => await ExecuteRefreshAllDataCommand(b)));
@@ -68,15 +80,15 @@ namespace InvestmentDataSampleApp
 			AllOpportunitiesData = await App.Database.GetAllOpportunityDataAsync_OldestToNewest();
 		}
 
-		public async Task FilterListAsync(string filter)
+		public void FilterList(string filter)
 		{
 			if (string.IsNullOrWhiteSpace(filter))
 			{
-				await RefreshOpportunitiesDataAsync();
+				ViewableOpportunitiesData = AllOpportunitiesData;
 			}
 			else
 			{
-				AllOpportunitiesData = AllOpportunitiesData.Where(x =>
+				ViewableOpportunitiesData = AllOpportunitiesData.Where(x =>
 					x.Company.ToLower().Contains(filter.ToLower()) ||
 				 	x.DateCreated.ToString().ToLower().Contains(filter.ToLower()) ||
 					x.DBA.ToLower().Contains(filter.ToLower()) ||
@@ -138,9 +150,9 @@ namespace InvestmentDataSampleApp
 				OnPullToRefreshDataCompleted();
 		}
 
-		async Task ExecuteFilterTextEnteredCommand(string filterText)
+		void ExecuteFilterTextEnteredCommand(string filterText)
 		{
-			await FilterListAsync(filterText);
+			FilterList(filterText);
 		}
 
 		void ExecuteOkButtonTapped()

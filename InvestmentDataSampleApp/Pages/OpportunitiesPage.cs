@@ -29,7 +29,7 @@ namespace InvestmentDataSampleApp
 			};
 
 			_listView.IsPullToRefreshEnabled = true;
-			_listView.SetBinding<OpportunitiesViewModel>(ListView.ItemsSourceProperty, vm => vm.AllOpportunitiesData);
+			_listView.SetBinding<OpportunitiesViewModel>(ListView.ItemsSourceProperty, vm => vm.ViewableOpportunitiesData);
 			#endregion
 
 			#region Initialize the Toolbar Add Button
@@ -46,6 +46,7 @@ namespace InvestmentDataSampleApp
 			{
 				AutomationId = AutomationIdConstants.OpportunitySearchBar
 			};
+			_searchBar.SetBinding<OpportunitiesViewModel>(SearchBar.TextProperty, vm => vm.SearchBarText);
 			#endregion
 
 			#region Create Stack
@@ -70,6 +71,8 @@ namespace InvestmentDataSampleApp
 
 			Content = _mainLayout;
 
+			NavigationPage.SetBackButtonTitle(this, "");
+
 			DisplayWelcomeView();
 		}
 
@@ -90,7 +93,6 @@ namespace InvestmentDataSampleApp
 
 			ViewModel.PullToRefreshDataCompleted += HandlePullToRefreshDataCompleted;
 			ViewModel.OkButtonTappedEvent += HandleWelcomeViewDisappearing;
-			_searchBar.TextChanged += HandleSearchBarTextChanged;
 			_listView.Refreshing += HandleListViewRefreshing;
 			_listView.ItemSelected += HandleListViewItemSelected;
 			_addButtonToolBar.Clicked += HandleAddButtonClicked;
@@ -102,7 +104,6 @@ namespace InvestmentDataSampleApp
 		{
 			ViewModel.PullToRefreshDataCompleted -= HandlePullToRefreshDataCompleted;
 			ViewModel.OkButtonTappedEvent -= HandleWelcomeViewDisappearing;
-			_searchBar.TextChanged -= HandleSearchBarTextChanged;
 			_listView.Refreshing -= HandleListViewRefreshing;
 			_listView.ItemSelected -= HandleListViewItemSelected;
 			_addButtonToolBar.Clicked -= HandleAddButtonClicked;
@@ -112,7 +113,9 @@ namespace InvestmentDataSampleApp
 
 		void HandleListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
-			Device.BeginInvokeOnMainThread(async () => await Navigation.PushAsync(new CreditBuilderCarouselPage()));
+			var itemSelected = e?.SelectedItem as OpportunityModel;
+
+			Device.BeginInvokeOnMainThread(async () => await Navigation?.PushAsync(new OpportunitiesDetailPage(itemSelected)));
 		}
 
 		void HandlePullToRefreshDataCompleted(object sender, EventArgs e)
@@ -129,14 +132,9 @@ namespace InvestmentDataSampleApp
 			ViewModel?.RefreshAllDataCommand?.Execute(true);
 		}
 
-		void HandleSearchBarTextChanged(object sender, TextChangedEventArgs e)
-		{
-			ViewModel?.FilterTextEnteredCommand.Execute(e.NewTextValue);
-		}
-
 		async void HandleAddButtonClicked(object sender, EventArgs e)
 		{
-			await Navigation.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
+			await Navigation?.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
 		}
 
 		void HandleWelcomeViewDisappearing(object sender, EventArgs e)
@@ -158,12 +156,12 @@ namespace InvestmentDataSampleApp
 			{
 				_welcomeView = new WelcomeView();
 
-				_mainLayout.Children.Add(_welcomeView,
+				_mainLayout?.Children?.Add(_welcomeView,
 				   Constraint.Constant(0),
 				   Constraint.Constant(0)
 				);
 
-				_welcomeView.DisplayView();
+				_welcomeView?.DisplayView();
 			});
 		}
 		#endregion
