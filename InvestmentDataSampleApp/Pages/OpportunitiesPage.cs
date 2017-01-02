@@ -27,7 +27,6 @@ namespace InvestmentDataSampleApp
 				ItemTemplate = new DataTemplate(typeof(OpportunitiesViewCell)),
 				RowHeight = 75
 			};
-
 			_listView.IsPullToRefreshEnabled = true;
 			_listView.SetBinding<OpportunitiesViewModel>(ListView.ItemsSourceProperty, vm => vm.ViewableOpportunitiesData);
 			#endregion
