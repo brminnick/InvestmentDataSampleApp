@@ -63,7 +63,9 @@ namespace InvestmentDataSampleApp
 			_mainLayout = new RelativeLayout();
 			_mainLayout.Children.Add(listSearchStack,
 				Constraint.Constant(0),
-				Constraint.Constant(0)
+				Constraint.Constant(0),
+			 	Constraint.RelativeToParent(parent => parent.Width),
+			 	Constraint.RelativeToParent(parent => parent.Height)
 			);
 
 			Title = PageTitleConstants.OpportunitiesPageTitle;
