@@ -10,11 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Constants\AutomationIdConstants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\InsightsConstants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\LoremIpsumConstants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\StyleConstants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\ColorConstants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\AnimationConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\PageTitleConstants.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -29,6 +29,7 @@ namespace InvestmentDataSampleApp.UITests
 			//Arrange
 
 			//Act
+			OpportunitiesPage.Search("05");
 			OpportunitiesPage.TapOpportunityViewCell(opportunityTopic);
 			OpportunityDetailPage.WaitForPageToAppear();
 

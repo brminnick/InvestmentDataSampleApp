@@ -88,15 +88,17 @@ namespace InvestmentDataSampleApp
 			}
 			else
 			{
+				var lowerCaseFilter = filter.ToLower();
+
 				ViewableOpportunitiesData = AllOpportunitiesData.Where(x =>
-					x.Company.ToLower().Contains(filter.ToLower()) ||
-				 	x.DateCreated.ToString().ToLower().Contains(filter.ToLower()) ||
-					x.DBA.ToLower().Contains(filter.ToLower()) ||
-					x.LeaseAmountAsCurrency.ToLower().Contains(filter.ToLower()) ||
-					x.Owner.ToLower().Contains(filter.ToLower()) ||
-					x.SalesStage.ToString().ToLower().Contains(filter.ToLower()) ||
-					x.Topic.ToLower().Contains(filter.ToLower())
-				 ).ToList();
+	               (x?.Company?.ToLower().Contains(lowerCaseFilter) ?? false )||
+	               (x?.DateCreated.ToString().ToLower()?.Contains(lowerCaseFilter) ?? false) ||
+	               (x?.DBA?.ToLower()?.Contains(lowerCaseFilter) ?? false) ||
+	               (x?.LeaseAmountAsCurrency?.ToLower()?.Contains(lowerCaseFilter) ?? false) ||
+	               (x?.Owner?.ToLower()?.Contains(lowerCaseFilter) ?? false) ||
+	               (x?.SalesStage.ToString()?.ToLower()?.Contains(lowerCaseFilter) ?? false) ||
+	               (x?.Topic?.ToLower()?.Contains(lowerCaseFilter) ?? false)
+		 		).ToList();
 			}
 		}
 

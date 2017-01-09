@@ -48,29 +48,27 @@ namespace InvestmentDataSampleApp
 			_searchBar.SetBinding<OpportunitiesViewModel>(SearchBar.TextProperty, vm => vm.SearchBarText);
 			#endregion
 
-			#region Create Stack
-			var listSearchStack = new StackLayout
-			{
-				Padding = 0,
-				Spacing = 0,
-				Children = {
-					_searchBar,
-					_listView
-				}
-			};
-			#endregion
-
 			_mainLayout = new RelativeLayout();
-			_mainLayout.Children.Add(listSearchStack,
-				Constraint.Constant(0),
-				Constraint.Constant(0)
-			);
 
+			Func<RelativeLayout, double> getSearchBarHeight = (p) => _searchBar.Measure(_mainLayout.Width, _mainLayout.Height).Request.Height;
+
+			_mainLayout.Children.Add(_searchBar,
+				Constraint.Constant(0),
+				Constraint.Constant(0),
+			 	Constraint.RelativeToParent(parent => parent.Width)
+			);
+			_mainLayout.Children.Add(_listView,
+				Constraint.Constant(0),
+                Constraint.RelativeToParent(parent => getSearchBarHeight(parent)),
+	            Constraint.RelativeToParent(parent=>parent.Width),
+	            Constraint.RelativeToParent(parent=>parent.Height - getSearchBarHeight(parent))
+           	);
+			
 			Title = PageTitleConstants.OpportunitiesPageTitle;
 
-			Content = _mainLayout;
-
 			NavigationPage.SetBackButtonTitle(this, "");
+
+			Content = _mainLayout;
 
 			DisplayWelcomeView();
 		}
