@@ -59,11 +59,11 @@ namespace InvestmentDataSampleApp
 			);
 			_mainLayout.Children.Add(_listView,
 				Constraint.Constant(0),
-                Constraint.RelativeToParent(parent => getSearchBarHeight(parent)),
-	            Constraint.RelativeToParent(parent=>parent.Width),
-	            Constraint.RelativeToParent(parent=>parent.Height - getSearchBarHeight(parent))
-           	);
-			
+				Constraint.RelativeToParent(parent => getSearchBarHeight(parent)),
+				Constraint.RelativeToParent(parent => parent.Width),
+				Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent))
+		   	);
+
 			Title = PageTitleConstants.OpportunitiesPageTitle;
 
 			NavigationPage.SetBackButtonTitle(this, "");
