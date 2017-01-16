@@ -65,8 +65,10 @@ namespace InvestmentDataSampleApp.UITests
 			Assert.IsTrue(AddOpportunityPage.IsErrorMessageDisplayed);
 		}
 
+		[TestCase(true)]
+		[TestCase(false)]
 		[Test]
-		public void AddNewOpportunity()
+		public void AddNewOpportunity(bool shouldUseKeyboardReturnButton)
 		{
 			//Arrange
 			var topicText = "714999 / Investment Data Corp";
@@ -78,8 +80,10 @@ namespace InvestmentDataSampleApp.UITests
 			//Act
 			OpportunitiesPage.TapAddOpportunityButton();
 
-			AddOpportunityPage.PopulateAllFields(topicText, companyText, leaseAmount, ownerText, dbaText);
-			AddOpportunityPage.TapSaveButton();
+			AddOpportunityPage.PopulateAllFields(topicText, companyText, leaseAmount, ownerText, dbaText, shouldUseKeyboardReturnButton);
+
+			if (!shouldUseKeyboardReturnButton)
+				AddOpportunityPage.TapSaveButton();
 
 			OpportunitiesPage.TapOpportunityViewCell(topicText);
 
@@ -102,7 +106,7 @@ namespace InvestmentDataSampleApp.UITests
 			//Act
 			OpportunitiesPage.TapAddOpportunityButton();
 
-			AddOpportunityPage.PopulateAllFields(topicText, companyText, leaseAmount, ownerText, dbaText);
+			AddOpportunityPage.PopulateAllFields(topicText, companyText, leaseAmount, ownerText, dbaText, false);
 			AddOpportunityPage.TapCancelButton();
 
 			//Assert

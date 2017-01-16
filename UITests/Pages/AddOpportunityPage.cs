@@ -3,6 +3,7 @@
 using InvestmentDataSampleApp.Shared;
 
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
+using System;
 
 namespace InvestmentDataSampleApp.UITests
 {
@@ -40,21 +41,25 @@ namespace InvestmentDataSampleApp.UITests
 		#endregion
 
 		#region Methods
-		public void PopulateAllFields(string topicText, string companyText, int leaseAmount, string ownerText, string dbaText)
+		public void PopulateAllFields(string topicText, string companyText, int leaseAmount, string ownerText, string dbaText, bool shouldUseKeyboardReturnButton)
 		{
-			EnterTopicText(topicText);
-			EnterCompanyText(companyText);
-			EnterLeaseAmountText(leaseAmount);
-			EnterOwnerText(ownerText);
-			EnterDBAText(dbaText);
+			if (shouldUseKeyboardReturnButton)
+				PopulateAllFieldsByUsingKeyboardReturnButton(topicText, companyText, leaseAmount, ownerText, dbaText);
+			else
+				PopulateAllFieldsByTappingEachEntry(topicText, companyText, leaseAmount, ownerText, dbaText);
 		}
 
 		public void TapSaveButton()
 		{
+			Query saveButtonQuery;
+
 			if (OniOS)
-				app.Tap(SaveButton);
+				saveButtonQuery = SaveButton;
 			else
-				app.Tap(x => x.Marked("Save"));
+				saveButtonQuery = x => x.Marked("Save");
+
+			app.WaitForElement(saveButtonQuery);
+			app.Tap(saveButtonQuery);
 
 			app.Screenshot("Tapped Save Button");
 		}
@@ -69,49 +74,38 @@ namespace InvestmentDataSampleApp.UITests
 			app.Screenshot("Tapped Cancel Button");
 		}
 
-		void EnterTopicText(string topicText)
+		void PopulateAllFieldsByTappingEachEntry(string topicText, string companyText, int leaseAmount, string ownerText, string dbaText)
 		{
-			app.Tap(TopicEntry);
-			app.ClearText();
-			app.EnterText(topicText);
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {topicText} into Topic Entry");
+			EnterTextThenDismissKeyboard(TopicEntry, topicText);
+			EnterTextThenDismissKeyboard(CompanyEntry, companyText);
+			EnterTextThenDismissKeyboard(LeaseAmountEntry, leaseAmount.ToString());
+			EnterTextThenDismissKeyboard(OwnerEntry, ownerText);
+			EnterTextThenDismissKeyboard(DBAEntry, dbaText);
 		}
 
-		void EnterCompanyText(string companyText)
+		void PopulateAllFieldsByUsingKeyboardReturnButton(string topicText, string companyText, int leaseAmount, string ownerText, string dbaText)
 		{
-			app.Tap(CompanyEntry);
-			app.ClearText();
-			app.EnterText(companyText);
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {companyText} into Company Entry");
+			EnterTextThenPressEnter(TopicEntry, topicText);
+			EnterTextThenPressEnter(CompanyEntry, companyText);
+			EnterTextThenPressEnter(LeaseAmountEntry, leaseAmount.ToString());
+			EnterTextThenPressEnter(OwnerEntry, ownerText);
+			EnterTextThenPressEnter(DBAEntry, dbaText);
 		}
 
-		void EnterLeaseAmountText(int leaseText)
+		void EnterTextThenDismissKeyboard(Query entryQuery, string text)
 		{
-			app.Tap(LeaseAmountEntry);
-			app.ClearText();
-			app.EnterText(leaseText.ToString());
+			app.EnterText(entryQuery, text);
 			app.DismissKeyboard();
-			app.Screenshot($"Entered {leaseText} into Lease Amount Entry");
+
+			app.Screenshot($"Entered {text} into {nameof(entryQuery)}");
 		}
 
-		void EnterOwnerText(string ownerText)
+		void EnterTextThenPressEnter(Query entryQuery, string text)
 		{
-			app.Tap(OwnerEntry);
-			app.ClearText();
-			app.EnterText(ownerText);
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {ownerText} into Owner Entry");
-		}
+			app.EnterText(entryQuery, text);
+			app.PressEnter();
 
-		void EnterDBAText(string dbaText)
-		{
-			app.Tap(DBAEntry);
-			app.ClearText();
-			app.EnterText(dbaText);
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {dbaText} into DBA Entry");
+			app.Screenshot($"Entered {text} into {nameof(entryQuery)}");
 		}
 		#endregion
 	}
