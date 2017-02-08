@@ -103,7 +103,7 @@ namespace InvestmentDataSampleApp
 			}
 
 			DateCreated = DateTime.Now;
-			await App.Database.SaveOpportunityAsync(new OpportunityModel
+			await OpportunityModelDatabase.SaveOpportunityAsync(new OpportunityModel
 			{
 				Topic = Topic,
 				Company = Company,

@@ -8,138 +8,108 @@ using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
 {
-	public class OpportunityModelDatabase
+	public static class OpportunityModelDatabase
 	{
 		#region Constant Fields
-		readonly static object _locker = new object();
-		readonly SQLiteConnection _database;
+		static readonly SQLiteAsyncConnection _database = DependencyService.Get<ISQLite>().GetConnection();
 		#endregion
 
-		#region Constructors
-		public OpportunityModelDatabase()
-		{
-			_database = DependencyService.Get<ISQLite>().GetConnection();
-			_database.CreateTable<OpportunityModel>();
-		}
+		#region Fields
+		static bool _isInitialized;
 		#endregion
 
 		#region Methods
-		public async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest_Filter(string filter)
+		public static async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest_Filter(string filter)
 		{
 			var filterAsLowerCase = filter.ToLower();
 			var allOpportunityData = await GetAllOpportunityDataAsync_OldestToNewest();
 
-			return await Task.Run(() =>
-			{
-				lock (_locker)
-				{
-					return allOpportunityData.Where(x =>
-						(x?.Company?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-						(x?.DateCreated.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-						(x?.DBA?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-						(x?.LeaseAmountAsCurrency?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-						(x?.Owner?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-						(x?.SalesStage.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-						(x?.Topic?.ToLower()?.Contains(filterAsLowerCase) ?? false)
-						)?.ToList();
-				}
-			});
+			return allOpportunityData.Where(x =>
+				(x?.Company?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+				(x?.DateCreated.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+				(x?.DBA?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+				(x?.LeaseAmountAsCurrency?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+				(x?.Owner?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+				(x?.SalesStage.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+				(x?.Topic?.ToLower()?.Contains(filterAsLowerCase) ?? false)
+				)?.ToList();
 		}
 
-		public async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest()
+		public static async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest()
 		{
-			return await Task.Run(() =>
-			{
-				lock (_locker)
-				{
-					return _database.Table<OpportunityModel>().OrderBy(x => x.Topic).Where(x => x.ID > 0).ToList();
-				}
-			});
+			if (!_isInitialized)
+				await Initialize();
+			
+			return await _database.Table<OpportunityModel>().OrderBy(x => x.Topic).Where(x => x.ID > 0).ToListAsync();
 		}
 
-		public async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_NewestToOldest()
+		public static async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_NewestToOldest()
 		{
-			return await Task.Run(() =>
-			{
-				lock (_locker)
-				{
-					return _database.Table<OpportunityModel>().OrderByDescending(x => x.Topic).Where(x => x.ID > 0).ToList();
-				}
-			});
+			if (!_isInitialized)
+				await Initialize();
+			
+			return await _database.Table<OpportunityModel>().OrderByDescending(x => x.Topic).Where(x => x.ID > 0).ToListAsync();
 		}
 
-		public async Task<OpportunityModel> GetOpportunityByIDAsync(int id)
+		public static async Task<OpportunityModel> GetOpportunityByIDAsync(int id)
 		{
-			return await Task.Run(() =>
-			{
-				lock (_locker)
-				{
-					return _database.Table<OpportunityModel>().FirstOrDefault(x => x.ID == id);
-				}
-			});
+			if (!_isInitialized)
+				await Initialize();
+			
+			return await _database.Table<OpportunityModel>().Where(x => x.ID.Equals(id)).FirstOrDefaultAsync();
 		}
 
-		public async Task<OpportunityModel> GetOpportunityByTopicAsync(string topic)
+		public static async Task<OpportunityModel> GetOpportunityByTopicAsync(string topic)
 		{
-			return await Task.Run(() =>
-			{
-				lock (_locker)
-				{
-					return _database.Table<OpportunityModel>().FirstOrDefault(x => x.Topic == topic);
-				}
-			});
+			if (!_isInitialized)
+				await Initialize();
+			
+			return await _database.Table<OpportunityModel>().Where(x => x.Topic.Equals(topic)).FirstOrDefaultAsync();
 		}
 
-		public async Task<int> SaveOpportunityAsync(OpportunityModel opportunity)
+		public static async Task<int> SaveOpportunityAsync(OpportunityModel opportunity)
 		{
+			if (!_isInitialized)
+				await Initialize();
+			
 			var isOpportunityInDatabase = await GetOpportunityByTopicAsync(opportunity.Topic) != null;
 
-			return await Task.Run(() =>
+			if (isOpportunityInDatabase)
 			{
-				if (isOpportunityInDatabase)
-				{
-					lock (_locker)
-					{
-						_database.Update(opportunity);
-					}
-					return opportunity.ID;
-				}
+				return await _database.UpdateAsync(opportunity);
+			}
 
-				lock (_locker)
-				{
-					return _database.Insert(opportunity);
-				}
-			});
+			return await _database.InsertAsync(opportunity);
 		}
 
-		public async Task<int> DeleteItemAsync(int id)
+		public static async Task<int> DeleteItemAsync(OpportunityModel opportunity)
 		{
-			return await Task.Run(() =>
-			{
-				lock (_locker)
-				{
-					return _database.Delete<OpportunityModel>(id);
-				}
-			});
+			if (!_isInitialized)
+				await Initialize();
+			
+			return await _database.DeleteAsync(opportunity);
 		}
 
-		public async Task<OpportunityModel> GetNewestOpportunityAsync()
+		public static async Task<OpportunityModel> GetNewestOpportunityAsync()
 		{
-			return await Task.Run(() =>
-			{
-				lock (_locker)
-				{
-					return _database.Table<OpportunityModel>().OrderByDescending(x => x.ID).FirstOrDefault();
-				}
-			});
+			if (!_isInitialized)
+				await Initialize();
+			
+			return await _database.Table<OpportunityModel>().OrderByDescending(x => x.ID).FirstOrDefaultAsync();
 		}
 
-		public async Task<int> GetNumberOfRowsAsync()
+		public static async Task<int> GetNumberOfRowsAsync()
 		{
-			return await Task.Run(() =>
-			{
-				return _database.Table<OpportunityModel>().Count();
-			});
+			if (!_isInitialized)
+				await Initialize();
+			
+			return await _database.Table<OpportunityModel>().CountAsync();
+		}
+
+		static async Task Initialize()
+		{
+			await _database.CreateTableAsync<OpportunityModel>();
+			_isInitialized = true;
 		}
 		#endregion
 	}
