@@ -4,7 +4,7 @@ namespace InvestmentDataSampleApp
 {
 	public interface ISQLite
 	{
-		SQLiteConnection GetConnection();
+		SQLiteAsyncConnection GetConnection();
 	}
 }
 

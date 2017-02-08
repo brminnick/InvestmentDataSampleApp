@@ -99,7 +99,7 @@ namespace InvestmentDataSampleApp
 			{
 				var menuItem = (MenuItem)sender;
 				OpportunityModel thisModel = ((OpportunityModel)menuItem.BindingContext);
-				await App.Database.DeleteItemAsync(thisModel.ID);
+				await OpportunityModelDatabase.DeleteItemAsync(thisModel);
 
 				//Wait for the iOS animation to finish
 				if (Device.OS == TargetPlatform.iOS)
