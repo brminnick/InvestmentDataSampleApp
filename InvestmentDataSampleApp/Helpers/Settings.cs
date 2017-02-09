@@ -29,13 +29,7 @@ namespace InvestmentDataSampleApp
 			}
 		}
 
-		static ISettings AppSettings
-		{
-			get
-			{
-				return CrossSettings.Current;
-			}
-		}
+		static ISettings AppSettings => CrossSettings.Current;
 		#endregion
 	}
 }

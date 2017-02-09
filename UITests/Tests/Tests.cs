@@ -22,14 +22,15 @@ namespace InvestmentDataSampleApp.UITests
 			App.Screenshot("First screen");
 		}
 
-		[TestCase("715005 / Investment Data Corp")]
 		[Test]
-		public void ViewOpportunity(string opportunityTopic)
+		public void ViewOpportunity()
 		{
 			//Arrange
+			var searchString = "05";
+			var opportunityTopic = "715005 / Investment Data Corp";
 
 			//Act
-			OpportunitiesPage.Search("05");
+			OpportunitiesPage.Search(searchString);
 			OpportunitiesPage.TapOpportunityViewCell(opportunityTopic);
 			OpportunityDetailPage.WaitForPageToAppear();
 
@@ -37,11 +38,11 @@ namespace InvestmentDataSampleApp.UITests
 			Assert.AreEqual(PageTitleConstants.OpportunityDetailPageTitle, OpportunityDetailPage.Title);
 		}
 
-		[TestCase("715003 / Investment Data Corp")]
 		[Test]
-		public async Task DeleteOpportunity(string opportunityTopic)
+		public async Task DeleteOpportunity()
 		{
 			//Arrange
+			var opportunityTopic = "715003 / Investment Data Corp";
 
 			//Act
 			OpportunitiesPage.DeleteViewCell(opportunityTopic);
