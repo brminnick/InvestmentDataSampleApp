@@ -9,7 +9,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.xamarin.InvestmentDataSampleApp</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.3.0</string>
+	<string>1.4.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>

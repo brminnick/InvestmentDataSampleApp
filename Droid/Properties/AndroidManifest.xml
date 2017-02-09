@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="6" android:versionName="1.3.0" package="InvestmentDataSampleApp.Droid">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="6" android:versionName="1.4.0" package="InvestmentDataSampleApp.Droid">
 	<uses-sdk android:minSdkVersion="18" />
 	<application android:label="InvestmentDataSampleApp.Droid"></application>
 </manifest>
