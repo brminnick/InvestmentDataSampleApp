@@ -121,7 +121,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Database\SQLite_Android.cs" />
     <Compile Include="CustomRenderers\EntryWithCustomKeyboardReturnButtonCustomRenderer.cs" />
-    <Compile Include="Helpers\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

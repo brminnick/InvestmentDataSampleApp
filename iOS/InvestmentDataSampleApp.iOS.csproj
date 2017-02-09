@@ -156,7 +156,6 @@
     <Compile Include="CustomRenderers\OpportunitiesViewCellCustomRenderer.cs" />
     <Compile Include="CustomRenderers\AddOpportunityPageCustomRenderer.cs" />
     <Compile Include="CustomRenderers\EntryWithCustomKeyboardReturnButtonCustomRenderer.cs" />
-    <Compile Include="Helpers\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\beaconfundingicon.png" />
