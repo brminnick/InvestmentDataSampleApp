@@ -17,7 +17,8 @@ namespace InvestmentDataSampleApp
 		const string _cancelToolBarItemText = "Cancel";
 		const int _relativeLayoutSpacing = 5;
 		readonly ToolbarItem _cancelButtonToolBarItem;
-		readonly CustomReturnEntry _topicEntry, _companyEntry, _dbaEntry, _leaseAmountEntry, _ownerEntry;
+		readonly CustomReturnEntry _topicEntry, _companyEntry, _leaseAmountEntry, _ownerEntry;
+		readonly Entry _dbaEntry;
 		#endregion
 
 		#region Constructors
@@ -59,11 +60,9 @@ namespace InvestmentDataSampleApp
 				Text = "DBA"
 			};
 
-			_dbaEntry = new CustomReturnEntry
+			_dbaEntry = new Entry
 			{
-				ReturnType = ReturnType.Done,
 				AutomationId = AutomationIdConstants.DBAEntry,
-				ReturnCommand = new Command(_dbaEntry.Unfocus)
 			};
 			_dbaEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.DBA));
 			#endregion
@@ -184,12 +183,6 @@ namespace InvestmentDataSampleApp
 			if (AreEventHandlersSubscribed)
 				return;
 
-			_dbaEntry.Completed += HandleDbaEntryCompleted;
-			_topicEntry.Completed += HandleTopicEntryCompleted;
-			_ownerEntry.Completed += HandleOwnerEntryCompleted;
-			_companyEntry.Completed += HandleCompanyEntryCompleted;
-			_leaseAmountEntry.Completed += HandleLeaseAmountEntryCompleted;
-
 			_cancelButtonToolBarItem.Clicked += HandleCancelButtonTapped;
 			ViewModel.SaveError += HandleSaveError;
 			ViewModel.SaveToDatabaseCompleted += HandleCancelButtonTapped;
@@ -223,31 +216,6 @@ namespace InvestmentDataSampleApp
 				blankFieldsString.Append("DBA");
 
 			Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Error: Missing Data", $"The following fields are empty: {blankFieldsString}", "OK"));
-		}
-
-		void HandleTopicEntryCompleted(object sender, EventArgs e)
-		{
-			_companyEntry.Focus();
-		}
-
-		void HandleCompanyEntryCompleted(object sender, EventArgs e)
-		{
-			_leaseAmountEntry.Focus();
-		}
-
-		void HandleLeaseAmountEntryCompleted(object sender, EventArgs e)
-		{
-			_ownerEntry.Focus();
-		}
-
-		void HandleOwnerEntryCompleted(object sender, EventArgs e)
-		{
-			_dbaEntry.Focus();
-		}
-
-		void HandleDbaEntryCompleted(object sender, EventArgs e)
-		{
-			ViewModel?.SaveButtonTapped?.Execute(null);
 		}
 
 		async void HandleCancelButtonTapped(object sender, EventArgs e)
