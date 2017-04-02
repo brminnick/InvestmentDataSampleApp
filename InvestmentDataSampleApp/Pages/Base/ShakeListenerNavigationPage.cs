@@ -36,7 +36,10 @@ namespace InvestmentDataSampleApp
 			#region Implement ShakeListener
 			CrossDeviceMotion.Current.Start(MotionSensorType.Accelerometer, MotionSensorDelay.Default);
 
+#if DEBUG
+#else
 			CrossDeviceMotion.Current.SensorValueChanged += HandleSensorValueChanged;
+#endif
 			#endregion
 		}
 		#endregion
