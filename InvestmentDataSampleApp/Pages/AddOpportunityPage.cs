@@ -32,9 +32,10 @@ namespace InvestmentDataSampleApp
 			_topicEntry = new CustomReturnEntry
 			{
 				ReturnType = ReturnType.Next,
-				AutomationId = AutomationIdConstants.TopicEntry
+				AutomationId = AutomationIdConstants.TopicEntry,
+				ReturnCommand = new Command(() => _companyEntry.Focus())
 			};
-			_topicEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.Topic);
+			_topicEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.Topic));
 			#endregion
 
 			#region Create Company Controls
@@ -46,9 +47,10 @@ namespace InvestmentDataSampleApp
 			_companyEntry = new CustomReturnEntry
 			{
 				ReturnType = ReturnType.Next,
-				AutomationId = AutomationIdConstants.CompanyEntry
+				AutomationId = AutomationIdConstants.CompanyEntry,
+				ReturnCommand = new Command(() => _leaseAmountEntry.Focus())
 			};
-			_companyEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.Company);
+			_companyEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.Company));
 			#endregion
 
 			#region Create DBA Controls
@@ -60,9 +62,10 @@ namespace InvestmentDataSampleApp
 			_dbaEntry = new CustomReturnEntry
 			{
 				ReturnType = ReturnType.Done,
-				AutomationId = AutomationIdConstants.DBAEntry
+				AutomationId = AutomationIdConstants.DBAEntry,
+				ReturnCommand = new Command(_dbaEntry.Unfocus)
 			};
-			_dbaEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.DBA);
+			_dbaEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.DBA));
 			#endregion
 
 			#region Create LeaseAmount Controls
@@ -76,9 +79,10 @@ namespace InvestmentDataSampleApp
 				ReturnType = ReturnType.Next,
 				AutomationId = AutomationIdConstants.LeaseAmountEntry,
 				Keyboard = Keyboard.Numeric,
-				Placeholder = "0"
+				Placeholder = "0",
+				ReturnCommand = new Command(() => _ownerEntry.Focus())
 			};
-			_leaseAmountEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.LeaseAmount);
+			_leaseAmountEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.LeaseAmount));
 			#endregion
 
 			#region Create Owner Controls
@@ -90,9 +94,10 @@ namespace InvestmentDataSampleApp
 			_ownerEntry = new CustomReturnEntry
 			{
 				ReturnType = ReturnType.Next,
-				AutomationId = AutomationIdConstants.OwnerEntry
+				AutomationId = AutomationIdConstants.OwnerEntry,
+				ReturnCommand = new Command(() => _dbaEntry.Focus())
 			};
-			_ownerEntry.SetBinding<AddOpportunityViewModel>(Entry.TextProperty, vm => vm.Owner);
+			_ownerEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.Owner));
 			#endregion
 
 			#region create the Relative Layout
@@ -151,7 +156,7 @@ namespace InvestmentDataSampleApp
 				Priority = 0,
 				AutomationId = AutomationIdConstants.SaveButton
 			};
-			saveButtonToolBar.SetBinding<AddOpportunityViewModel>(ToolbarItem.CommandProperty, vm => vm.SaveButtonTapped);
+			saveButtonToolBar.SetBinding(ToolbarItem.CommandProperty, nameof(ViewModel.SaveButtonTapped));
 			ToolbarItems.Add(saveButtonToolBar);
 			#endregion
 
@@ -188,7 +193,7 @@ namespace InvestmentDataSampleApp
 			_cancelButtonToolBarItem.Clicked += HandleCancelButtonTapped;
 			ViewModel.SaveError += HandleSaveError;
 			ViewModel.SaveToDatabaseCompleted += HandleCancelButtonTapped;
-			
+
 			AreEventHandlersSubscribed = true;
 		}
 
@@ -197,7 +202,7 @@ namespace InvestmentDataSampleApp
 			_cancelButtonToolBarItem.Clicked -= HandleCancelButtonTapped;
 			ViewModel.SaveError -= HandleSaveError;
 			ViewModel.SaveToDatabaseCompleted -= HandleCancelButtonTapped;
-			
+
 			AreEventHandlersSubscribed = false;
 		}
 		void HandleSaveError(object sender, EventArgs e)

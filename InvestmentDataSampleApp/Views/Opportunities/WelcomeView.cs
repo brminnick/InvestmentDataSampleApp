@@ -22,6 +22,8 @@ namespace InvestmentDataSampleApp
 			const string bodyText = "Enjoy InvestmentDataSampleApp";
 			const string okButtonText = "Ok, thanks!";
 
+			var viewModel = BindingContext as OpportunitiesViewModel;
+
 			_backgroundOverlayBoxView = new BoxView
 			{
 				BackgroundColor = ColorConstants.WhiteWith75Opacity
@@ -59,7 +61,7 @@ namespace InvestmentDataSampleApp
 				Text = okButtonText,
 				AutomationId = AutomationIdConstants.WelcomeViewOkButton
 			};
-			okButton.SetBinding<OpportunitiesViewModel>(Button.CommandProperty, vm => vm.OkButtonTapped);
+			okButton.SetBinding(Button.CommandProperty, nameof(viewModel.OkButtonTapped));
 
 			_textAndButtonStack = new StackLayout
 			{
@@ -96,10 +98,12 @@ namespace InvestmentDataSampleApp
 				 Constraint.RelativeToView(_overlayFrame, (parent, view) => view.Y + 15)
 			);
 
-			if (Device.OS == TargetPlatform.Android)
+			switch (Device.RuntimePlatform)
 			{
-				_overlayFrame.IsVisible = false;
-				_textAndButtonStack.BackgroundColor = ColorConstants.WhiteWith90Opacity;
+				case Device.Android:
+					_overlayFrame.IsVisible = false;
+					_textAndButtonStack.BackgroundColor = ColorConstants.WhiteWith90Opacity;
+					break;
 			}
 
 			Content = _relativeLayout;

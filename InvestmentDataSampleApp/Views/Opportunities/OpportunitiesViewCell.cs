@@ -9,6 +9,8 @@ namespace InvestmentDataSampleApp
 	{
 		public OpportunitiesViewCell()
 		{
+			var model = BindingContext as OpportunityModel;
+
 			#region Create Image
 			var beaconFundingImage = new Image
 			{
@@ -23,7 +25,7 @@ namespace InvestmentDataSampleApp
 				FontAttributes = FontAttributes.Bold
 			};
 			var topic = new Label();
-			topic.SetBinding<OpportunityModel>(Label.TextProperty, vm => vm.Topic);
+			topic.SetBinding(Label.TextProperty, nameof(model.Topic));
 
 			var topicStack = new StackLayout
 			{
@@ -41,7 +43,7 @@ namespace InvestmentDataSampleApp
 				FontAttributes = FontAttributes.Bold
 			};
 			var company = new Label();
-			company.SetBinding<OpportunityModel>(Label.TextProperty, vm => vm.Company);
+			company.SetBinding(Label.TextProperty, nameof(model.Company));
 
 			var companyStack = new StackLayout
 			{
@@ -59,7 +61,7 @@ namespace InvestmentDataSampleApp
 				FontAttributes = FontAttributes.Bold
 			};
 			var leaseAmount = new Label();
-			leaseAmount.SetBinding<OpportunityModel>(Label.TextProperty, vm => vm.LeaseAmountAsCurrency);
+			leaseAmount.SetBinding(Label.TextProperty, nameof(model.LeaseAmountAsCurrency));
 
 			var leaseAmountStack = new StackLayout
 			{
@@ -77,7 +79,7 @@ namespace InvestmentDataSampleApp
 				FontAttributes = FontAttributes.Bold
 			};
 			var owner = new Label();
-			owner.SetBinding<OpportunityModel>(Label.TextProperty, vm => vm.Owner);
+			owner.SetBinding(Label.TextProperty, nameof(model.Owner));
 
 			var ownerStack = new StackLayout
 			{
@@ -102,8 +104,12 @@ namespace InvestmentDataSampleApp
 				await OpportunityModelDatabase.DeleteItemAsync(thisModel);
 
 				//Wait for the iOS animation to finish
-				if (Device.OS == TargetPlatform.iOS)
-					await Task.Delay(300);
+				switch (Device.RuntimePlatform)
+				{
+					case Device.iOS:
+						await Task.Delay(300);
+						break;
+				}
 
 				MessagingCenter.Send<object>(this, "RefreshData");
 			};
