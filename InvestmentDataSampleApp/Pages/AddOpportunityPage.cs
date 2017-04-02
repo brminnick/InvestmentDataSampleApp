@@ -6,6 +6,8 @@ using Xamarin.Forms;
 
 using InvestmentDataSampleApp.Shared;
 
+using EntryCustomReturn.Forms.Plugin.Abstractions;
+
 namespace InvestmentDataSampleApp
 {
 	public class AddOpportunityPage : BaseContentPage<AddOpportunityViewModel>
@@ -15,7 +17,7 @@ namespace InvestmentDataSampleApp
 		const string _cancelToolBarItemText = "Cancel";
 		const int _relativeLayoutSpacing = 5;
 		readonly ToolbarItem _cancelButtonToolBarItem;
-		readonly EntryWithCustomKeyboardReturnButton _topicEntry, _companyEntry, _dbaEntry, _leaseAmountEntry, _ownerEntry;
+		readonly CustomReturnEntry _topicEntry, _companyEntry, _dbaEntry, _leaseAmountEntry, _ownerEntry;
 		#endregion
 
 		#region Constructors
@@ -27,7 +29,7 @@ namespace InvestmentDataSampleApp
 				Text = "Topic"
 			};
 
-			_topicEntry = new EntryWithCustomKeyboardReturnButton
+			_topicEntry = new CustomReturnEntry
 			{
 				ReturnType = ReturnType.Next,
 				AutomationId = AutomationIdConstants.TopicEntry
@@ -41,7 +43,7 @@ namespace InvestmentDataSampleApp
 				Text = "Company"
 			};
 
-			_companyEntry = new EntryWithCustomKeyboardReturnButton
+			_companyEntry = new CustomReturnEntry
 			{
 				ReturnType = ReturnType.Next,
 				AutomationId = AutomationIdConstants.CompanyEntry
@@ -55,7 +57,7 @@ namespace InvestmentDataSampleApp
 				Text = "DBA"
 			};
 
-			_dbaEntry = new EntryWithCustomKeyboardReturnButton
+			_dbaEntry = new CustomReturnEntry
 			{
 				ReturnType = ReturnType.Done,
 				AutomationId = AutomationIdConstants.DBAEntry
@@ -69,7 +71,7 @@ namespace InvestmentDataSampleApp
 				Text = "Lease Amount"
 			};
 
-			_leaseAmountEntry = new EntryWithCustomKeyboardReturnButton
+			_leaseAmountEntry = new CustomReturnEntry
 			{
 				ReturnType = ReturnType.Next,
 				AutomationId = AutomationIdConstants.LeaseAmountEntry,
@@ -85,7 +87,7 @@ namespace InvestmentDataSampleApp
 				Text = "Owner"
 			};
 
-			_ownerEntry = new EntryWithCustomKeyboardReturnButton
+			_ownerEntry = new CustomReturnEntry
 			{
 				ReturnType = ReturnType.Next,
 				AutomationId = AutomationIdConstants.OwnerEntry

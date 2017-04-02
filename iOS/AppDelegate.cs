@@ -17,6 +17,7 @@ namespace InvestmentDataSampleApp.iOS
 #endif
 
 			global::Xamarin.Forms.Forms.Init();
+			EntryCustomReturn.Forms.Plugin.iOS.CustomReturnEntryRenderer.Init();
 
 			LoadApplication(new App());
 
