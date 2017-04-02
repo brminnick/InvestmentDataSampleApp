@@ -28,7 +28,7 @@ namespace InvestmentDataSampleApp
 				RowHeight = 75
 			};
 			_listView.IsPullToRefreshEnabled = true;
-			_listView.SetBinding<OpportunitiesViewModel>(ListView.ItemsSourceProperty, vm => vm.ViewableOpportunitiesData);
+			_listView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.ViewableOpportunitiesData));
 			#endregion
 
 			#region Initialize the Toolbar Add Button
@@ -45,7 +45,7 @@ namespace InvestmentDataSampleApp
 			{
 				AutomationId = AutomationIdConstants.OpportunitySearchBar
 			};
-			_searchBar.SetBinding<OpportunitiesViewModel>(SearchBar.TextProperty, vm => vm.SearchBarText);
+			_searchBar.SetBinding(SearchBar.TextProperty, nameof(ViewModel.SearchBarText));
 			#endregion
 
 			_mainLayout = new RelativeLayout();

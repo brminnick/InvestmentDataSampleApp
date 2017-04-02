@@ -26,6 +26,7 @@ namespace InvestmentDataSampleApp.Droid
 			base.OnCreate(bundle);
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
+			EntryCustomReturn.Forms.Plugin.Android.CustomReturnEntryRenderer.Init();
 
 			LoadApplication(new App());
 		}

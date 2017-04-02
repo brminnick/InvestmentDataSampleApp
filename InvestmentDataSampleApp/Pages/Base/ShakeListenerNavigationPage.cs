@@ -24,15 +24,22 @@ namespace InvestmentDataSampleApp
 		#region Constructors
 		public ShakeListenerNavigationPage(Page root) : base(root)
 		{
-			if (Device.OS == TargetPlatform.iOS)
-				_shakeThreshold = 20;
-			else if (Device.OS == TargetPlatform.Android)
-				_shakeThreshold = 800;
-
+			switch (Device.RuntimePlatform)
+			{
+				case Device.iOS:
+					_shakeThreshold = 20;
+					break;
+				default:
+					_shakeThreshold = 800;
+					break;
+			}
 			#region Implement ShakeListener
 			CrossDeviceMotion.Current.Start(MotionSensorType.Accelerometer, MotionSensorDelay.Default);
 
+#if DEBUG
+#else
 			CrossDeviceMotion.Current.SensorValueChanged += HandleSensorValueChanged;
+#endif
 			#endregion
 		}
 		#endregion
