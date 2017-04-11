@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Xamarin.Forms;
 
 using DeviceMotion.Plugin;
 using DeviceMotion.Plugin.Abstractions;
-using System.Diagnostics;
 
 namespace InvestmentDataSampleApp
 {
