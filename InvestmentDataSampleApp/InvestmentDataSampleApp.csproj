@@ -51,6 +51,7 @@
     <Compile Include="Constants\InsightsConstants.cs" />
     <Compile Include="Constants\LoremIpsumConstants.cs" />
     <Compile Include="Constants\StyleConstants.cs" />
+    <Compile Include="Views\Base\OverlayContentView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DeviceMotion.Plugin.Abstractions">
@@ -101,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Constants\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <Import Project="..\Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\Shared\InvestmentDataSampleApp.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
