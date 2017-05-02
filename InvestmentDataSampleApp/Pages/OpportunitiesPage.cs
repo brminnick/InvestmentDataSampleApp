@@ -136,12 +136,7 @@ namespace InvestmentDataSampleApp
 
 		void HandleWelcomeViewDisappearing(object sender, EventArgs e)
 		{
-			Device.BeginInvokeOnMainThread(async () =>
-			{
-				await _welcomeView?.FadeTo(0);
-				_welcomeView.IsVisible = false;
-				_welcomeView.InputTransparent = true;
-			});
+			_welcomeView?.HideView();
 		}
 
 		void DisplayWelcomeView()
@@ -158,7 +153,7 @@ namespace InvestmentDataSampleApp
 				   Constraint.Constant(0)
 				);
 
-				_welcomeView?.DisplayView();
+				_welcomeView?.ShowView();
 			});
 		}
 		#endregion
