@@ -99,6 +99,7 @@ namespace InvestmentDataSampleApp
                 Text = "Delete",
                 IsDestructive = true
             };
+            ContextActions.Add(_deleteAction);
             #endregion
 
             StackLayout cellStack;
@@ -147,8 +148,7 @@ namespace InvestmentDataSampleApp
         {
             base.OnAppearing();
 
-			_deleteAction.Clicked += HandleDeleteActionClicked;
-            ContextActions.Add(_deleteAction);
+            _deleteAction.Clicked += HandleDeleteActionClicked;
         }
 
         protected override void OnDisappearing()
@@ -156,7 +156,6 @@ namespace InvestmentDataSampleApp
             base.OnDisappearing();
 
 			_deleteAction.Clicked -= HandleDeleteActionClicked;
-            ContextActions.Remove(_deleteAction);
         }
 
         async void HandleDeleteActionClicked(object sender, EventArgs e)
