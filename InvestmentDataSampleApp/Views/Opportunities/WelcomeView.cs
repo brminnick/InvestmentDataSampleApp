@@ -42,7 +42,7 @@ namespace InvestmentDataSampleApp
 				Text = okButtonText,
 				AutomationId = AutomationIdConstants.WelcomeViewOkButton
 			};
-			okButton.SetBinding(Button.CommandProperty, nameof(viewModel.OkButtonTapped));
+			okButton.SetBinding(Button.CommandProperty, nameof(viewModel.OkButtonTappedCommand));
 
 			var textAndButtonStack = new StackLayout
 			{

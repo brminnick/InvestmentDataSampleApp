@@ -23,14 +23,13 @@ namespace InvestmentDataSampleApp
         public OpportunitiesViewModel()
         {
             Task.Run(async () =>
-                        {
-                            // If the database is empty, initialize the database with dummy data
-                            if (await OpportunityModelDatabase.GetNumberOfRowsAsync() < 20)
-                            {
-                                await InitializeDataInDatabaseAsync();
-                            }
-                            await RefreshOpportunitiesDataAsync();
-                        });
+            {
+                // If the database is empty, initialize the database with dummy data
+                if (await OpportunityModelDatabase.GetNumberOfRowsAsync() < 20)
+                    await InitializeDataInDatabaseAsync();
+
+                await RefreshOpportunitiesDataAsync();
+            });
         }
         #endregion
 
@@ -154,10 +153,10 @@ namespace InvestmentDataSampleApp
             Settings.ShouldShowWelcomeView = false;
         }
 
-		async Task RefreshOpportunitiesDataAsync()
-		{
-			AllOpportunitiesData = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest();
-		}
+        async Task RefreshOpportunitiesDataAsync()
+        {
+            AllOpportunitiesData = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest();
+        }
 
         void OnPullToRefreshDataCompleted() =>
             PullToRefreshDataCompleted?.Invoke(this, EventArgs.Empty);
