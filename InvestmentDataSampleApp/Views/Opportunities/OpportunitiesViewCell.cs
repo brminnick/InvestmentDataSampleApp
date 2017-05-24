@@ -173,7 +173,8 @@ namespace InvestmentDataSampleApp
 					break;
 			}
 
-            var opportunitiesPage = Application.Current.MainPage as OpportunitiesPage;
+            var navigationPage = Application.Current.MainPage as ShakeListenerNavigationPage;
+            var opportunitiesPage = navigationPage.CurrentPage as OpportunitiesPage;
             var opportunitiesViewModel = opportunitiesPage.BindingContext as OpportunitiesViewModel;
 
             opportunitiesViewModel.RefreshAllDataCommand?.Execute(true);
