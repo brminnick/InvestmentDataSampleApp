@@ -78,7 +78,7 @@ namespace InvestmentDataSampleApp.UITests
 			{
 				app.ScrollDownTo(topic, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return false;
 			}

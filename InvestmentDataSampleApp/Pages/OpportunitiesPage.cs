@@ -89,7 +89,7 @@ namespace InvestmentDataSampleApp
 				return;
 
 			ViewModel.PullToRefreshDataCompleted += HandlePullToRefreshDataCompleted;
-			ViewModel.OkButtonTappedEvent += HandleWelcomeViewDisappearing;
+			ViewModel.OkButtonTapped += HandleWelcomeViewDisappearing;
 			_listView.Refreshing += HandleListViewRefreshing;
 			_listView.ItemSelected += HandleListViewItemSelected;
 			_addButtonToolBar.Clicked += HandleAddButtonClicked;
@@ -100,7 +100,7 @@ namespace InvestmentDataSampleApp
 		protected override void UnsubscribeEventHandlers()
 		{
 			ViewModel.PullToRefreshDataCompleted -= HandlePullToRefreshDataCompleted;
-			ViewModel.OkButtonTappedEvent -= HandleWelcomeViewDisappearing;
+			ViewModel.OkButtonTapped -= HandleWelcomeViewDisappearing;
 			_listView.Refreshing -= HandleListViewRefreshing;
 			_listView.ItemSelected -= HandleListViewItemSelected;
 			_addButtonToolBar.Clicked -= HandleAddButtonClicked;
