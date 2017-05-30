@@ -105,7 +105,7 @@ namespace InvestmentDataSampleApp.UITests
 			app.EnterText(entryQuery, text);
 			app.PressEnter();
 
-			app.Screenshot($"Entered {text} into {nameof(entryQuery)}");
+            app.Screenshot($"Entered {text}");
 		}
 		#endregion
 	}
