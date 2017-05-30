@@ -52,6 +52,7 @@
     <Compile Include="Constants\LoremIpsumConstants.cs" />
     <Compile Include="Constants\StyleConstants.cs" />
     <Compile Include="Views\Base\OverlayContentView.cs" />
+    <Compile Include="Data\BaseDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DeviceMotion.Plugin.Abstractions">
