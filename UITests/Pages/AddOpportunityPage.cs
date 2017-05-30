@@ -3,7 +3,6 @@
 using InvestmentDataSampleApp.Shared;
 
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
-using System;
 
 namespace InvestmentDataSampleApp.UITests
 {

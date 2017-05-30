@@ -17,7 +17,7 @@ namespace InvestmentDataSampleApp
         #endregion
 
         #region Methods
-        protected static async Task<SQLiteAsyncConnection> GetDatabaseConnection()
+        protected static async Task<SQLiteAsyncConnection> GetDatabaseConnectionAsync()
         {
             if (!_isInitialized)
 				await Initialize();
