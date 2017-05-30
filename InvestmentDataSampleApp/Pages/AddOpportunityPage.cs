@@ -60,11 +60,13 @@ namespace InvestmentDataSampleApp
 				Text = "DBA"
 			};
 
-			_dbaEntry = new Entry
+			_dbaEntry = new CustomReturnEntry
 			{
 				AutomationId = AutomationIdConstants.DBAEntry,
+                ReturnType = ReturnType.Go
 			};
 			_dbaEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.DBA));
+            _dbaEntry.SetBinding(CustomReturnEntry.ReturnCommandProperty, nameof(ViewModel.SaveButtonTapped));
 			#endregion
 
 			#region Create LeaseAmount Controls
