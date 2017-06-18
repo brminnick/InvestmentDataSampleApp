@@ -50,7 +50,7 @@ namespace InvestmentDataSampleApp
 
 			_mainLayout = new RelativeLayout();
 
-			Func<RelativeLayout, double> getSearchBarHeight = (p) => _searchBar.Measure(_mainLayout.Width, _mainLayout.Height).Request.Height;
+			Func<RelativeLayout, double> getSearchBarHeight = (p) => _searchBar.Measure(p.Width, p.Height).Request.Height;
 
 			_mainLayout.Children.Add(_searchBar,
 				Constraint.Constant(0),

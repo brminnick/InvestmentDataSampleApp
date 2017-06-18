@@ -36,8 +36,8 @@ namespace InvestmentDataSampleApp
 			_overlayFrame.Scale = 0;
 
 			_relativeLayout = new RelativeLayout();
-			Func<RelativeLayout, double> getOverlayContentHeight = (p) => OverlayContent.Measure(_relativeLayout.Width, _relativeLayout.Height).Request.Height;
-			Func<RelativeLayout, double> getOverlayContentWidth = (p) => OverlayContent.Measure(_relativeLayout.Width, _relativeLayout.Height).Request.Width;
+			Func<RelativeLayout, double> getOverlayContentHeight = (p) => OverlayContent.Measure(p.Width, p.Height).Request.Height;
+			Func<RelativeLayout, double> getOverlayContentWidth = (p) => OverlayContent.Measure(p.Width, p.Height).Request.Width;
 
 			_relativeLayout.Children.Add(_backgroundOverlayBoxView,
 			   	Constraint.Constant(-10),
