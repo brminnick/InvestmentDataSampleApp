@@ -9,10 +9,6 @@
     <Import_RootNamespace>InvestmentDataSampleApp.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\AutomationIdConstants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\PageTitleConstants.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Constants\" />
   </ItemGroup>
 </Project>

@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 
-using InvestmentDataSampleApp.Shared;
-
 namespace InvestmentDataSampleApp
 {
     public class OpportunitiesViewModel : BaseViewModel

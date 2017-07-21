@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace InvestmentDataSampleApp.Shared
+namespace InvestmentDataSampleApp
 {
 	public static class ColorConstants
 	{

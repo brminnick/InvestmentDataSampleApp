@@ -1,5 +1,4 @@
-﻿using System;
-namespace InvestmentDataSampleApp.Shared
+﻿namespace InvestmentDataSampleApp.Constants
 {
 	public static class AutomationIdConstants
 	{

@@ -1,4 +1,4 @@
-﻿namespace InvestmentDataSampleApp.Shared
+﻿namespace InvestmentDataSampleApp
 {
 	public static class InsightsConstants
 	{

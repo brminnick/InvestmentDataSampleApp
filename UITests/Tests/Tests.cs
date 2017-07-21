@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 using Xamarin.UITest;
 
-using InvestmentDataSampleApp.Shared;
+using InvestmentDataSampleApp.Constants;
 
 namespace InvestmentDataSampleApp.UITests
 {
