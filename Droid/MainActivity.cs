@@ -4,8 +4,6 @@ using Android.Content.PM;
 
 using Xamarin;
 
-using InvestmentDataSampleApp.Shared;
-
 namespace InvestmentDataSampleApp.Droid
 {
 	[Activity(Label = "InvestmentDataSampleApp.Droid", Theme = "@style/MyTheme", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]

@@ -2,8 +2,6 @@
 
 using Xamarin;
 
-using InvestmentDataSampleApp.Shared;
-
 namespace InvestmentDataSampleApp.iOS
 {
 	public class Application

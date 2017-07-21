@@ -1,10 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using Xamarin.Forms;
 
-using Xamarin.Forms;
-
-using InvestmentDataSampleApp.Shared;
+using InvestmentDataSampleApp.Constants;
 
 namespace InvestmentDataSampleApp
 {

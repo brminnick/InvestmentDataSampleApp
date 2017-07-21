@@ -3,7 +3,7 @@
 using Xamarin.UITest;
 using Xamarin.UITest.Queries;
 
-using InvestmentDataSampleApp.Shared;
+using InvestmentDataSampleApp.Constants;
 
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
@@ -34,7 +34,7 @@ namespace InvestmentDataSampleApp.UITests
 			if (OniOS)
 				titleQuery = app.Query(x => x.Class("UILabel").Marked(PageTitleConstants.OpportunityDetailPageTitle));
 			else
-				titleQuery = app.Query(x => x.Class("TextView").Marked(PageTitleConstants.OpportunityDetailPageTitle));
+				titleQuery = app.Query(x => x.Class("AppCompatTextView").Marked(PageTitleConstants.OpportunityDetailPageTitle));
 
 			return titleQuery?.FirstOrDefault()?.Text;
 		}
