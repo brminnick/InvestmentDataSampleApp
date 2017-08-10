@@ -19,9 +19,9 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="Xamarin.Forms" Version="2.3.5.256-pre6" />
-	  <PackageReference Include="sqlite-net-pcl" Version="1.3.3" />
 	  <PackageReference Include="Xam.Plugins.Settings" Version="3.0.1" />
 	  <PackageReference Include="Xam.Plugins.Forms.CustomReturnEntry" Version="3.1.1" />
 	  <PackageReference Include="Xam.Plugin.DeviceMotion" Version="1.1.2" />
+	  <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
 	</ItemGroup>
 </Project>
