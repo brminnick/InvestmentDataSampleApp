@@ -154,7 +154,7 @@ namespace InvestmentDataSampleApp
 				   Constraint.Constant(0)
 				);
 
-				_welcomeView?.ShowView();
+				_welcomeView?.ShowView(true);
 			});
 		}
 		#endregion
