@@ -1,19 +1,20 @@
 ﻿using Xamarin.UITest;
+using Xamarin.UITest.iOS;
+using Xamarin.UITest.Android;
 
 namespace InvestmentDataSampleApp.UITests
 {
 	public abstract class BasePage
 	{
-		protected readonly IApp app;
-		protected readonly bool OnAndroid;
-		protected readonly bool OniOS;
-
-		protected BasePage(IApp app, Platform platform)
+		protected BasePage(IApp app)
 		{
-			this.app = app;
-
-			OnAndroid = platform == Platform.Android;
-			OniOS = platform == Platform.iOS;
+			App = app;
+            OnAndroid = app is AndroidApp;
+            OniOS = app is iOSApp;
 		}
+
+        protected IApp App { get; }
+        protected bool OnAndroid { get; }
+        protected bool OniOS { get; }
 	}
 }

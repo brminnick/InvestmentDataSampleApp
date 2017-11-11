@@ -12,7 +12,7 @@ namespace InvestmentDataSampleApp.UITests
 	public class OpportunityDetailPage : BasePage
 	{
 		#region Constructors 
-		public OpportunityDetailPage(IApp app, Platform platform) : base(app,platform)
+		public OpportunityDetailPage(IApp app) : base(app)
 		{
 		}
 		#endregion
@@ -24,7 +24,7 @@ namespace InvestmentDataSampleApp.UITests
 		#region Methods
 		public void WaitForPageToAppear()
 		{
-			app.WaitForElement(PageTitleConstants.OpportunityDetailPageTitle);
+			App.WaitForElement(PageTitleConstants.OpportunityDetailPageTitle);
 		}
 
 		string GetTitle()
@@ -32,9 +32,9 @@ namespace InvestmentDataSampleApp.UITests
 			AppResult[] titleQuery;
 
 			if (OniOS)
-				titleQuery = app.Query(x => x.Class("UILabel").Marked(PageTitleConstants.OpportunityDetailPageTitle));
+				titleQuery = App.Query(x => x.Class("UILabel").Marked(PageTitleConstants.OpportunityDetailPageTitle));
 			else
-				titleQuery = app.Query(x => x.Class("AppCompatTextView").Marked(PageTitleConstants.OpportunityDetailPageTitle));
+				titleQuery = App.Query(x => x.Class("AppCompatTextView").Marked(PageTitleConstants.OpportunityDetailPageTitle));
 
 			return titleQuery?.FirstOrDefault()?.Text;
 		}

@@ -17,7 +17,7 @@ namespace InvestmentDataSampleApp.UITests
 		#endregion
 
 		#region Constructors
-		public OpportunitiesPage(IApp app, Platform platform) : base(app, platform)
+		public OpportunitiesPage(IApp app) : base(app)
 		{
 			AddOpportunityButton = x => x.Marked(AutomationIdConstants.AddOpportunityButton);
 			OpportunitySearchBar = x => x.Marked(AutomationIdConstants.OpportunitySearchBar);
@@ -33,50 +33,50 @@ namespace InvestmentDataSampleApp.UITests
 		public void TapAddOpportunityButton()
 		{
 			if (OniOS)
-				app.Tap(AddOpportunityButton);
+				App.Tap(AddOpportunityButton);
 			else
-				app.Tap(x => x.Class("ActionMenuItemView"));
-			app.Screenshot("Tapped Add Opportunity Button");
+				App.Tap(x => x.Class("ActionMenuItemView"));
+			App.Screenshot("Tapped Add Opportunity Button");
 		}
 
 		public void TapOpportunityViewCell(string topic)
 		{
-			app.ScrollDownTo(topic);
-			app.Tap(topic);
-			app.Screenshot($"Tapped ${topic} View Cell");
+			App.ScrollDownTo(topic);
+			App.Tap(topic);
+			App.Screenshot($"Tapped ${topic} View Cell");
 		}
 
 		public void DeleteViewCell(string topic)
 		{
-			app.ScrollDownTo(topic);
+			App.ScrollDownTo(topic);
 
 			if (OniOS)
-				app.SwipeRightToLeft(topic);
+				App.SwipeRightToLeft(topic);
 			else
-				app.TouchAndHold(topic);
+				App.TouchAndHold(topic);
 
-			app.Tap("Delete");
+			App.Tap("Delete");
 		}
 
 		public void TapWelcomeViewOkButton()
 		{
-			app.Tap(WelcomeViewOkButton);
-			app.Screenshot("Welcome View Ok Button Tapped");
+			App.Tap(WelcomeViewOkButton);
+			App.Screenshot("Welcome View Ok Button Tapped");
 		}
 
 		public void Search(string searchString)
 		{
-			app.Tap(OpportunitySearchBar);
-			app.EnterText(searchString);
-			app.DismissKeyboard();
-			app.Screenshot($"Entered {searchString} into Search Bar");
+			App.Tap(OpportunitySearchBar);
+			App.EnterText(searchString);
+			App.DismissKeyboard();
+			App.Screenshot($"Entered {searchString} into Search Bar");
 		}
 
 		public bool DoesViewCellExist(string topic, int timeoutInSeconds = 10)
 		{
 			try
 			{
-				app.ScrollDownTo(topic, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
+				App.ScrollDownTo(topic, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
 			}
 			catch (Exception)
 			{
@@ -90,7 +90,7 @@ namespace InvestmentDataSampleApp.UITests
 		{
 			try
 			{
-				app.WaitForElement(WelcomeViewOkButton, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
+				App.WaitForElement(WelcomeViewOkButton, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
 			}
 			catch
 			{

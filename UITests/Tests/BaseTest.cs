@@ -6,34 +6,36 @@ using Xamarin.UITest;
 
 namespace InvestmentDataSampleApp.UITests
 {
-	public abstract class BaseTest
-	{
-		protected IApp App;
-		protected Platform Platform;
+    public abstract class BaseTest
+    {
+        #region Constructors
+        protected BaseTest(Platform platform) => Platform = platform;
+        #endregion
 
-		protected OpportunitiesPage OpportunitiesPage;
-		protected AddOpportunityPage AddOpportunityPage;
-		protected OpportunityDetailPage OpportunityDetailPage;
+        #region Properties
+        protected IApp App { get; private set; }
+        protected Platform Platform { get; private set; }
+        protected OpportunitiesPage OpportunitiesPage { get; private set; }
+        protected AddOpportunityPage AddOpportunityPage { get; private set; }
+        protected OpportunityDetailPage OpportunityDetailPage { get; private set; }
+        #endregion
 
-		protected BaseTest(Platform platform)
-		{
-			Platform = platform;
-		}
+        #region Methods
+        [SetUp]
+        public virtual void TestSetup()
+        {
+            App = AppInitializer.StartApp(Platform);
 
-		[SetUp]
-		public virtual void TestSetup()
-		{
-			App = AppInitializer.StartApp(Platform);
+            OpportunitiesPage = new OpportunitiesPage(App);
+            AddOpportunityPage = new AddOpportunityPage(App);
+            OpportunityDetailPage = new OpportunityDetailPage(App);
 
-			OpportunitiesPage = new OpportunitiesPage(App, Platform);
-			AddOpportunityPage = new AddOpportunityPage(App, Platform);
-			OpportunityDetailPage = new OpportunityDetailPage(App, Platform);
+            App.Screenshot("App Launched");
 
-			App.Screenshot("App Launched");
-
-			if (OpportunitiesPage.IsWelcomeViewVisible)
-				OpportunitiesPage.TapWelcomeViewOkButton();
-		}
-	}
+            if (OpportunitiesPage.IsWelcomeViewVisible)
+                OpportunitiesPage.TapWelcomeViewOkButton();
+        }
+        #endregion
+    }
 
 }

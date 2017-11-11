@@ -22,7 +22,7 @@ namespace InvestmentDataSampleApp.UITests
 		#endregion
 
 		#region Construvtors
-		public AddOpportunityPage(IApp app, Platform platform) : base(app, platform)
+		public AddOpportunityPage(IApp app) : base(app)
 		{
 			TopicEntry = x => x.Marked(AutomationIdConstants.TopicEntry);
 			CompanyEntry = x => x.Marked(AutomationIdConstants.CompanyEntry);
@@ -36,7 +36,7 @@ namespace InvestmentDataSampleApp.UITests
 		#endregion
 
 		#region Properties
-		public bool IsErrorMessageDisplayed => app.Query("OK").Length > 0;
+		public bool IsErrorMessageDisplayed => App.Query("OK").Length > 0;
 		#endregion
 
 		#region Methods
@@ -57,20 +57,20 @@ namespace InvestmentDataSampleApp.UITests
 			else
 				saveButtonQuery = x => x.Marked("Save");
 
-			app.WaitForElement(saveButtonQuery);
-			app.Tap(saveButtonQuery);
+			App.WaitForElement(saveButtonQuery);
+			App.Tap(saveButtonQuery);
 
-			app.Screenshot("Tapped Save Button");
+			App.Screenshot("Tapped Save Button");
 		}
 
 		public void TapCancelButton()
 		{
 			if (OniOS)
-				app.Tap(CancelButton);
+				App.Tap(CancelButton);
 			else
-				app.Tap(x => x.Marked("Cancel"));
+				App.Tap(x => x.Marked("Cancel"));
 
-			app.Screenshot("Tapped Cancel Button");
+			App.Screenshot("Tapped Cancel Button");
 		}
 
 		void PopulateAllFieldsByTappingEachEntry(string topicText, string companyText, int leaseAmount, string ownerText, string dbaText)
@@ -93,18 +93,18 @@ namespace InvestmentDataSampleApp.UITests
 
 		void EnterTextThenDismissKeyboard(Query entryQuery, string text)
 		{
-			app.EnterText(entryQuery, text);
-			app.DismissKeyboard();
+			App.EnterText(entryQuery, text);
+			App.DismissKeyboard();
 
-			app.Screenshot($"Entered {text} into {nameof(entryQuery)}");
+			App.Screenshot($"Entered {text} into {nameof(entryQuery)}");
 		}
 
 		void EnterTextThenPressEnter(Query entryQuery, string text)
 		{
-			app.EnterText(entryQuery, text);
-			app.PressEnter();
+			App.EnterText(entryQuery, text);
+			App.PressEnter();
 
-            app.Screenshot($"Entered {text}");
+            App.Screenshot($"Entered {text}");
 		}
 		#endregion
 	}
