@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -12,9 +13,8 @@ namespace InvestmentDataSampleApp
         #region Fields
         string _searchBarText;
         IList<OpportunityModel> _allOpportunitiesData, _viewableOpportunitiesData;
-        Command _okButtonTappedCommand;
         Command<string> _filterTextEnteredCommand;
-        Command<bool> _refreshAllDataCommand;
+        ICommand _refreshAllDataCommand, _okButtonTappedCommand;
         #endregion
 
         #region Constructors
@@ -23,10 +23,10 @@ namespace InvestmentDataSampleApp
             Task.Run(async () =>
             {
                 // If the database is empty, initialize the database with dummy data
-                if (await OpportunityModelDatabase.GetNumberOfRowsAsync() < 20)
-                    await InitializeDataInDatabaseAsync();
+                if (await OpportunityModelDatabase.GetNumberOfRowsAsync().ConfigureAwait(false) < 20)
+                    await InitializeDataInDatabaseAsync().ConfigureAwait(false);
 
-                await RefreshOpportunitiesDataAsync();
+                await RefreshOpportunitiesDataAsync().ConfigureAwait(false);
             });
         }
         #endregion
@@ -37,15 +37,15 @@ namespace InvestmentDataSampleApp
         #endregion
 
         #region Properties
-        public Command OkButtonTappedCommand => _okButtonTappedCommand ??
+        public ICommand OkButtonTappedCommand => _okButtonTappedCommand ??
             (_okButtonTappedCommand = new Command(ExecuteOkButtonTapped));
 
         public Command<string> FilterTextEnteredCommand => _filterTextEnteredCommand ??
             (_filterTextEnteredCommand = new Command<string>(ExecuteFilterTextEnteredCommand));
 
-        public Command<bool> RefreshAllDataCommand => _refreshAllDataCommand ??
-            (_refreshAllDataCommand = new Command<bool>(async isPullToRefreshCommanded =>
-                                                    await ExecuteRefreshAllDataCommand(isPullToRefreshCommanded)));
+        public ICommand RefreshAllDataCommand => _refreshAllDataCommand ??
+            (_refreshAllDataCommand = new Command(async () =>
+                                                        await ExecuteRefreshAllDataCommand().ConfigureAwait(false)));
 
         public string SearchBarText
         {
@@ -75,16 +75,16 @@ namespace InvestmentDataSampleApp
             }
             else
             {
-                var lowerCaseFilter = filter.ToLower();
+                var upperCaseFilter = filter.ToUpper();
 
                 ViewableOpportunitiesData = AllOpportunitiesData.Where(x =>
-                   (x?.Company?.ToLower().Contains(lowerCaseFilter) ?? false) ||
-                   (x?.DateCreated.ToString().ToLower()?.Contains(lowerCaseFilter) ?? false) ||
-                   (x?.DBA?.ToLower()?.Contains(lowerCaseFilter) ?? false) ||
-                   (x?.LeaseAmountAsCurrency?.ToLower()?.Contains(lowerCaseFilter) ?? false) ||
-                   (x?.Owner?.ToLower()?.Contains(lowerCaseFilter) ?? false) ||
-                   (x?.SalesStage.ToString()?.ToLower()?.Contains(lowerCaseFilter) ?? false) ||
-                   (x?.Topic?.ToLower()?.Contains(lowerCaseFilter) ?? false)
+                   (x?.Company?.ToUpper().Contains(upperCaseFilter) ?? false) ||
+                   (x?.CreatedAt.ToString().ToUpper()?.Contains(upperCaseFilter) ?? false) ||
+                   (x?.DBA?.ToUpper()?.Contains(upperCaseFilter) ?? false) ||
+                   (x?.LeaseAmountAsCurrency?.ToUpper()?.Contains(upperCaseFilter) ?? false) ||
+                   (x?.Owner?.ToUpper()?.Contains(upperCaseFilter) ?? false) ||
+                   (x?.SalesStage.ToString()?.ToUpper()?.Contains(upperCaseFilter) ?? false) ||
+                   (x?.Topic?.ToUpper()?.Contains(upperCaseFilter) ?? false)
                  ).ToList();
             }
         }
@@ -93,7 +93,7 @@ namespace InvestmentDataSampleApp
         {
             for (int i = 0; i < numberOfOpportunityModelsToGenerate; i++)
             {
-                var tempModel = new OpportunityModel();
+                var newOpportunity = new OpportunityModel();
 
                 var rnd = new Random();
                 var companyIndex = rnd.Next(50);
@@ -119,30 +119,30 @@ namespace InvestmentDataSampleApp
                         break;
                 }
 
-                tempModel.Topic = $"{i + 715003} / Investment Data Corp";
-                tempModel.Company = $"{LoremIpsumConstants.LoremIpsum.Substring(companyIndex, 10)}";
-                tempModel.DBA = $"{LoremIpsumConstants.LoremIpsum.Substring(dbaIndex, 10)}";
-                tempModel.LeaseAmount = leaseAmount;
-                tempModel.SalesStage = salesStage;
-                tempModel.Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}";
-                tempModel.DateCreated = new DateTime(yearIndex, monthIndex, dayIndex);
+                newOpportunity.Topic = $"{i + 715003} / Investment Data Corp";
+                newOpportunity.Company = $"{LoremIpsumConstants.LoremIpsum.Substring(companyIndex, 10)}";
+                newOpportunity.DBA = $"{LoremIpsumConstants.LoremIpsum.Substring(dbaIndex, 10)}";
+                newOpportunity.LeaseAmount = leaseAmount;
+                newOpportunity.SalesStage = salesStage;
+                newOpportunity.Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}";
+                newOpportunity.CreatedAt = new DateTimeOffset(yearIndex, monthIndex, dayIndex, 0, 0, 0, default(TimeSpan));
 
-                await OpportunityModelDatabase.SaveOpportunityAsync(tempModel);
+                await OpportunityModelDatabase.SaveOpportunityAsync(newOpportunity).ConfigureAwait(false);
             }
         }
 
-        async Task ExecuteRefreshAllDataCommand(bool isPullToRefreshCommanded)
+        async Task ExecuteRefreshAllDataCommand()
         {
-            await RefreshOpportunitiesDataAsync();
+            var minimumRefreshTimeTask = Task.Delay(1000);
 
-            if (isPullToRefreshCommanded)
-                OnPullToRefreshDataCompleted();
+            await RefreshOpportunitiesDataAsync().ConfigureAwait(false);
+
+            await minimumRefreshTimeTask;
+
+            OnPullToRefreshDataCompleted();
         }
 
-        void ExecuteFilterTextEnteredCommand(string filterText)
-        {
-            FilterList(filterText);
-        }
+        void ExecuteFilterTextEnteredCommand(string filterText) => FilterList(filterText);
 
         void ExecuteOkButtonTapped()
         {
@@ -151,10 +151,8 @@ namespace InvestmentDataSampleApp
             Settings.ShouldShowWelcomeView = false;
         }
 
-        async Task RefreshOpportunitiesDataAsync()
-        {
-            AllOpportunitiesData = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest();
-        }
+        async Task RefreshOpportunitiesDataAsync() =>
+            AllOpportunitiesData = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest().ConfigureAwait(false);
 
         void OnPullToRefreshDataCompleted() =>
             PullToRefreshDataCompleted?.Invoke(this, EventArgs.Empty);

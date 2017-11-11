@@ -16,9 +16,7 @@ namespace InvestmentDataSampleApp.Droid
 			Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
 			{
 				if (isStartupCrash)
-				{
-					Insights.PurgePendingCrashReports().Wait();
-				}
+					Insights.PurgePendingCrashReports().GetAwaiter().GetResult();
 			};
 
 			base.OnCreate(bundle);

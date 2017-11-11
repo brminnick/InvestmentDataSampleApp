@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿using UIKit;
 using Foundation;
-using UIKit;
 
 namespace InvestmentDataSampleApp.iOS
 {
-	[Register("AppDelegate")]
+    [Register(nameof(AppDelegate))]
 	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)

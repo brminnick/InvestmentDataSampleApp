@@ -12,13 +12,11 @@ namespace InvestmentDataSampleApp.iOS
 
 			Insights.HasPendingCrashReport += (sender, isStartupCrash) =>
 			{
-				if (isStartupCrash)
-				{
-					Insights.PurgePendingCrashReports().Wait();
-				}
+                if (isStartupCrash)
+                    Insights.PurgePendingCrashReports().GetAwaiter().GetResult();
 			};
 			
- 			UIApplication.Main(args, null, "AppDelegate");
+            UIApplication.Main(args, null, nameof(AppDelegate));
 		}
 	}
 }

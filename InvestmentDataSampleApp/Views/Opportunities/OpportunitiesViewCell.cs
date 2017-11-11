@@ -155,29 +155,29 @@ namespace InvestmentDataSampleApp
         {
             base.OnDisappearing();
 
-			_deleteAction.Clicked -= HandleDeleteActionClicked;
+            _deleteAction.Clicked -= HandleDeleteActionClicked;
         }
 
         async void HandleDeleteActionClicked(object sender, EventArgs e)
         {
-			var menuItem = (MenuItem)sender;
+            var menuItem = (MenuItem)sender;
             var selectedModel = menuItem.BindingContext as OpportunityModel;
 
-			await OpportunityModelDatabase.DeleteItemAsync(selectedModel);
+            await OpportunityModelDatabase.DeleteItemAsync(selectedModel).ConfigureAwait(false);
 
-			//Wait for the iOS animation to finish
-			switch (Device.RuntimePlatform)
-			{
-				case Device.iOS:
-					await Task.Delay(250);
-					break;
-			}
+            //Wait for the iOS animation to finish
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    await Task.Delay(250).ConfigureAwait(false);
+                    break;
+            }
 
             var navigationPage = Application.Current.MainPage as ShakeListenerNavigationPage;
             var opportunitiesPage = navigationPage.CurrentPage as OpportunitiesPage;
             var opportunitiesViewModel = opportunitiesPage.BindingContext as OpportunitiesViewModel;
 
-            opportunitiesViewModel.RefreshAllDataCommand?.Execute(true);
+            opportunitiesViewModel.RefreshAllDataCommand?.Execute(null);
         }
     }
 }

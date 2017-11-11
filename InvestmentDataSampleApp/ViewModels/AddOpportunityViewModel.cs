@@ -12,7 +12,7 @@ namespace InvestmentDataSampleApp
         string _topic, _company, _dba, _owner;
         long _leaseAmount;
         SalesStages _salesStage;
-        DateTime _dateCreated;
+        DateTimeOffset _dateCreated;
         ICommand _saveButtonTapped;
         #endregion
 
@@ -23,7 +23,7 @@ namespace InvestmentDataSampleApp
 
         #region Properties
         public ICommand SaveButtonTapped => _saveButtonTapped ??
-            (_saveButtonTapped = new Command(async () => await ExecuteSaveButtonTapped()));
+            (_saveButtonTapped = new Command(async () => await ExecuteSaveButtonTapped().ConfigureAwait(false)));
 
         public string Topic
         {
@@ -61,7 +61,7 @@ namespace InvestmentDataSampleApp
             set => SetProperty(ref _owner, value);
         }
 
-        public DateTime DateCreated
+        public DateTimeOffset DateCreated
         {
             get => _dateCreated;
             set => SetProperty(ref _dateCreated, value);
@@ -83,7 +83,7 @@ namespace InvestmentDataSampleApp
                 return;
             }
 
-            DateCreated = DateTime.Now;
+            DateCreated = DateTimeOffset.UtcNow;
             await OpportunityModelDatabase.SaveOpportunityAsync(new OpportunityModel
             {
                 Topic = Topic,
@@ -92,8 +92,8 @@ namespace InvestmentDataSampleApp
                 LeaseAmount = LeaseAmount,
                 SalesStage = SalesStage,
                 Owner = Owner,
-                DateCreated = DateCreated
-            });
+                CreatedAt = DateCreated
+            }).ConfigureAwait(false);
 
             OnSaveToDatabaseCompleted();
         }

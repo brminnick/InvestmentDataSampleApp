@@ -6,158 +6,140 @@ using InvestmentDataSampleApp.Constants;
 
 namespace InvestmentDataSampleApp
 {
-	public class OpportunitiesPage : BaseContentPage<OpportunitiesViewModel>
-	{
-		#region Constant Fields
-		readonly RelativeLayout _mainLayout;
-		readonly SearchBar _searchBar;
-		#endregion
+    public class OpportunitiesPage : BaseContentPage<OpportunitiesViewModel>
+    {
+        #region Constant Fields
+        readonly RelativeLayout _mainLayout;
+        readonly SearchBar _searchBar;
+        #endregion
 
-		#region Fields
-		ListView _listView;
-		ToolbarItem _addButtonToolBar;
-		WelcomeView _welcomeView;
-		#endregion
+        #region Fields
+        ListView _listView;
+        ToolbarItem _addButtonToolBar;
+        WelcomeView _welcomeView;
+        #endregion
 
-		#region Constructors
-		public OpportunitiesPage()
-		{
-			#region Create the ListView
-			_listView = new ListView
-			{
-				ItemTemplate = new DataTemplate(typeof(OpportunitiesViewCell)),
-				RowHeight = 75
-			};
-			_listView.IsPullToRefreshEnabled = true;
-			_listView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.ViewableOpportunitiesData));
-			#endregion
+        #region Constructors
+        public OpportunitiesPage()
+        {
+            #region Create the ListView
+            _listView = new ListView
+            {
+                ItemTemplate = new DataTemplate(typeof(OpportunitiesViewCell)),
+                RowHeight = 75
+            };
+            _listView.IsPullToRefreshEnabled = true;
+            _listView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.ViewableOpportunitiesData));
+            _listView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshAllDataCommand));
+            #endregion
 
-			#region Initialize the Toolbar Add Button
-			_addButtonToolBar = new ToolbarItem
-			{
-				Icon = "Add",
-				AutomationId = AutomationIdConstants.AddOpportunityButton
-			};
-			ToolbarItems.Add(_addButtonToolBar);
-			#endregion
+            #region Initialize the Toolbar Add Button
+            _addButtonToolBar = new ToolbarItem
+            {
+                Icon = "Add",
+                AutomationId = AutomationIdConstants.AddOpportunityButton
+            };
+            ToolbarItems.Add(_addButtonToolBar);
+            #endregion
 
-			#region Create Searchbar
-			_searchBar = new SearchBar
-			{
-				AutomationId = AutomationIdConstants.OpportunitySearchBar
-			};
-			_searchBar.SetBinding(SearchBar.TextProperty, nameof(ViewModel.SearchBarText));
-			#endregion
+            #region Create Searchbar
+            _searchBar = new SearchBar
+            {
+                AutomationId = AutomationIdConstants.OpportunitySearchBar
+            };
+            _searchBar.SetBinding(SearchBar.TextProperty, nameof(ViewModel.SearchBarText));
+            #endregion
 
-			_mainLayout = new RelativeLayout();
+            _mainLayout = new RelativeLayout();
 
-			Func<RelativeLayout, double> getSearchBarHeight = (p) => _searchBar.Measure(p.Width, p.Height).Request.Height;
+            Func<RelativeLayout, double> getSearchBarHeight = (p) => _searchBar.Measure(p.Width, p.Height).Request.Height;
 
-			_mainLayout.Children.Add(_searchBar,
-				Constraint.Constant(0),
-				Constraint.Constant(0),
-			 	Constraint.RelativeToParent(parent => parent.Width)
-			);
-			_mainLayout.Children.Add(_listView,
-				Constraint.Constant(0),
-				Constraint.RelativeToParent(parent => getSearchBarHeight(parent)),
-				Constraint.RelativeToParent(parent => parent.Width),
-				Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent))
-		   	);
+            _mainLayout.Children.Add(_searchBar,
+                Constraint.Constant(0),
+                Constraint.Constant(0),
+                 Constraint.RelativeToParent(parent => parent.Width)
+            );
+            _mainLayout.Children.Add(_listView,
+                Constraint.Constant(0),
+                Constraint.RelativeToParent(parent => getSearchBarHeight(parent)),
+                Constraint.RelativeToParent(parent => parent.Width),
+                Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent))
+               );
 
-			Title = PageTitleConstants.OpportunitiesPageTitle;
+            Title = PageTitleConstants.OpportunitiesPageTitle;
 
-			NavigationPage.SetBackButtonTitle(this, "");
+            NavigationPage.SetBackButtonTitle(this, "");
 
-			Content = _mainLayout;
+            Content = _mainLayout;
 
-			DisplayWelcomeView();
-		}
+            DisplayWelcomeView();
+        }
 
-		#endregion
+        #endregion
 
-		#region Methods
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
+        #region Methods
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
-			ViewModel?.RefreshAllDataCommand?.Execute(false);
-		}
+            _listView.BeginRefresh();
+        }
 
-		protected override void SubscribeEventHandlers()
-		{
-			if (AreEventHandlersSubscribed)
-				return;
+        protected override void SubscribeEventHandlers()
+        {
+            ViewModel.PullToRefreshDataCompleted += HandlePullToRefreshDataCompleted;
+            ViewModel.OkButtonTapped += HandleWelcomeViewDisappearing;
+            _listView.ItemSelected += HandleListViewItemSelected;
+            _addButtonToolBar.Clicked += HandleAddButtonClicked;
+        }
 
-			ViewModel.PullToRefreshDataCompleted += HandlePullToRefreshDataCompleted;
-			ViewModel.OkButtonTapped += HandleWelcomeViewDisappearing;
-			_listView.Refreshing += HandleListViewRefreshing;
-			_listView.ItemSelected += HandleListViewItemSelected;
-			_addButtonToolBar.Clicked += HandleAddButtonClicked;
+        protected override void UnsubscribeEventHandlers()
+        {
+            ViewModel.PullToRefreshDataCompleted -= HandlePullToRefreshDataCompleted;
+            ViewModel.OkButtonTapped -= HandleWelcomeViewDisappearing;
+            _listView.ItemSelected -= HandleListViewItemSelected;
+            _addButtonToolBar.Clicked -= HandleAddButtonClicked;
+        }
 
-			AreEventHandlersSubscribed = true;
-		}
+        void HandleListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var itemSelected = e?.SelectedItem as OpportunityModel;
 
-		protected override void UnsubscribeEventHandlers()
-		{
-			ViewModel.PullToRefreshDataCompleted -= HandlePullToRefreshDataCompleted;
-			ViewModel.OkButtonTapped -= HandleWelcomeViewDisappearing;
-			_listView.Refreshing -= HandleListViewRefreshing;
-			_listView.ItemSelected -= HandleListViewItemSelected;
-			_addButtonToolBar.Clicked -= HandleAddButtonClicked;
+                await Navigation?.PushAsync(new OpportunityDetailPage(itemSelected));
 
-			AreEventHandlersSubscribed = false;
-		}
-
-		void HandleListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
-		{
-			var itemSelected = e?.SelectedItem as OpportunityModel;
-
-			Device.BeginInvokeOnMainThread(async () => await Navigation?.PushAsync(new OpportunityDetailPage(itemSelected)));
-		}
-
-		void HandlePullToRefreshDataCompleted(object sender, EventArgs e)
-		{
-			Device.BeginInvokeOnMainThread(() =>
-			{
-				_listView.IsRefreshing = false;
 				_listView.SelectedItem = null;
-			});
-		}
 
-		void HandleListViewRefreshing(object sender, EventArgs e)
-		{
-			ViewModel?.RefreshAllDataCommand?.Execute(true);
-		}
+                _listView.EndRefresh();
+            });
+        }
 
-		async void HandleAddButtonClicked(object sender, EventArgs e)
-		{
-			await Navigation?.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
-		}
+        void HandlePullToRefreshDataCompleted(object sender, EventArgs e)=>
+            Device.BeginInvokeOnMainThread(_listView.EndRefresh);
 
-		void HandleWelcomeViewDisappearing(object sender, EventArgs e)
-		{
-			_welcomeView?.HideView();
-		}
+        async void HandleAddButtonClicked(object sender, EventArgs e) =>
+            await Navigation?.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
 
-		void DisplayWelcomeView()
-		{
-			if (!(Settings.ShouldShowWelcomeView))
-				return;
+        void HandleWelcomeViewDisappearing(object sender, EventArgs e) => _welcomeView?.HideView();
 
-			Device.BeginInvokeOnMainThread(() =>
-			{
-				_welcomeView = new WelcomeView();
+        void DisplayWelcomeView()
+        {
+            if (!(Settings.ShouldShowWelcomeView))
+                return;
 
-				_mainLayout?.Children?.Add(_welcomeView,
-				   Constraint.Constant(0),
-				   Constraint.Constant(0)
-				);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                _welcomeView = new WelcomeView();
 
-				_welcomeView?.ShowView(true);
-			});
-		}
-		#endregion
-	}
+                _mainLayout?.Children?.Add(_welcomeView,
+                   Constraint.Constant(0),
+                   Constraint.Constant(0));
+
+                _welcomeView?.ShowView(true);
+            });
+        }
+        #endregion
+    }
 }
 
