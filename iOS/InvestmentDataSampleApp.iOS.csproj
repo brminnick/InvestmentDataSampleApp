@@ -156,7 +156,6 @@
     <Compile Include="Database\SQLite_iOS.cs" />
     <Compile Include="CustomRenderers\OpportunitiesViewCellCustomRenderer.cs" />
     <Compile Include="CustomRenderers\AddOpportunityPageCustomRenderer.cs" />
-    <Compile Include="Helpers\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\beaconfundingicon.png" />
