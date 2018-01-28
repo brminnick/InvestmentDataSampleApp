@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Folder Include="Constants\" />
+	  <Folder Include="Data\" />
+	  <Folder Include="Helpers\" />
+	  <Folder Include="Models\" />
+	  <Folder Include="Pages\" />
+	  <Folder Include="Services\" />
+	  <Folder Include="ViewModels\" />
+	  <Folder Include="Views\" />
+	  <Folder Include="Views\OpportunityDetails\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\InvestmentDataSampleApp.Constants\InvestmentDataSampleApp.Constants.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Xam.Plugin.DeviceMotion" Version="1.1.2" />
+	  <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
+	  <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+	  <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.4.0" />
+	  <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
+	  <PackageReference Include="Xam.Plugins.Forms.CustomReturnEntry" Version="3.3.0" />
+	</ItemGroup>
+</Project>
