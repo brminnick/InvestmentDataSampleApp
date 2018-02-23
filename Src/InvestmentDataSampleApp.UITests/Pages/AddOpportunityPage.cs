@@ -3,7 +3,7 @@
 using Xamarin.UITest;
 using Xamarin.UITest.iOS;
 
-using InvestmentDataSampleApp.Constants;
+using InvestmentDataSampleApp.Shared;
 
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 

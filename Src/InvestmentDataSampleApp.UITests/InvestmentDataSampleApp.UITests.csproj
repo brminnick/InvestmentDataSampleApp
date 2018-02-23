@@ -32,7 +32,7 @@
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.UITest">
-      <HintPath>..\packages\Xamarin.UITest.2.2.2\lib\net45\Xamarin.UITest.dll</HintPath>
+      <HintPath>..\packages\Xamarin.UITest.2.2.3\lib\net45\Xamarin.UITest.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -66,10 +66,7 @@
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\InvestmentDataSampleApp.Constants\InvestmentDataSampleApp.Constants.csproj">
-      <Project>{DC4377DA-B30C-492F-BC51-57C496A39D0E}</Project>
-      <Name>InvestmentDataSampleApp.Constants</Name>
-    </ProjectReference>
   </ItemGroup>
+  <Import Project="..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

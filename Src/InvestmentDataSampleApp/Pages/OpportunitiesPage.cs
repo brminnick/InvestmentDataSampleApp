@@ -2,7 +2,7 @@
 
 using Xamarin.Forms;
 
-using InvestmentDataSampleApp.Constants;
+using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp
 {

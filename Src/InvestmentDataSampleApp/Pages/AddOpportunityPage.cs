@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-using InvestmentDataSampleApp.Constants;
+using InvestmentDataSampleApp.Shared;
 
 using EntryCustomReturn.Forms.Plugin.Abstractions;
 

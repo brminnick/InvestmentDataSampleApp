@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 using Xamarin.UITest;
 
-using InvestmentDataSampleApp.Constants;
+using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp.UITests
 {
@@ -23,8 +23,8 @@ namespace InvestmentDataSampleApp.UITests
         public void ViewOpportunity()
         {
             //Arrange
-            var searchString = "05";
-            var opportunityTopic = "715005 / Investment Data Corp";
+            const string searchString = "05";
+            const string opportunityTopic = "715005 / Investment Data Corp";
 
             //Act
             OpportunitiesPage.Search(searchString);
@@ -39,7 +39,7 @@ namespace InvestmentDataSampleApp.UITests
         public async Task DeleteOpportunity()
         {
             //Arrange
-            var opportunityTopic = "715003 / Investment Data Corp";
+            const string opportunityTopic = "715003 / Investment Data Corp";
 
             //Act
             OpportunitiesPage.DeleteViewCell(opportunityTopic);
@@ -68,11 +68,11 @@ namespace InvestmentDataSampleApp.UITests
         public void AddNewOpportunity(bool shouldUseKeyboardReturnButton)
         {
             //Arrange
-            var topicText = "714999 / Investment Data Corp";
-            var companyText = "Test Company";
-            var leaseAmount = 123456789;
-            var ownerText = "Test Owner";
-            var dbaText = "Test DBA";
+            const string topicText = "714999 / Investment Data Corp";
+            const string companyText = "Test Company";
+            const int leaseAmount = 123456789;
+            const string ownerText = "Test Owner";
+            const string dbaText = "Test DBA";
 
             //Act
             OpportunitiesPage.TapAddOpportunityButton();
@@ -94,11 +94,11 @@ namespace InvestmentDataSampleApp.UITests
         public void CancelAddNewOpportunity()
         {
             //Arrange
-            var topicText = "Test Topic";
-            var companyText = "Test Company";
-            var leaseAmount = 123456789;
-            var ownerText = "Test Owner";
-            var dbaText = "Test DBA";
+            const string topicText = "Test Topic";
+            const string companyText = "Test Company";
+            const int leaseAmount = 123456789;
+            const string ownerText = "Test Owner";
+            const string dbaText = "Test DBA";
 
             //Act
             OpportunitiesPage.TapAddOpportunityButton();
