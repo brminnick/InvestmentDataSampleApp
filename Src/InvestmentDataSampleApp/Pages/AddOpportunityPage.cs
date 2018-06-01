@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
 using InvestmentDataSampleApp.Shared;
-
-using EntryCustomReturn.Forms.Plugin.Abstractions;
 
 namespace InvestmentDataSampleApp
 {
@@ -17,8 +14,7 @@ namespace InvestmentDataSampleApp
         const string _cancelToolBarItemText = "Cancel";
         const int _relativeLayoutSpacing = 5;
         readonly ToolbarItem _cancelButtonToolBarItem;
-        readonly CustomReturnEntry _topicEntry, _companyEntry, _leaseAmountEntry, _ownerEntry;
-        readonly Entry _dbaEntry;
+		readonly Entry _topicEntry, _companyEntry, _leaseAmountEntry, _ownerEntry, _dbaEntry;
         #endregion
 
         #region Constructors
@@ -30,7 +26,7 @@ namespace InvestmentDataSampleApp
                 Text = "Topic"
             };
 
-            _topicEntry = new CustomReturnEntry
+            _topicEntry = new Entry
             {
                 ReturnType = ReturnType.Next,
                 AutomationId = AutomationIdConstants.TopicEntry,
@@ -45,7 +41,7 @@ namespace InvestmentDataSampleApp
                 Text = "Company"
             };
 
-            _companyEntry = new CustomReturnEntry
+            _companyEntry = new Entry
             {
                 ReturnType = ReturnType.Next,
                 AutomationId = AutomationIdConstants.CompanyEntry,
@@ -60,13 +56,13 @@ namespace InvestmentDataSampleApp
                 Text = "DBA"
             };
 
-            _dbaEntry = new CustomReturnEntry
+            _dbaEntry = new Entry
             {
                 AutomationId = AutomationIdConstants.DBAEntry,
                 ReturnType = ReturnType.Go
             };
             _dbaEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.DBA));
-            _dbaEntry.SetBinding(CustomReturnEntry.ReturnCommandProperty, nameof(ViewModel.SaveButtonTapped));
+            _dbaEntry.SetBinding(Entry.ReturnCommandProperty, nameof(ViewModel.SaveButtonTapped));
             #endregion
 
             #region Create LeaseAmount Controls
@@ -75,7 +71,7 @@ namespace InvestmentDataSampleApp
                 Text = "Lease Amount"
             };
 
-            _leaseAmountEntry = new CustomReturnEntry
+            _leaseAmountEntry = new Entry
             {
                 ReturnType = ReturnType.Next,
                 AutomationId = AutomationIdConstants.LeaseAmountEntry,
@@ -92,7 +88,7 @@ namespace InvestmentDataSampleApp
                 Text = "Owner"
             };
 
-            _ownerEntry = new CustomReturnEntry
+            _ownerEntry = new Entry
             {
                 ReturnType = ReturnType.Next,
                 AutomationId = AutomationIdConstants.OwnerEntry,
