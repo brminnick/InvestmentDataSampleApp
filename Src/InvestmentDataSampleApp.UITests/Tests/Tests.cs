@@ -17,7 +17,7 @@ namespace InvestmentDataSampleApp.UITests
         }
 
         [Test]
-        public void SmokeTest() => App.Screenshot("First screen");
+        public void AppLaunches() => App.Screenshot("First screen");
 
         [Test]
         public void ViewOpportunity()
@@ -58,8 +58,9 @@ namespace InvestmentDataSampleApp.UITests
             OpportunitiesPage.TapAddOpportunityButton();
 
             AddOpportunityPage.TapSaveButton();
-
+            AddOpportunityPage.WaitForErrorMessage();
             //Assert
+
             Assert.IsTrue(AddOpportunityPage.IsErrorMessageDisplayed);
         }
 

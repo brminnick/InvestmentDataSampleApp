@@ -5,16 +5,23 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 
 namespace InvestmentDataSampleApp
 {
     public class OpportunitiesViewModel : BaseViewModel
     {
+        #region Constant Fields
+        readonly WeakEventManager _okButtonTappedEventManager = new WeakEventManager();
+        readonly WeakEventManager _pullToRefreshDataCompletedEventManager = new WeakEventManager();
+        #endregion
+
         #region Fields
+        bool _isListViewRefreshing;
         string _searchBarText;
         IList<OpportunityModel> _allOpportunitiesData, _viewableOpportunitiesData;
-        Command<string> _filterTextEnteredCommand;
-        ICommand _refreshAllDataCommand, _okButtonTappedCommand;
+        ICommand _refreshAllDataCommand, _okButtonTappedCommand, _filterTextEnteredCommand;
         #endregion
 
         #region Constructors
@@ -32,20 +39,22 @@ namespace InvestmentDataSampleApp
         #endregion
 
         #region Events
-        public event EventHandler OkButtonTapped;
-        public event EventHandler PullToRefreshDataCompleted;
+        public event EventHandler OkButtonTapped
+        {
+            add { _okButtonTappedEventManager.AddEventHandler(nameof(OkButtonTapped), value); }
+            remove { _okButtonTappedEventManager.RemoveEventHandler(nameof(OkButtonTapped), value); }
+        }
         #endregion
 
         #region Properties
         public ICommand OkButtonTappedCommand => _okButtonTappedCommand ??
             (_okButtonTappedCommand = new Command(ExecuteOkButtonTapped));
 
-        public Command<string> FilterTextEnteredCommand => _filterTextEnteredCommand ??
+        public ICommand FilterTextEnteredCommand => _filterTextEnteredCommand ??
             (_filterTextEnteredCommand = new Command<string>(ExecuteFilterTextEnteredCommand));
 
         public ICommand RefreshAllDataCommand => _refreshAllDataCommand ??
-            (_refreshAllDataCommand = new Command(async () =>
-                                                        await ExecuteRefreshAllDataCommand().ConfigureAwait(false)));
+            (_refreshAllDataCommand = new AsyncCommand(ExecuteRefreshAllDataCommand, continueOnCapturedContext: false));
 
         public string SearchBarText
         {
@@ -63,6 +72,12 @@ namespace InvestmentDataSampleApp
         {
             get => _viewableOpportunitiesData;
             set => SetProperty(ref _viewableOpportunitiesData, value);
+        }
+
+        public bool IsListViewRefreshing
+        {
+            get => _isListViewRefreshing;
+            set => SetProperty(ref _isListViewRefreshing, value);
         }
         #endregion
 
@@ -133,13 +148,20 @@ namespace InvestmentDataSampleApp
 
         async Task ExecuteRefreshAllDataCommand()
         {
-            var minimumRefreshTimeTask = Task.Delay(1000);
+            IsListViewRefreshing = true;
 
-            await RefreshOpportunitiesDataAsync().ConfigureAwait(false);
+            try
+            {
+                var minimumRefreshTimeTask = Task.Delay(1000);
 
-            await minimumRefreshTimeTask;
+                await RefreshOpportunitiesDataAsync().ConfigureAwait(false);
 
-            OnPullToRefreshDataCompleted();
+                await minimumRefreshTimeTask;
+            }
+            finally
+            {
+                IsListViewRefreshing = false;
+            }
         }
 
         void ExecuteFilterTextEnteredCommand(string filterText) => FilterList(filterText);
@@ -147,18 +169,14 @@ namespace InvestmentDataSampleApp
         void ExecuteOkButtonTapped()
         {
             OnOkButtonTapped();
-
             Settings.ShouldShowWelcomeView = false;
         }
 
         async Task RefreshOpportunitiesDataAsync() =>
             AllOpportunitiesData = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest().ConfigureAwait(false);
 
-        void OnPullToRefreshDataCompleted() =>
-            PullToRefreshDataCompleted?.Invoke(this, EventArgs.Empty);
-
         void OnOkButtonTapped() =>
-            OkButtonTapped?.Invoke(this, EventArgs.Empty);
+             _okButtonTappedEventManager?.HandleEvent(this, EventArgs.Empty, nameof(OkButtonTapped));
         #endregion
     }
 }

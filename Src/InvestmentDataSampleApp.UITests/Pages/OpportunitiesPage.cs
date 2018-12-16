@@ -84,6 +84,8 @@ namespace InvestmentDataSampleApp.UITests
             }
         }
 
+        public void WaitForNoWelcomeView() => App.WaitForNoElement(_welcomeViewOkButton);
+
         bool IsWelcomeViewOnScreen(int timeoutInSeconds = 10)
         {
             try

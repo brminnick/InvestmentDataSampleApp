@@ -14,12 +14,15 @@ namespace InvestmentDataSampleApp
         const string _cancelToolBarItemText = "Cancel";
         const int _relativeLayoutSpacing = 5;
         readonly ToolbarItem _cancelButtonToolBarItem;
-		readonly Entry _topicEntry, _companyEntry, _leaseAmountEntry, _ownerEntry, _dbaEntry;
+        readonly Entry _topicEntry, _companyEntry, _leaseAmountEntry, _ownerEntry, _dbaEntry;
         #endregion
 
         #region Constructors
         public AddOpportunityPage()
         {
+            ViewModel.SaveError += HandleSaveError;
+            ViewModel.SaveToDatabaseCompleted += HandleCancelButtonTapped;
+
             #region Create Topic Controls
             var topicLabel = new Label
             {
@@ -101,49 +104,39 @@ namespace InvestmentDataSampleApp
             var mainLayout = new RelativeLayout();
             mainLayout.Children.Add(topicLabel,
                    Constraint.Constant(0),
-                   Constraint.Constant(0)
-               );
+                   Constraint.Constant(0));
             mainLayout.Children.Add(_topicEntry,
                 Constraint.Constant(0),
                 Constraint.RelativeToView(topicLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width)
-               );
+                Constraint.RelativeToParent((parent) => parent.Width));
             mainLayout.Children.Add(companyLabel,
                 Constraint.Constant(0),
-                Constraint.RelativeToView(_topicEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing)
-               );
+                Constraint.RelativeToView(_topicEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing));
             mainLayout.Children.Add(_companyEntry,
                 Constraint.Constant(0),
                 Constraint.RelativeToView(companyLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width)
-               );
+                Constraint.RelativeToParent((parent) => parent.Width));
             mainLayout.Children.Add(leaseAmountLabel,
                 Constraint.Constant(0),
-                Constraint.RelativeToView(_companyEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing)
-               );
+                Constraint.RelativeToView(_companyEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing));
             mainLayout.Children.Add(_leaseAmountEntry,
                 Constraint.Constant(0),
                 Constraint.RelativeToView(leaseAmountLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width)
-               );
+                Constraint.RelativeToParent((parent) => parent.Width));
             mainLayout.Children.Add(ownerLabel,
                 Constraint.Constant(0),
-                Constraint.RelativeToView(_leaseAmountEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing)
-              );
+                Constraint.RelativeToView(_leaseAmountEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing));
             mainLayout.Children.Add(_ownerEntry,
                 Constraint.Constant(0),
                 Constraint.RelativeToView(ownerLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width)
-               );
+                Constraint.RelativeToParent((parent) => parent.Width));
             mainLayout.Children.Add(dbaLabel,
                 Constraint.Constant(0),
-                Constraint.RelativeToView(_ownerEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing)
-               );
+                Constraint.RelativeToView(_ownerEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing));
             mainLayout.Children.Add(_dbaEntry,
                 Constraint.Constant(0),
                 Constraint.RelativeToView(dbaLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width)
-               );
+                Constraint.RelativeToParent((parent) => parent.Width));
             #endregion
 
             #region Create Save Button
@@ -164,6 +157,7 @@ namespace InvestmentDataSampleApp
                 Priority = 1,
                 AutomationId = AutomationIdConstants.CancelButton
             };
+            _cancelButtonToolBarItem.Clicked += HandleCancelButtonTapped;
             ToolbarItems.Add(_cancelButtonToolBarItem);
             #endregion
 
@@ -176,20 +170,6 @@ namespace InvestmentDataSampleApp
         #endregion
 
         #region Methods
-        protected override void SubscribeEventHandlers()
-        {
-            _cancelButtonToolBarItem.Clicked += HandleCancelButtonTapped;
-            ViewModel.SaveError += HandleSaveError;
-            ViewModel.SaveToDatabaseCompleted += HandleCancelButtonTapped;
-        }
-
-        protected override void UnsubscribeEventHandlers()
-        {
-            _cancelButtonToolBarItem.Clicked -= HandleCancelButtonTapped;
-            ViewModel.SaveError -= HandleSaveError;
-            ViewModel.SaveToDatabaseCompleted -= HandleCancelButtonTapped;
-        }
-
         void HandleSaveError(object sender, EventArgs e)
         {
             var opportunityViewModel = sender as AddOpportunityViewModel;

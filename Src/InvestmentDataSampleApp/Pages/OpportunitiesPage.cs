@@ -15,31 +15,35 @@ namespace InvestmentDataSampleApp
 
         #region Fields
         ListView _listView;
-        ToolbarItem _addButtonToolBar;
         WelcomeView _welcomeView;
         #endregion
 
         #region Constructors
         public OpportunitiesPage()
         {
+            ViewModel.OkButtonTapped += HandleWelcomeViewDisappearing;
+
             #region Create the ListView
             _listView = new ListView
             {
                 ItemTemplate = new DataTemplate(typeof(OpportunitiesViewCell)),
-                RowHeight = 75
+                RowHeight = 75,
+                IsPullToRefreshEnabled = true
             };
-            _listView.IsPullToRefreshEnabled = true;
+            _listView.ItemSelected += HandleListViewItemSelected;
             _listView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.ViewableOpportunitiesData));
             _listView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshAllDataCommand));
+            _listView.SetBinding(ListView.IsRefreshingProperty, nameof(ViewModel.IsListViewRefreshing));
             #endregion
 
             #region Initialize the Toolbar Add Button
-            _addButtonToolBar = new ToolbarItem
+            var addButtonToolBar = new ToolbarItem
             {
                 Icon = "Add",
                 AutomationId = AutomationIdConstants.AddOpportunityButton
             };
-            ToolbarItems.Add(_addButtonToolBar);
+            addButtonToolBar.Clicked += HandleAddButtonClicked;
+            ToolbarItems.Add(addButtonToolBar);
             #endregion
 
             #region Create Searchbar
@@ -52,19 +56,15 @@ namespace InvestmentDataSampleApp
 
             _mainLayout = new RelativeLayout();
 
-            Func<RelativeLayout, double> getSearchBarHeight = (p) => _searchBar.Measure(p.Width, p.Height).Request.Height;
-
             _mainLayout.Children.Add(_searchBar,
                 Constraint.Constant(0),
                 Constraint.Constant(0),
-                 Constraint.RelativeToParent(parent => parent.Width)
-            );
+                 Constraint.RelativeToParent(parent => parent.Width));
             _mainLayout.Children.Add(_listView,
                 Constraint.Constant(0),
                 Constraint.RelativeToParent(parent => getSearchBarHeight(parent)),
                 Constraint.RelativeToParent(parent => parent.Width),
-                Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent))
-               );
+                Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent)));
 
             Title = PageTitleConstants.OpportunitiesPageTitle;
 
@@ -73,6 +73,8 @@ namespace InvestmentDataSampleApp
             Content = _mainLayout;
 
             DisplayWelcomeView();
+
+            double getSearchBarHeight(RelativeLayout p) => _searchBar.Measure(p.Width, p.Height).Request.Height;
         }
 
         #endregion
@@ -85,22 +87,6 @@ namespace InvestmentDataSampleApp
             _listView.BeginRefresh();
         }
 
-        protected override void SubscribeEventHandlers()
-        {
-            ViewModel.PullToRefreshDataCompleted += HandlePullToRefreshDataCompleted;
-            ViewModel.OkButtonTapped += HandleWelcomeViewDisappearing;
-            _listView.ItemSelected += HandleListViewItemSelected;
-            _addButtonToolBar.Clicked += HandleAddButtonClicked;
-        }
-
-        protected override void UnsubscribeEventHandlers()
-        {
-            ViewModel.PullToRefreshDataCompleted -= HandlePullToRefreshDataCompleted;
-            ViewModel.OkButtonTapped -= HandleWelcomeViewDisappearing;
-            _listView.ItemSelected -= HandleListViewItemSelected;
-            _addButtonToolBar.Clicked -= HandleAddButtonClicked;
-        }
-
         void HandleListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () =>
@@ -109,14 +95,9 @@ namespace InvestmentDataSampleApp
 
                 await Navigation?.PushAsync(new OpportunityDetailsPage(itemSelected));
 
-				_listView.SelectedItem = null;
-
-                _listView.EndRefresh();
+                _listView.SelectedItem = null;
             });
         }
-
-        void HandlePullToRefreshDataCompleted(object sender, EventArgs e)=>
-            Device.BeginInvokeOnMainThread(_listView.EndRefresh);
 
         async void HandleAddButtonClicked(object sender, EventArgs e) =>
             await Navigation?.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
@@ -125,7 +106,7 @@ namespace InvestmentDataSampleApp
 
         void DisplayWelcomeView()
         {
-            if (!(Settings.ShouldShowWelcomeView))
+            if (!Settings.ShouldShowWelcomeView)
                 return;
 
             Device.BeginInvokeOnMainThread(() =>

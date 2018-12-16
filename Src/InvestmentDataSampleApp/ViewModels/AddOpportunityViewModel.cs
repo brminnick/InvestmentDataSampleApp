@@ -2,12 +2,18 @@
 using System.Windows.Input;
 using System.Threading.Tasks;
 
-using Xamarin.Forms;
+using AsyncAwaitBestPractices.MVVM;
+using AsyncAwaitBestPractices;
 
 namespace InvestmentDataSampleApp
 {
     public class AddOpportunityViewModel : BaseViewModel
     {
+        #region Constant Fields
+        readonly WeakEventManager _saveErrorEventManager = new WeakEventManager();
+        readonly WeakEventManager _saveToDatabaseCompleted = new WeakEventManager();
+        #endregion
+
         #region Fields
         string _topic, _company, _dba, _owner;
         long _leaseAmount;
@@ -17,13 +23,22 @@ namespace InvestmentDataSampleApp
         #endregion
 
         #region Events
-        public event EventHandler SaveError;
-        public event EventHandler SaveToDatabaseCompleted;
+        public event EventHandler SaveError
+        {
+            add => _saveErrorEventManager.AddEventHandler(nameof(SaveError), value);
+            remove => _saveErrorEventManager.RemoveEventHandler(nameof(SaveError), value);
+        }
+
+        public event EventHandler SaveToDatabaseCompleted
+        {
+            add => _saveToDatabaseCompleted.AddEventHandler(nameof(SaveToDatabaseCompleted), value);
+            remove => _saveToDatabaseCompleted.RemoveEventHandler(nameof(SaveToDatabaseCompleted), value);
+        }
         #endregion
 
         #region Properties
         public ICommand SaveButtonTapped => _saveButtonTapped ??
-            (_saveButtonTapped = new Command(async () => await ExecuteSaveButtonTapped().ConfigureAwait(false)));
+            (_saveButtonTapped = new AsyncCommand(ExecuteSaveButtonTapped, continueOnCapturedContext: false));
 
         public string Topic
         {
@@ -98,10 +113,10 @@ namespace InvestmentDataSampleApp
         }
 
         void OnSaveError() =>
-            SaveError?.Invoke(this, EventArgs.Empty);
+            _saveErrorEventManager?.HandleEvent(this, EventArgs.Empty, nameof(SaveError));
 
         void OnSaveToDatabaseCompleted() =>
-            SaveToDatabaseCompleted?.Invoke(this, EventArgs.Empty);
+            _saveToDatabaseCompleted?.HandleEvent(this, EventArgs.Empty, nameof(SaveToDatabaseCompleted));
     }
 }
 

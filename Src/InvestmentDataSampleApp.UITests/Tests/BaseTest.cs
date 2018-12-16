@@ -34,7 +34,10 @@ namespace InvestmentDataSampleApp.UITests
             App.Screenshot("App Launched");
 
             if (OpportunitiesPage.IsWelcomeViewVisible)
+            {
                 OpportunitiesPage.TapWelcomeViewOkButton();
+                OpportunitiesPage.WaitForNoWelcomeView();
+            }
         }
         #endregion
     }

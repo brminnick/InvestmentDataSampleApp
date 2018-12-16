@@ -70,6 +70,8 @@ namespace InvestmentDataSampleApp.UITests
             App.Screenshot("Tapped Cancel Button");
         }
 
+        public void WaitForErrorMessage() => App.WaitForElement("OK");
+
         void PopulateAllFieldsByTappingEachEntry(string topicText, string companyText, int leaseAmount, string ownerText, string dbaText)
         {
             EnterTextThenDismissKeyboard(_topicEntry, topicText);
