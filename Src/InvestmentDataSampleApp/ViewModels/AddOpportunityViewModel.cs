@@ -25,14 +25,14 @@ namespace InvestmentDataSampleApp
         #region Events
         public event EventHandler SaveError
         {
-            add => _saveErrorEventManager.AddEventHandler(nameof(SaveError), value);
-            remove => _saveErrorEventManager.RemoveEventHandler(nameof(SaveError), value);
+            add => _saveErrorEventManager.AddEventHandler(value);
+            remove => _saveErrorEventManager.RemoveEventHandler(value);
         }
 
         public event EventHandler SaveToDatabaseCompleted
         {
-            add => _saveToDatabaseCompleted.AddEventHandler(nameof(SaveToDatabaseCompleted), value);
-            remove => _saveToDatabaseCompleted.RemoveEventHandler(nameof(SaveToDatabaseCompleted), value);
+            add => _saveToDatabaseCompleted.AddEventHandler(value);
+            remove => _saveToDatabaseCompleted.RemoveEventHandler(value);
         }
         #endregion
 

@@ -41,8 +41,8 @@ namespace InvestmentDataSampleApp
         #region Events
         public event EventHandler OkButtonTapped
         {
-            add { _okButtonTappedEventManager.AddEventHandler(nameof(OkButtonTapped), value); }
-            remove { _okButtonTappedEventManager.RemoveEventHandler(nameof(OkButtonTapped), value); }
+            add => _okButtonTappedEventManager.AddEventHandler(value);
+            remove => _okButtonTappedEventManager.RemoveEventHandler(value);
         }
         #endregion
 
