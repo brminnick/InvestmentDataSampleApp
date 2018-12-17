@@ -14,7 +14,6 @@ namespace InvestmentDataSampleApp
     {
         #region Constant Fields
         readonly WeakEventManager _okButtonTappedEventManager = new WeakEventManager();
-        readonly WeakEventManager _pullToRefreshDataCompletedEventManager = new WeakEventManager();
         #endregion
 
         #region Fields

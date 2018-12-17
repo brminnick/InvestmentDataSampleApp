@@ -20,7 +20,7 @@
 	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.11" />
 	  <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
 	  <PackageReference Include="Xamarin.Essentials" Version="1.0.0" />
-	  <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="1.1.0" />
+	  <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="1.2.1" />
 	</ItemGroup>
 	<Import Project="..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems')" />
 </Project>
