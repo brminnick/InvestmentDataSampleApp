@@ -16,11 +16,11 @@
 	<ItemGroup>
 	  <PackageReference Include="Xam.Plugin.DeviceMotion" Version="1.1.2" />
 	  <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
-	  <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
-	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.11" />
-	  <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+	  <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
+	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.12" />
+	  <PackageReference Include="Xamarin.Forms" Version="3.4.0.1009999" />
 	  <PackageReference Include="Xamarin.Essentials" Version="1.0.0" />
-	  <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="1.2.1" />
+	  <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.0" />
 	</ItemGroup>
 	<Import Project="..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems')" />
 </Project>

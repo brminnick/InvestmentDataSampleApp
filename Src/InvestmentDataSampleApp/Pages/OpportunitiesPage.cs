@@ -30,7 +30,7 @@ namespace InvestmentDataSampleApp
                 RowHeight = 75,
                 IsPullToRefreshEnabled = true
             };
-            _listView.ItemSelected += HandleListViewItemSelected;
+            _listView.ItemTapped += HandleListViewItemTapped;
             _listView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.ViewableOpportunitiesData));
             _listView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshAllDataCommand));
             _listView.SetBinding(ListView.IsRefreshingProperty, nameof(ViewModel.IsListViewRefreshing));
@@ -87,13 +87,12 @@ namespace InvestmentDataSampleApp
             _listView.BeginRefresh();
         }
 
-        void HandleListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
+        void HandleListViewItemTapped(object sender, ItemTappedEventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                var itemSelected = e?.SelectedItem as OpportunityModel;
-
-                await Navigation?.PushAsync(new OpportunityDetailsPage(itemSelected));
+                if (e.Item is OpportunityModel itemTapped)
+                    await Navigation?.PushAsync(new OpportunityDetailsPage(itemTapped));
 
                 _listView.SelectedItem = null;
             });
