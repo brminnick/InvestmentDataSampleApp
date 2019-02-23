@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-	</PropertyGroup>
-	<ItemGroup>
-	  <Folder Include="Constants\" />
-	  <Folder Include="Data\" />
-	  <Folder Include="Models\" />
-	  <Folder Include="Pages\" />
-	  <Folder Include="Services\" />
-	  <Folder Include="ViewModels\" />
-	  <Folder Include="Views\" />
-	  <Folder Include="Views\OpportunityDetails\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="Xam.Plugin.DeviceMotion" Version="1.1.2" />
-	  <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
-	  <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
-	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.12" />
-	  <PackageReference Include="Xamarin.Forms" Version="3.4.0.1009999" />
-	  <PackageReference Include="Xamarin.Essentials" Version="1.0.0" />
-	  <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.0" />
-	</ItemGroup>
-	<Import Project="..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems')" />
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <Folder Include="Constants\" />
+        <Folder Include="Data\" />
+        <Folder Include="Models\" />
+        <Folder Include="Pages\" />
+        <Folder Include="Services\" />
+        <Folder Include="ViewModels\" />
+        <Folder Include="Views\" />
+        <Folder Include="Views\OpportunityDetails\" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Xam.Plugin.DeviceMotion" Version="1.1.2" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
+        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.13" />
+        <PackageReference Include="Xamarin.Forms" Version="3.5.0.169047" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.0.1" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.0" />
+    </ItemGroup>
+    <Import Project="..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems')" />
 </Project>

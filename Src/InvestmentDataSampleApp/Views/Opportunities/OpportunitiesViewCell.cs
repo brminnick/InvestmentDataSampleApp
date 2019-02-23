@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -97,6 +97,7 @@ namespace InvestmentDataSampleApp
                 Text = "Delete",
                 IsDestructive = true
             };
+            _deleteAction.Clicked += HandleDeleteActionClicked;
             ContextActions.Add(_deleteAction);
             #endregion
 
@@ -142,40 +143,22 @@ namespace InvestmentDataSampleApp
             View = cellStack;
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            _deleteAction.Clicked += HandleDeleteActionClicked;
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            _deleteAction.Clicked -= HandleDeleteActionClicked;
-        }
-
         async void HandleDeleteActionClicked(object sender, EventArgs e)
         {
-            var menuItem = (MenuItem)sender;
-            var selectedModel = menuItem.BindingContext as OpportunityModel;
-
-            await OpportunityModelDatabase.DeleteItemAsync(selectedModel).ConfigureAwait(false);
-
-            //Wait for the iOS animation to finish
-            switch (Device.RuntimePlatform)
+            if (sender is MenuItem menuItem && menuItem.BindingContext is OpportunityModel selectedModel)
             {
-                case Device.iOS:
+                await OpportunityModelDatabase.DeleteItemAsync(selectedModel).ConfigureAwait(false);
+
+                //Wait for the iOS animation to finish
+                if (Device.RuntimePlatform is Device.iOS)
                     await Task.Delay(250).ConfigureAwait(false);
-                    break;
+
+                var navigationPage = Application.Current.MainPage as ShakeListenerNavigationPage;
+                var opportunitiesPage = navigationPage?.CurrentPage as OpportunitiesPage;
+                var opportunitiesViewModel = opportunitiesPage?.BindingContext as OpportunitiesViewModel;
+
+                opportunitiesViewModel?.RefreshAllDataCommand?.Execute(null);
             }
-
-            var navigationPage = Application.Current.MainPage as ShakeListenerNavigationPage;
-            var opportunitiesPage = navigationPage.CurrentPage as OpportunitiesPage;
-            var opportunitiesViewModel = opportunitiesPage.BindingContext as OpportunitiesViewModel;
-
-            opportunitiesViewModel.RefreshAllDataCommand?.Execute(null);
         }
     }
 }

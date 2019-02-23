@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -21,20 +21,6 @@ namespace InvestmentDataSampleApp
         string _searchBarText;
         IList<OpportunityModel> _allOpportunitiesData, _viewableOpportunitiesData;
         ICommand _refreshAllDataCommand, _okButtonTappedCommand, _filterTextEnteredCommand;
-        #endregion
-
-        #region Constructors
-        public OpportunitiesViewModel()
-        {
-            Task.Run(async () =>
-            {
-                // If the database is empty, initialize the database with dummy data
-                if (await OpportunityModelDatabase.GetNumberOfRowsAsync().ConfigureAwait(false) < 20)
-                    await InitializeDataInDatabaseAsync().ConfigureAwait(false);
-
-                await RefreshOpportunitiesDataAsync().ConfigureAwait(false);
-            });
-        }
         #endregion
 
         #region Events
@@ -139,7 +125,7 @@ namespace InvestmentDataSampleApp
                 newOpportunity.LeaseAmount = leaseAmount;
                 newOpportunity.SalesStage = salesStage;
                 newOpportunity.Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}";
-                newOpportunity.CreatedAt = new DateTimeOffset(yearIndex, monthIndex, dayIndex, 0, 0, 0, default(TimeSpan));
+                newOpportunity.CreatedAt = new DateTimeOffset(yearIndex, monthIndex, dayIndex, 0, 0, 0, default);
 
                 await OpportunityModelDatabase.SaveOpportunityAsync(newOpportunity).ConfigureAwait(false);
             }
@@ -153,9 +139,18 @@ namespace InvestmentDataSampleApp
             {
                 var minimumRefreshTimeTask = Task.Delay(1000);
 
-                await RefreshOpportunitiesDataAsync().ConfigureAwait(false);
+                var opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest().ConfigureAwait(false);
 
-                await minimumRefreshTimeTask;
+                // If the database is empty, initialize the database with dummy data
+                if (!opportunityModelsFromDatabase.Any())
+                {
+                    await InitializeDataInDatabaseAsync().ConfigureAwait(false);
+                    opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest().ConfigureAwait(false);
+                }
+
+                AllOpportunitiesData = opportunityModelsFromDatabase;
+
+                await minimumRefreshTimeTask.ConfigureAwait(false);
             }
             finally
             {
@@ -171,11 +166,8 @@ namespace InvestmentDataSampleApp
             Settings.ShouldShowWelcomeView = false;
         }
 
-        async Task RefreshOpportunitiesDataAsync() =>
-            AllOpportunitiesData = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest().ConfigureAwait(false);
-
         void OnOkButtonTapped() =>
-             _okButtonTappedEventManager?.HandleEvent(this, EventArgs.Empty, nameof(OkButtonTapped));
+             _okButtonTappedEventManager.HandleEvent(this, EventArgs.Empty, nameof(OkButtonTapped));
         #endregion
     }
 }

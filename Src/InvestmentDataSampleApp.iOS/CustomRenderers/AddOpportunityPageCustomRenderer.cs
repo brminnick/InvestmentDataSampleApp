@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using UIKit;
 
@@ -14,7 +14,6 @@ namespace InvestmentDataSampleApp.iOS
 {
 	public class AddOpportunityPageCustomRenderer : PageRenderer
 	{
-
 		public override void ViewWillAppear(bool animated)
 		{
 			base.ViewWillAppear(animated);

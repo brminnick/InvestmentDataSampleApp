@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Input;
 using System.Threading.Tasks;
 
@@ -113,10 +113,10 @@ namespace InvestmentDataSampleApp
         }
 
         void OnSaveError() =>
-            _saveErrorEventManager?.HandleEvent(this, EventArgs.Empty, nameof(SaveError));
+            _saveErrorEventManager.HandleEvent(this, EventArgs.Empty, nameof(SaveError));
 
         void OnSaveToDatabaseCompleted() =>
-            _saveToDatabaseCompleted?.HandleEvent(this, EventArgs.Empty, nameof(SaveToDatabaseCompleted));
+            _saveToDatabaseCompleted.HandleEvent(this, EventArgs.Empty, nameof(SaveToDatabaseCompleted));
     }
 }
 

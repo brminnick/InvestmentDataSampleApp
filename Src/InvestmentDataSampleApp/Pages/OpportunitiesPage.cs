@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Xamarin.Forms;
 
@@ -10,11 +10,10 @@ namespace InvestmentDataSampleApp
     {
         #region Constant Fields
         readonly RelativeLayout _mainLayout;
-        readonly SearchBar _searchBar;
+        readonly ListView _listView;
         #endregion
 
         #region Fields
-        ListView _listView;
         WelcomeView _welcomeView;
         #endregion
 
@@ -47,16 +46,16 @@ namespace InvestmentDataSampleApp
             #endregion
 
             #region Create Searchbar
-            _searchBar = new SearchBar
+            var searchBar = new SearchBar
             {
                 AutomationId = AutomationIdConstants.OpportunitySearchBar
             };
-            _searchBar.SetBinding(SearchBar.TextProperty, nameof(ViewModel.SearchBarText));
+            searchBar.SetBinding(SearchBar.TextProperty, nameof(ViewModel.SearchBarText));
             #endregion
 
             _mainLayout = new RelativeLayout();
 
-            _mainLayout.Children.Add(_searchBar,
+            _mainLayout.Children.Add(searchBar,
                 Constraint.Constant(0),
                 Constraint.Constant(0),
                  Constraint.RelativeToParent(parent => parent.Width));
@@ -74,7 +73,7 @@ namespace InvestmentDataSampleApp
 
             DisplayWelcomeView();
 
-            double getSearchBarHeight(RelativeLayout p) => _searchBar.Measure(p.Width, p.Height).Request.Height;
+            double getSearchBarHeight(RelativeLayout p) => searchBar.Measure(p.Width, p.Height).Request.Height;
         }
 
         #endregion

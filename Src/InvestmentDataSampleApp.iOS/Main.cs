@@ -1,6 +1,4 @@
-﻿using UIKit;
-
-using Xamarin;
+using UIKit;
 
 namespace InvestmentDataSampleApp.iOS
 {

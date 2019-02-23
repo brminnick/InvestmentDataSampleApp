@@ -1,10 +1,10 @@
-﻿using Xamarin.Forms;
+using Xamarin.Forms;
 
 using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp
 {
-	public class OpportunityDetailsPage : ContentPage
+	class OpportunityDetailsPage : ContentPage
 	{
 		#region Constant Fields
 		const int _relativeLayoutSpacing = 5;
