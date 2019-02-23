@@ -23,7 +23,7 @@ namespace InvestmentDataSampleApp
             ViewModel.OkButtonTapped += HandleWelcomeViewDisappearing;
 
             #region Create the ListView
-            _listView = new ListView
+            _listView = new ListView(ListViewCachingStrategy.RecycleElement)
             {
                 ItemTemplate = new DataTemplate(typeof(OpportunitiesViewCell)),
                 RowHeight = 75,
