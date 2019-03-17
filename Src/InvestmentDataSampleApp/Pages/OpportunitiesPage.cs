@@ -61,7 +61,7 @@ namespace InvestmentDataSampleApp
                  Constraint.RelativeToParent(parent => parent.Width));
             _mainLayout.Children.Add(_listView,
                 Constraint.Constant(0),
-                Constraint.RelativeToParent(parent => getSearchBarHeight(parent)),
+                Constraint.RelativeToParent(getSearchBarHeight),
                 Constraint.RelativeToParent(parent => parent.Width),
                 Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent)));
 
@@ -91,7 +91,7 @@ namespace InvestmentDataSampleApp
             Device.BeginInvokeOnMainThread(async () =>
             {
                 if (e.Item is OpportunityModel itemTapped)
-                    await Navigation?.PushAsync(new OpportunityDetailsPage(itemTapped));
+                    await Navigation.PushAsync(new OpportunityDetailsPage(itemTapped));
 
                 _listView.SelectedItem = null;
             });
@@ -100,22 +100,31 @@ namespace InvestmentDataSampleApp
         async void HandleAddButtonClicked(object sender, EventArgs e) =>
             await Navigation?.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
 
-        void HandleWelcomeViewDisappearing(object sender, EventArgs e) => _welcomeView?.HideView();
+        async void HandleWelcomeViewDisappearing(object sender, EventArgs e)
+        {
+            await _welcomeView?.HideView();
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if (_mainLayout.Children.Contains(_welcomeView))
+                    _mainLayout.Children.Remove(_welcomeView);
+            });
+        }
 
         void DisplayWelcomeView()
         {
             if (!Settings.ShouldShowWelcomeView)
                 return;
 
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                _welcomeView = new WelcomeView();
+            _welcomeView = new WelcomeView();
 
+            Device.BeginInvokeOnMainThread(async () =>
+            {
                 _mainLayout?.Children?.Add(_welcomeView,
                    Constraint.Constant(0),
                    Constraint.Constant(0));
 
-                _welcomeView?.ShowView(true);
+                await _welcomeView?.ShowView();
             });
         }
         #endregion

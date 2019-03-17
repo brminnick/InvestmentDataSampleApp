@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
@@ -34,32 +33,35 @@ namespace InvestmentDataSampleApp
             _overlayFrame.Scale = 0;
 
             _relativeLayout = new RelativeLayout();
-            Func<RelativeLayout, double> getOverlayContentHeight = (p) => OverlayContent.Measure(p.Width, p.Height).Request.Height;
-            Func<RelativeLayout, double> getOverlayContentWidth = (p) => OverlayContent.Measure(p.Width, p.Height).Request.Width;
 
             _relativeLayout.Children.Add(_backgroundOverlayBoxView,
-                   Constraint.Constant(-10),
-                   Constraint.Constant(0),
-                  Constraint.RelativeToParent(parent => parent.Width + 20),
-                Constraint.RelativeToParent(parent => parent.Height)
-               );
+                Constraint.Constant(-10),
+                Constraint.Constant(0),
+                Constraint.RelativeToParent(parent => parent.Width + 20),
+                Constraint.RelativeToParent(parent => parent.Height));
+
             _relativeLayout.Children.Add(_overlayFrame,
-                Constraint.RelativeToParent(parent => parent.Width / 2 - getOverlayContentWidth(parent) / 2 - 25),
                 Constraint.RelativeToParent(parent =>
-                    {
-                        switch (isChildOfNavigationPage)
-                        {
-                            case true:
-                                return parent.Height / 4 - getOverlayContentHeight(parent) / 2;
+                {
+                    var preferredX = parent.Width / 2 - getOverlayContentWidth(parent) / 2 - 25;
+                    return preferredX < 10 ? 10 : preferredX;
+                }),
+                Constraint.RelativeToParent(parent =>
+                {
+                    if (isChildOfNavigationPage)
+                        return parent.Height / 4 - getOverlayContentHeight(parent) / 2;
 
-                            default:
-                                return parent.Height / 2 - getOverlayContentHeight(parent) / 2 - 10;
-                        }
-                    }),
+                    return parent.Height / 2 - getOverlayContentHeight(parent) / 2 - 10;
+                }),
+                Constraint.RelativeToParent(parent =>
+                {
+                    var preferedWidth = getOverlayContentWidth(parent) + 50;
+                    return preferedWidth > parent.Width ? parent.Width - 20 : preferedWidth;
+                }),
+                Constraint.RelativeToParent(parent => getOverlayContentHeight(parent) + 40));
 
-                Constraint.RelativeToParent(parent => getOverlayContentWidth(parent) + 50),
-                Constraint.RelativeToParent(parent => getOverlayContentHeight(parent) + 40)
-              );
+            double getOverlayContentHeight(RelativeLayout p) => OverlayContent.Measure(p.Width, p.Height).Request.Height;
+            double getOverlayContentWidth(RelativeLayout p) => OverlayContent.Measure(p.Width, p.Height).Request.Width;
         }
         #endregion
 
@@ -80,11 +82,13 @@ namespace InvestmentDataSampleApp
         #endregion
 
         #region Methods
-        public void ShowView(bool shouldDisappearAfterTimeoutExpires = false, int timeoutInSeconds = 10)
+        public Task ShowView()
         {
             const uint overlayContentViewAnimationTime = 300;
             const double overlayContentViewMaxSize = 1.05;
             const double overlayContentViewNormalSize = 1;
+
+            var tcs = new TaskCompletionSource<object>();
 
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -97,20 +101,19 @@ namespace InvestmentDataSampleApp
                 await Task.WhenAll(OverlayContent?.ScaleTo(overlayContentViewNormalSize, overlayContentViewAnimationTime, Easing.CubicOut),
                                     _overlayFrame?.ScaleTo(overlayContentViewNormalSize, overlayContentViewAnimationTime, Easing.CubicOut));
 
-                if (!shouldDisappearAfterTimeoutExpires)
-                    return;
-
-                await Task.Delay(TimeSpan.FromSeconds(timeoutInSeconds));
-
-                HideView();
+                tcs.SetResult(null);
             });
+
+            return tcs.Task;
         }
 
-        public void HideView()
+        public Task HideView()
         {
+            var tcs = new TaskCompletionSource<object>();
+
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await this.FadeTo(0);
+                await this.FadeTo(0, 1000, Easing.CubicIn);
 
                 IsVisible = false;
                 InputTransparent = true;
@@ -119,7 +122,11 @@ namespace InvestmentDataSampleApp
                 _backgroundOverlayBoxView.Opacity = 0;
                 OverlayContent.Scale = 0;
                 _overlayFrame.Scale = 0;
+
+                tcs.SetResult(null);
             });
+
+            return tcs.Task;
         }
         #endregion
     }

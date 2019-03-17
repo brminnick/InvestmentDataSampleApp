@@ -4,9 +4,10 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Xamarin.Forms;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
+
+using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
 {
@@ -103,21 +104,7 @@ namespace InvestmentDataSampleApp
                 var dayIndex = rnd.Next(1, 28);
                 var monthIndex = rnd.Next(1, 12);
                 var yearIndex = rnd.Next(2000, 2015);
-
-                var salesStageNumber = rnd.Next(2);
-                SalesStages salesStage;
-                switch (salesStageNumber)
-                {
-                    case 0:
-                        salesStage = SalesStages.New;
-                        break;
-                    case 1:
-                        salesStage = SalesStages.Pending;
-                        break;
-                    default:
-                        salesStage = SalesStages.Closed;
-                        break;
-                }
+                var salesStage = (SalesStages)rnd.Next(2);
 
                 newOpportunity.Topic = $"{i + 715003} / Investment Data Corp";
                 newOpportunity.Company = $"{LoremIpsumConstants.LoremIpsum.Substring(companyIndex, 10)}";
@@ -133,8 +120,6 @@ namespace InvestmentDataSampleApp
 
         async Task ExecuteRefreshAllDataCommand()
         {
-            IsListViewRefreshing = true;
-
             try
             {
                 var minimumRefreshTimeTask = Task.Delay(1000);
