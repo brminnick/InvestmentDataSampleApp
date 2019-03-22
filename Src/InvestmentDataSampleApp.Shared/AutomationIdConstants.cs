@@ -20,8 +20,8 @@
         public const string LeaseAmountEntry = "LeaseAmountEntry";
         public const string OwnerEntry = "OwnerEntry";
         public const string DBAEntry = "DBAEntry";
-        public const string SaveButton = "SaveButton";
-        public const string CancelButton = "CancelButton";
+        public const string SaveButton = "Save";
+        public const string CancelButton = "Cancel";
         #endregion
     }
 }

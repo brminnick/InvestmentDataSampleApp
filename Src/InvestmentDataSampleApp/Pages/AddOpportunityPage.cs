@@ -10,8 +10,8 @@ namespace InvestmentDataSampleApp
     public class AddOpportunityPage : BaseContentPage<AddOpportunityViewModel>
     {
         #region Constant Fields
-        const string _saveToolBarItemText = "Save";
-        const string _cancelToolBarItemText = "Cancel";
+        const string _saveToolBarItemText = AutomationIdConstants.SaveButton;
+        const string _cancelToolBarItemText = AutomationIdConstants.CancelButton;
         const int _relativeLayoutSpacing = 5;
         readonly ToolbarItem _cancelButtonToolBarItem;
         readonly Entry _topicEntry, _companyEntry, _leaseAmountEntry, _ownerEntry, _dbaEntry;
@@ -144,7 +144,7 @@ namespace InvestmentDataSampleApp
             {
                 Text = _saveToolBarItemText,
                 Priority = 0,
-                AutomationId = AutomationIdConstants.SaveButton
+                AutomationId = AutomationIdConstants.SaveButton,
             };
             saveButtonToolBar.SetBinding(ToolbarItem.CommandProperty, nameof(ViewModel.SaveButtonTapped));
             ToolbarItems.Add(saveButtonToolBar);

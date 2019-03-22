@@ -47,26 +47,13 @@ namespace InvestmentDataSampleApp.UITests
 
         public void TapSaveButton()
         {
-            Query saveButtonQuery;
-
-            if (App is iOSApp)
-                saveButtonQuery = _saveButton;
-            else
-                saveButtonQuery = x => x.Marked("Save");
-
-            App.WaitForElement(saveButtonQuery);
-            App.Tap(saveButtonQuery);
-
+            App.Tap(_saveButton);
             App.Screenshot("Tapped Save Button");
         }
 
         public void TapCancelButton()
         {
-            if (App is iOSApp)
-                App.Tap(_cancelButton);
-            else
-                App.Tap(x => x.Marked("Cancel"));
-
+            App.Tap(_cancelButton);
             App.Screenshot("Tapped Cancel Button");
         }
 
