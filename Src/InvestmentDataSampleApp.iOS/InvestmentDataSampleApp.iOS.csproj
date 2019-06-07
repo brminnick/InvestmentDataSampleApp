@@ -81,11 +81,11 @@
     <ItemGroup>
         <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
-        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.13" />
-        <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
+        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.14" />
+        <PackageReference Include="Xamarin.Forms" Version="4.0.0.482894" />
         <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.1" />
-        <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.8"/>
+        <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.8" />
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">

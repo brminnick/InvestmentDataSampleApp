@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 using Xamarin.Forms;
 
@@ -38,7 +38,7 @@ namespace InvestmentDataSampleApp
             #region Initialize the Toolbar Add Button
             var addButtonToolBar = new ToolbarItem
             {
-                Icon = "Add",
+                IconImageSource= "Add",
                 AutomationId = AutomationIdConstants.AddOpportunityButton
             };
             addButtonToolBar.Clicked += HandleAddButtonClicked;
