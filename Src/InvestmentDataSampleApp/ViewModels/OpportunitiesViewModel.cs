@@ -40,7 +40,7 @@ namespace InvestmentDataSampleApp
             (_filterTextEnteredCommand = new Command<string>(ExecuteFilterTextEnteredCommand));
 
         public ICommand RefreshAllDataCommand => _refreshAllDataCommand ??
-            (_refreshAllDataCommand = new AsyncCommand(ExecuteRefreshAllDataCommand, continueOnCapturedContext: false));
+            (_refreshAllDataCommand = new AsyncCommand(ExecuteRefreshAllDataCommand));
 
         public string SearchBarText
         {

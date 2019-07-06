@@ -26,6 +26,7 @@
         <MtouchLink>SdkOnly</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
         <PlatformTarget>x86</PlatformTarget>
+        <MtouchFloat32>true</MtouchFloat32>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <Optimize>true</Optimize>
@@ -36,8 +37,9 @@
         <CodesignKey>iPhone Developer</CodesignKey>
         <MtouchFloat32>true</MtouchFloat32>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <MtouchArch>ARMv7, ARM64</MtouchArch>
+        <MtouchArch>ARM64</MtouchArch>
         <PlatformTarget>x86</PlatformTarget>
+        <MtouchUseLlvm>true</MtouchUseLlvm>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
         <Optimize>true</Optimize>
@@ -49,6 +51,8 @@
         <MtouchLink>SdkOnly</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
         <PlatformTarget>x86</PlatformTarget>
+        <MtouchUseLlvm>true</MtouchUseLlvm>
+        <MtouchFloat32>true</MtouchFloat32>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
         <DebugSymbols>true</DebugSymbols>
@@ -67,7 +71,7 @@
         <MtouchFloat32>true</MtouchFloat32>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <MtouchLink>SdkOnly</MtouchLink>
-        <MtouchArch>ARMv7, ARM64</MtouchArch>
+        <MtouchArch>ARM64</MtouchArch>
         <PlatformTarget>x86</PlatformTarget>
     </PropertyGroup>
     <ItemGroup>
@@ -82,10 +86,13 @@
         <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.14" />
-        <PackageReference Include="Xamarin.Forms" Version="4.0.0.482894" />
+        <PackageReference Include="Xamarin.Forms" Version="4.1.0.555618" />
         <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.1" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.0.0-pre2" />
         <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.8" />
+        <PackageReference Include="Xamarin.FFImageLoading.Forms">
+          <Version>2.4.11.982</Version>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
@@ -106,7 +113,6 @@
     <ItemGroup>
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
-        <Compile Include="Database\SQLite_iOS.cs" />
         <Compile Include="CustomRenderers\OpportunitiesViewCellCustomRenderer.cs" />
         <Compile Include="CustomRenderers\AddOpportunityPageCustomRenderer.cs" />
     </ItemGroup>

@@ -3,6 +3,7 @@
 using Xamarin.Forms;
 
 using InvestmentDataSampleApp.Shared;
+using System.Threading.Tasks;
 
 namespace InvestmentDataSampleApp
 {
@@ -38,7 +39,7 @@ namespace InvestmentDataSampleApp
             #region Initialize the Toolbar Add Button
             var addButtonToolBar = new ToolbarItem
             {
-                IconImageSource= "Add",
+                IconImageSource = "Add",
                 AutomationId = AutomationIdConstants.AddOpportunityButton
             };
             addButtonToolBar.Clicked += HandleAddButtonClicked;
@@ -98,11 +99,11 @@ namespace InvestmentDataSampleApp
         }
 
         async void HandleAddButtonClicked(object sender, EventArgs e) =>
-            await Navigation?.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
+            await Navigation.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
 
         async void HandleWelcomeViewDisappearing(object sender, EventArgs e)
         {
-            await _welcomeView?.HideView();
+            await (_welcomeView?.HideView() ?? Task.CompletedTask);
 
             Device.BeginInvokeOnMainThread(() =>
             {
@@ -124,7 +125,7 @@ namespace InvestmentDataSampleApp
                    Constraint.Constant(0),
                    Constraint.Constant(0));
 
-                await _welcomeView?.ShowView();
+                await (_welcomeView?.ShowView() ?? Task.CompletedTask);
             });
         }
         #endregion

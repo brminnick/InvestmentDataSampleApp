@@ -2,8 +2,8 @@ using System;
 using System.Windows.Input;
 using System.Threading.Tasks;
 
-using AsyncAwaitBestPractices.MVVM;
 using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 
 namespace InvestmentDataSampleApp
 {
@@ -38,7 +38,7 @@ namespace InvestmentDataSampleApp
 
         #region Properties
         public ICommand SaveButtonTapped => _saveButtonTapped ??
-            (_saveButtonTapped = new AsyncCommand(ExecuteSaveButtonTapped, continueOnCapturedContext: false));
+            (_saveButtonTapped = new AsyncCommand(ExecuteSaveButtonTapped));
 
         public string Topic
         {
