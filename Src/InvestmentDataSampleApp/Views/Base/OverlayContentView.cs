@@ -88,9 +88,7 @@ namespace InvestmentDataSampleApp
             const double overlayContentViewMaxSize = 1.05;
             const double overlayContentViewNormalSize = 1;
 
-            var tcs = new TaskCompletionSource<object>();
-
-            Device.BeginInvokeOnMainThread(async () =>
+            return Device.InvokeOnMainThreadAsync(async () =>
             {
                 IsVisible = true;
                 _backgroundOverlayBoxView.Opacity = 1;
@@ -100,18 +98,12 @@ namespace InvestmentDataSampleApp
 
                 await Task.WhenAll(OverlayContent?.ScaleTo(overlayContentViewNormalSize, overlayContentViewAnimationTime, Easing.CubicOut),
                                     _overlayFrame?.ScaleTo(overlayContentViewNormalSize, overlayContentViewAnimationTime, Easing.CubicOut));
-
-                tcs.SetResult(null);
             });
-
-            return tcs.Task;
         }
 
         public Task HideView()
         {
-            var tcs = new TaskCompletionSource<object>();
-
-            Device.BeginInvokeOnMainThread(async () =>
+            return Device.InvokeOnMainThreadAsync(async () =>
             {
                 await this.FadeTo(0, 1000, Easing.CubicIn);
 
@@ -122,11 +114,7 @@ namespace InvestmentDataSampleApp
                 _backgroundOverlayBoxView.Opacity = 0;
                 OverlayContent.Scale = 0;
                 _overlayFrame.Scale = 0;
-
-                tcs.SetResult(null);
             });
-
-            return tcs.Task;
         }
         #endregion
     }
