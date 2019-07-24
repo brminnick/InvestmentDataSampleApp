@@ -1251,6 +1251,7 @@ namespace InvestmentDataSampleApp.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Id.fill_horizontal = global::InvestmentDataSampleApp.Droid.Resource.Id.fill_horizontal;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.fill_vertical = global::InvestmentDataSampleApp.Droid.Resource.Id.fill_vertical;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.filled = global::InvestmentDataSampleApp.Droid.Resource.Id.filled;
+			global::Xamarin.Forms.Platform.Android.Resource.Id.@fixed = global::InvestmentDataSampleApp.Droid.Resource.Id.@fixed;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.flyoutcontent_appbar = global::InvestmentDataSampleApp.Droid.Resource.Id.flyoutcontent_appbar;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.flyoutcontent_recycler = global::InvestmentDataSampleApp.Droid.Resource.Id.flyoutcontent_recycler;
 			global::Xamarin.Forms.Platform.Android.Resource.Id.forever = global::InvestmentDataSampleApp.Droid.Resource.Id.forever;
@@ -2018,6 +2019,7 @@ namespace InvestmentDataSampleApp.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense = global::InvestmentDataSampleApp.Droid.Resource.Style.Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Widget_MaterialComponents_Toolbar = global::InvestmentDataSampleApp.Droid.Resource.Style.Widget_MaterialComponents_Toolbar;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Widget_Support_CoordinatorLayout = global::InvestmentDataSampleApp.Droid.Resource.Style.Widget_Support_CoordinatorLayout;
+			global::Xamarin.Forms.Platform.Android.Resource.Style.collectionViewStyle = global::InvestmentDataSampleApp.Droid.Resource.Style.collectionViewStyle;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ActionBar = global::InvestmentDataSampleApp.Droid.Resource.Styleable.ActionBar;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ActionBar_background = global::InvestmentDataSampleApp.Droid.Resource.Styleable.ActionBar_background;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ActionBar_backgroundSplit = global::InvestmentDataSampleApp.Droid.Resource.Styleable.ActionBar_backgroundSplit;
@@ -5802,9 +5804,6 @@ namespace InvestmentDataSampleApp.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7F08004E
-			public const int @fixed = 2131230798;
-			
 			// aapt resource value: 0x7F080006
 			public const int action0 = 2131230726;
 			
@@ -6026,6 +6025,9 @@ namespace InvestmentDataSampleApp.Droid
 			
 			// aapt resource value: 0x7F08004C
 			public const int fill_vertical = 2131230796;
+			
+			// aapt resource value: 0x7F08004E
+			public const int @fixed = 2131230798;
 			
 			// aapt resource value: 0x7F08004F
 			public const int flyoutcontent_appbar = 2131230799;
@@ -7501,6 +7503,9 @@ namespace InvestmentDataSampleApp.Droid
 			
 			// aapt resource value: 0x7F0D00C4
 			public const int CardView_Light = 2131558596;
+			
+			// aapt resource value: 0x7F0D01F6
+			public const int collectionViewStyle = 2131558902;
 			
 			// aapt resource value: 0x7F0D00C5
 			public const int MyTheme = 2131558597;

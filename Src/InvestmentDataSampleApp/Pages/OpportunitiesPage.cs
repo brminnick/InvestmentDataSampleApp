@@ -31,9 +31,9 @@ namespace InvestmentDataSampleApp
                 IsPullToRefreshEnabled = true
             };
             _listView.ItemTapped += HandleListViewItemTapped;
-            _listView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.ViewableOpportunitiesData));
-            _listView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshAllDataCommand));
-            _listView.SetBinding(ListView.IsRefreshingProperty, nameof(ViewModel.IsListViewRefreshing));
+            _listView.SetBinding(ListView.ItemsSourceProperty, nameof(OpportunitiesViewModel.ViewableOpportunitiesData));
+            _listView.SetBinding(ListView.RefreshCommandProperty, nameof(OpportunitiesViewModel.RefreshAllDataCommand));
+            _listView.SetBinding(ListView.IsRefreshingProperty, nameof(OpportunitiesViewModel.IsListViewRefreshing));
             #endregion
 
             #region Initialize the Toolbar Add Button
@@ -51,7 +51,7 @@ namespace InvestmentDataSampleApp
             {
                 AutomationId = AutomationIdConstants.OpportunitySearchBar
             };
-            searchBar.SetBinding(SearchBar.TextProperty, nameof(ViewModel.SearchBarText));
+            searchBar.SetBinding(SearchBar.TextProperty, nameof(OpportunitiesViewModel.SearchBarText));
             #endregion
 
             _mainLayout = new RelativeLayout();
@@ -112,21 +112,23 @@ namespace InvestmentDataSampleApp
             });
         }
 
-        void DisplayWelcomeView()
+        Task DisplayWelcomeView()
         {
-            if (!Settings.ShouldShowWelcomeView)
-                return;
-
-            _welcomeView = new WelcomeView();
-
-            Device.BeginInvokeOnMainThread(async () =>
+            if (Settings.ShouldShowWelcomeView)
             {
-                _mainLayout?.Children?.Add(_welcomeView,
-                   Constraint.Constant(0),
-                   Constraint.Constant(0));
+                _welcomeView = new WelcomeView();
 
-                await (_welcomeView?.ShowView() ?? Task.CompletedTask);
-            });
+                return Device.InvokeOnMainThreadAsync(() =>
+                {
+                    _mainLayout?.Children?.Add(_welcomeView,
+                       Constraint.Constant(0),
+                       Constraint.Constant(0));
+
+                    return _welcomeView.ShowView() ?? Task.CompletedTask;
+                });
+            }
+
+            return Task.CompletedTask;
         }
         #endregion
     }

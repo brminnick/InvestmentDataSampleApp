@@ -7,7 +7,7 @@ namespace InvestmentDataSampleApp
 {
     public class OpportunitiesViewCell : ViewCell
     {
-        MenuItem _deleteAction;
+        readonly MenuItem _deleteAction;
 
         public OpportunitiesViewCell()
         {
@@ -102,8 +102,8 @@ namespace InvestmentDataSampleApp
             #endregion
 
             StackLayout cellStack;
-            #region Create Cell Horizontal StackLayout for Phone
-            if (Device.Idiom == TargetIdiom.Phone)
+            // Create Cell Horizontal StackLayout for Phone, or Tablet/Desktop
+            if (Device.Idiom is TargetIdiom.Phone)
             {
                 topic.LineBreakMode = LineBreakMode.NoWrap;
                 cellStack = new StackLayout
@@ -118,9 +118,6 @@ namespace InvestmentDataSampleApp
                     }
                 };
             }
-            #endregion
-
-            #region Create Cell Horizontal StackLayout for Tablet or Desktop
             else
             {
                 cellStack = new StackLayout
@@ -138,7 +135,6 @@ namespace InvestmentDataSampleApp
                     }
                 };
             }
-            #endregion
 
             View = cellStack;
         }
@@ -153,11 +149,12 @@ namespace InvestmentDataSampleApp
                 if (Device.RuntimePlatform is Device.iOS)
                     await Task.Delay(250).ConfigureAwait(false);
 
-                var navigationPage = Application.Current.MainPage as ShakeListenerNavigationPage;
-                var opportunitiesPage = navigationPage?.CurrentPage as OpportunitiesPage;
-                var opportunitiesViewModel = opportunitiesPage?.BindingContext as OpportunitiesViewModel;
-
-                opportunitiesViewModel?.RefreshAllDataCommand?.Execute(null);
+                if (Application.Current.MainPage is NavigationPage navigationPage
+                    && navigationPage.CurrentPage is OpportunitiesPage opportunitiesPage
+                    && opportunitiesPage.BindingContext is OpportunitiesViewModel opportunitiesViewModel)
+                {
+                    opportunitiesViewModel?.RefreshAllDataCommand?.Execute(null);
+                }
             }
         }
     }

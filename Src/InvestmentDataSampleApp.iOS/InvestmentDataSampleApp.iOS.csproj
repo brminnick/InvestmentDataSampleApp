@@ -9,6 +9,7 @@
         <RootNamespace>InvestmentDataSampleApp.iOS</RootNamespace>
         <AssemblyName>InvestmentDataSampleAppiOS</AssemblyName>
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
         <DebugSymbols>true</DebugSymbols>
@@ -21,12 +22,14 @@
         <ConsolePause>false</ConsolePause>
         <CodesignKey>iPhone Developer</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
-        <MtouchFastDev>false</MtouchFastDev>
+        <MtouchFastDev>true</MtouchFastDev>
         <MtouchProfiling>true</MtouchProfiling>
-        <MtouchLink>SdkOnly</MtouchLink>
+        <MtouchLink>None</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
         <PlatformTarget>x86</PlatformTarget>
         <MtouchFloat32>true</MtouchFloat32>
+        <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <Optimize>true</Optimize>
@@ -40,6 +43,7 @@
         <MtouchArch>ARM64</MtouchArch>
         <PlatformTarget>x86</PlatformTarget>
         <MtouchUseLlvm>true</MtouchUseLlvm>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
         <Optimize>true</Optimize>
@@ -48,11 +52,12 @@
         <WarningLevel>4</WarningLevel>
         <ConsolePause>false</ConsolePause>
         <CodesignKey>iPhone Developer</CodesignKey>
-        <MtouchLink>SdkOnly</MtouchLink>
+        <MtouchLink>None</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
         <PlatformTarget>x86</PlatformTarget>
         <MtouchUseLlvm>true</MtouchUseLlvm>
         <MtouchFloat32>true</MtouchFloat32>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
         <DebugSymbols>true</DebugSymbols>
@@ -66,13 +71,15 @@
         <CodesignKey>iPhone Developer</CodesignKey>
         <DeviceSpecificBuild>true</DeviceSpecificBuild>
         <MtouchDebug>true</MtouchDebug>
-        <MtouchFastDev>false</MtouchFastDev>
+        <MtouchFastDev>true</MtouchFastDev>
         <MtouchProfiling>true</MtouchProfiling>
         <MtouchFloat32>true</MtouchFloat32>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <MtouchLink>SdkOnly</MtouchLink>
         <MtouchArch>ARM64</MtouchArch>
         <PlatformTarget>x86</PlatformTarget>
+        <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
@@ -86,7 +93,7 @@
         <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.14" />
-        <PackageReference Include="Xamarin.Forms" Version="4.2.0.608146-pre1" />
+        <PackageReference Include="Xamarin.Forms" Version="4.2.0.618605-pre2" />
         <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.0.0-pre4" />
         <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.8" />

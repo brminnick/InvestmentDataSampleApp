@@ -22,7 +22,7 @@ namespace InvestmentDataSampleApp
 			};
 
 			var topicEntry = new Label();
-			topicEntry.SetBinding(Label.TextProperty, nameof(opportunityModelSelected.Topic));
+			topicEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.Topic));
 			#endregion
 
 			#region Create Company Controls
@@ -32,7 +32,7 @@ namespace InvestmentDataSampleApp
 			};
 
 			var companyEntry = new Label();
-			companyEntry.SetBinding(Label.TextProperty, nameof(opportunityModelSelected.Company));
+			companyEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.Company));
 			#endregion
 
 			#region Create DBA Controls
@@ -42,7 +42,7 @@ namespace InvestmentDataSampleApp
 			};
 
 			var dbaEntry = new Label();
-			dbaEntry.SetBinding(Label.TextProperty, nameof(opportunityModelSelected.DBA));
+			dbaEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.DBA));
 			#endregion
 
 			#region Create LeaseAmount Controls
@@ -52,7 +52,7 @@ namespace InvestmentDataSampleApp
 			};
 
 			var leaseAmountEntry = new Label();
-			leaseAmountEntry.SetBinding(Label.TextProperty, nameof(opportunityModelSelected.LeaseAmount));
+			leaseAmountEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.LeaseAmount));
 			#endregion
 
 			#region Create Owner Controls
@@ -62,7 +62,7 @@ namespace InvestmentDataSampleApp
 			};
 
 			var ownerEntry = new Label();
-			ownerEntry.SetBinding(Label.TextProperty, nameof(opportunityModelSelected.Owner));
+			ownerEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.Owner));
 			#endregion
 
 			#region create the Relative Layout

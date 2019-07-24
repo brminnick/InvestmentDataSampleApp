@@ -32,10 +32,9 @@ namespace InvestmentDataSampleApp
             _topicEntry = new Entry
             {
                 ReturnType = ReturnType.Next,
-                AutomationId = AutomationIdConstants.TopicEntry,
-                ReturnCommand = new Command(() => _companyEntry.Focus())
+                AutomationId = AutomationIdConstants.TopicEntry
             };
-            _topicEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.Topic));
+            _topicEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Topic));
             #endregion
 
             #region Create Company Controls
@@ -47,10 +46,9 @@ namespace InvestmentDataSampleApp
             _companyEntry = new Entry
             {
                 ReturnType = ReturnType.Next,
-                AutomationId = AutomationIdConstants.CompanyEntry,
-                ReturnCommand = new Command(() => _leaseAmountEntry.Focus())
+                AutomationId = AutomationIdConstants.CompanyEntry
             };
-            _companyEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.Company));
+            _companyEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Company));
             #endregion
 
             #region Create DBA Controls
@@ -64,8 +62,8 @@ namespace InvestmentDataSampleApp
                 AutomationId = AutomationIdConstants.DBAEntry,
                 ReturnType = ReturnType.Go
             };
-            _dbaEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.DBA));
-            _dbaEntry.SetBinding(Entry.ReturnCommandProperty, nameof(ViewModel.SaveButtonTapped));
+            _dbaEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.DBA));
+            _dbaEntry.SetBinding(Entry.ReturnCommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped));
             #endregion
 
             #region Create LeaseAmount Controls
@@ -79,10 +77,9 @@ namespace InvestmentDataSampleApp
                 ReturnType = ReturnType.Next,
                 AutomationId = AutomationIdConstants.LeaseAmountEntry,
                 Keyboard = Keyboard.Numeric,
-                Placeholder = "0",
-                ReturnCommand = new Command(() => _ownerEntry.Focus())
+                Placeholder = "0"
             };
-            _leaseAmountEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.LeaseAmount));
+            _leaseAmountEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.LeaseAmount));
             #endregion
 
             #region Create Owner Controls
@@ -94,10 +91,9 @@ namespace InvestmentDataSampleApp
             _ownerEntry = new Entry
             {
                 ReturnType = ReturnType.Next,
-                AutomationId = AutomationIdConstants.OwnerEntry,
-                ReturnCommand = new Command(() => _dbaEntry.Focus())
+                AutomationId = AutomationIdConstants.OwnerEntry
             };
-            _ownerEntry.SetBinding(Entry.TextProperty, nameof(ViewModel.Owner));
+            _ownerEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Owner));
             #endregion
 
             #region create the Relative Layout
@@ -146,7 +142,7 @@ namespace InvestmentDataSampleApp
                 Priority = 0,
                 AutomationId = AutomationIdConstants.SaveButton,
             };
-            saveButtonToolBar.SetBinding(ToolbarItem.CommandProperty, nameof(ViewModel.SaveButtonTapped));
+            saveButtonToolBar.SetBinding(ToolbarItem.CommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped));
             ToolbarItems.Add(saveButtonToolBar);
             #endregion
 
