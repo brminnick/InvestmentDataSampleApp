@@ -114,7 +114,7 @@ namespace InvestmentDataSampleApp
 		   	);
 			#endregion
 
-			Title = PageTitleConstants.OpportunityDetailPageTitle;
+			Title = PageTitleConstants.OpportunityDetailPage;;
 
 			var termsScrollView = new ScrollView
 			{

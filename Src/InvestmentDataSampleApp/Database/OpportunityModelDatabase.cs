@@ -4,85 +4,78 @@ using System.Collections.Generic;
 
 namespace InvestmentDataSampleApp
 {
-	public abstract class OpportunityModelDatabase : BaseDatabase
-	{
-		#region Methods
-		public static async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest_Filter(string filter)
-		{
-			var filterAsLowerCase = filter.ToLower();
-            var allOpportunityData = await GetAllOpportunityDataAsync_OldestToNewest().ConfigureAwait(false);;
+    public abstract class OpportunityModelDatabase : BaseDatabase
+    {
+        public static async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest_Filter(string filter)
+        {
+            var filterAsLowerCase = filter.ToLower();
+            var allOpportunityData = await GetAllOpportunityData_OldestToNewest().ConfigureAwait(false);
 
-			return allOpportunityData.Where(x =>
-				(x?.Company?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-				(x?.CreatedAt.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-				(x?.DBA?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-				(x?.LeaseAmountAsCurrency?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-				(x?.Owner?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-				(x?.SalesStage.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-				(x?.Topic?.ToLower()?.Contains(filterAsLowerCase) ?? false))?.ToList();
-		}
+            return allOpportunityData.Where(x =>
+                (x?.Company?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+                (x?.CreatedAt.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+                (x?.DBA?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+                (x?.LeaseAmountAsCurrency?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+                (x?.Owner?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+                (x?.SalesStage.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
+                (x?.Topic?.ToLower()?.Contains(filterAsLowerCase) ?? false))?.ToList();
+        }
 
-		public static async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_OldestToNewest()
-		{
-            var databaseConnection = await GetDatabaseConnectionAsync().ConfigureAwait(false);
+        public static async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest()
+        {
+            var databaseConnection = await GetDatabaseConnection<OpportunityModel>().ConfigureAwait(false);
 
-            return await databaseConnection.Table<OpportunityModel>().OrderBy(x => x.Topic).Where(x => x.ID > 0).ToListAsync().ConfigureAwait(false);
-		}
+            return await ExecuteDatabaseFunction(() => databaseConnection.Table<OpportunityModel>().Where(x => x.ID > 0).OrderBy(x => x.Topic).ToListAsync()).ConfigureAwait(false);
+        }
 
-		public static async Task<IList<OpportunityModel>> GetAllOpportunityDataAsync_NewestToOldest()
-		{
-            var databaseConnection = await GetDatabaseConnectionAsync().ConfigureAwait(false);
+        public static async Task<IList<OpportunityModel>> GetAllOpportunityData_NewestToOldest()
+        {
+            var databaseConnection = await GetDatabaseConnection<OpportunityModel>().ConfigureAwait(false);
 
-            return await databaseConnection.Table<OpportunityModel>().OrderByDescending(x => x.Topic).Where(x => x.ID > 0).ToListAsync().ConfigureAwait(false);
-		}
+            return await ExecuteDatabaseFunction(() => databaseConnection.Table<OpportunityModel>().Where(x => x.ID > 0).OrderByDescending(x => x.Topic).ToListAsync()).ConfigureAwait(false);
+        }
 
-		public static async Task<OpportunityModel> GetOpportunityByIDAsync(int id)
-		{
-            var databaseConnection = await GetDatabaseConnectionAsync().ConfigureAwait(false);
+        public static async Task<OpportunityModel> GetOpportunityByID(int id)
+        {
+            var databaseConnection = await GetDatabaseConnection<OpportunityModel>().ConfigureAwait(false);
 
-            return await databaseConnection.Table<OpportunityModel>().Where(x => x.ID.Equals(id)).FirstOrDefaultAsync().ConfigureAwait(false);
-		}
+            return await ExecuteDatabaseFunction(() => databaseConnection.Table<OpportunityModel>().FirstOrDefaultAsync(x => x.ID.Equals(id))).ConfigureAwait(false);
+        }
 
-		public static async Task<OpportunityModel> GetOpportunityByTopicAsync(string topic)
-		{
-            var databaseConnection = await GetDatabaseConnectionAsync().ConfigureAwait(false);
+        public static async Task<OpportunityModel> GetOpportunityByTopic(string topic)
+        {
+            var databaseConnection = await GetDatabaseConnection<OpportunityModel>().ConfigureAwait(false);
 
-            return await databaseConnection.Table<OpportunityModel>().Where(x => x.Topic.Equals(topic)).FirstOrDefaultAsync().ConfigureAwait(false);
-		}
+            return await ExecuteDatabaseFunction(() => databaseConnection.Table<OpportunityModel>().FirstOrDefaultAsync(x => x.Topic.Equals(topic))).ConfigureAwait(false);
+        }
 
-		public static async Task<int> SaveOpportunityAsync(OpportunityModel opportunity)
-		{
-            var databaseConnection = await GetDatabaseConnectionAsync().ConfigureAwait(false);
-			
-            var isOpportunityInDatabase = await GetOpportunityByTopicAsync(opportunity.Topic).ConfigureAwait(false) != null;
+        public static async Task<int> SaveOpportunity(OpportunityModel opportunity)
+        {
+            var databaseConnection = await GetDatabaseConnection<OpportunityModel>().ConfigureAwait(false);
 
-			if (isOpportunityInDatabase)
-                return await databaseConnection.UpdateAsync(opportunity).ConfigureAwait(false);
+            return await ExecuteDatabaseFunction(() => databaseConnection.InsertOrReplaceAsync(opportunity)).ConfigureAwait(false);
+        }
 
-            return await databaseConnection.InsertAsync(opportunity).ConfigureAwait(false);
-		}
+        public static async Task<int> DeleteItem(OpportunityModel opportunity)
+        {
+            var databaseConnection = await GetDatabaseConnection<OpportunityModel>().ConfigureAwait(false);
 
-		public static async Task<int> DeleteItemAsync(OpportunityModel opportunity)
-		{
-            var databaseConnection = await GetDatabaseConnectionAsync().ConfigureAwait(false);
+            return await ExecuteDatabaseFunction(() => databaseConnection.DeleteAsync(opportunity)).ConfigureAwait(false);
+        }
 
-            return await databaseConnection.DeleteAsync(opportunity).ConfigureAwait(false);
-		}
+        public static async Task<OpportunityModel> GetNewestOpportunity()
+        {
+            var databaseConnection = await GetDatabaseConnection<OpportunityModel>().ConfigureAwait(false);
 
-		public static async Task<OpportunityModel> GetNewestOpportunityAsync()
-		{
-            var databaseConnection = await GetDatabaseConnectionAsync().ConfigureAwait(false);
+            return await ExecuteDatabaseFunction(() => databaseConnection.Table<OpportunityModel>().OrderByDescending(x => x.ID).FirstOrDefaultAsync()).ConfigureAwait(false);
+        }
 
-            return await databaseConnection.Table<OpportunityModel>().OrderByDescending(x => x.ID).FirstOrDefaultAsync().ConfigureAwait(false);
-		}
+        public static async Task<int> GetNumberOfRows()
+        {
+            var databaseConnection = await GetDatabaseConnection<OpportunityModel>().ConfigureAwait(false);
 
-		public static async Task<int> GetNumberOfRowsAsync()
-		{
-            var databaseConnection = await GetDatabaseConnectionAsync().ConfigureAwait(false);
-
-            return await databaseConnection.Table<OpportunityModel>().CountAsync().ConfigureAwait(false);
-		}
-		#endregion
-	}
+            return await ExecuteDatabaseFunction(() => databaseConnection.Table<OpportunityModel>().CountAsync()).ConfigureAwait(false);
+        }
+    }
 }
 

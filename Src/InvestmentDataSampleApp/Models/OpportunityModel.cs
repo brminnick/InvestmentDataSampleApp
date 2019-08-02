@@ -20,8 +20,8 @@ namespace InvestmentDataSampleApp
         #endregion
 
         #region Properties
-        [PrimaryKey, AutoIncrement, Unique]
-        public int ID { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public int? ID { get; set; }
         public string Topic { get; set; }
         public string Company { get; set; }
         public string DBA { get; set; }

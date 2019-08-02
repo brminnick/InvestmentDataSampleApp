@@ -1,42 +1,32 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
 using InvestmentDataSampleApp.Shared;
-using System.Threading.Tasks;
 
 namespace InvestmentDataSampleApp
 {
     public class OpportunitiesPage : BaseContentPage<OpportunitiesViewModel>
     {
-        #region Constant Fields
         readonly RelativeLayout _mainLayout;
-        readonly ListView _listView;
-        #endregion
 
-        #region Fields
         WelcomeView _welcomeView;
-        #endregion
 
-        #region Constructors
         public OpportunitiesPage()
         {
             ViewModel.OkButtonTapped += HandleWelcomeViewDisappearing;
 
-            #region Create the ListView
-            _listView = new ListView(ListViewCachingStrategy.RecycleElement)
+            var collectionView = new CollectionView
             {
-                ItemTemplate = new DataTemplate(typeof(OpportunitiesViewCell)),
-                RowHeight = 75,
-                IsPullToRefreshEnabled = true
+                ItemTemplate = new OpportunitiesDataTemplate(),
+                SelectionMode = SelectionMode.Single,
+                Margin = new Thickness(20,0,0,0)
             };
-            _listView.ItemTapped += HandleListViewItemTapped;
-            _listView.SetBinding(ListView.ItemsSourceProperty, nameof(OpportunitiesViewModel.ViewableOpportunitiesData));
-            _listView.SetBinding(ListView.RefreshCommandProperty, nameof(OpportunitiesViewModel.RefreshAllDataCommand));
-            _listView.SetBinding(ListView.IsRefreshingProperty, nameof(OpportunitiesViewModel.IsListViewRefreshing));
-            #endregion
+            collectionView.SelectionChanged += HandleSelectionChanged;
+            collectionView.SetBinding(CollectionView.ItemsSourceProperty, nameof(OpportunitiesViewModel.ViewableOpportunitiesData));
 
-            #region Initialize the Toolbar Add Button
             var addButtonToolBar = new ToolbarItem
             {
                 IconImageSource = "Add",
@@ -44,15 +34,12 @@ namespace InvestmentDataSampleApp
             };
             addButtonToolBar.Clicked += HandleAddButtonClicked;
             ToolbarItems.Add(addButtonToolBar);
-            #endregion
 
-            #region Create Searchbar
             var searchBar = new SearchBar
             {
                 AutomationId = AutomationIdConstants.OpportunitySearchBar
             };
             searchBar.SetBinding(SearchBar.TextProperty, nameof(OpportunitiesViewModel.SearchBarText));
-            #endregion
 
             _mainLayout = new RelativeLayout();
 
@@ -60,13 +47,13 @@ namespace InvestmentDataSampleApp
                 Constraint.Constant(0),
                 Constraint.Constant(0),
                  Constraint.RelativeToParent(parent => parent.Width));
-            _mainLayout.Children.Add(_listView,
+            _mainLayout.Children.Add(collectionView,
                 Constraint.Constant(0),
                 Constraint.RelativeToParent(getSearchBarHeight),
                 Constraint.RelativeToParent(parent => parent.Width),
                 Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent)));
 
-            Title = PageTitleConstants.OpportunitiesPageTitle;
+            Title = PageTitleConstants.OpportunitiesPage;
 
             NavigationPage.SetBackButtonTitle(this, "");
 
@@ -77,24 +64,22 @@ namespace InvestmentDataSampleApp
             double getSearchBarHeight(RelativeLayout p) => searchBar.Measure(p.Width, p.Height).Request.Height;
         }
 
-        #endregion
-
-        #region Methods
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            _listView.BeginRefresh();
+            ViewModel.RefreshDataCommand?.Execute(null);
         }
 
-        void HandleListViewItemTapped(object sender, ItemTappedEventArgs e)
+        void HandleSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                if (e.Item is OpportunityModel itemTapped)
+                if (e.CurrentSelection.FirstOrDefault() is OpportunityModel itemTapped)
                     await Navigation.PushAsync(new OpportunityDetailsPage(itemTapped));
 
-                _listView.SelectedItem = null;
+                if (sender is CollectionView collectionView)
+                    collectionView.SelectedItem = null;
             });
         }
 
@@ -103,7 +88,10 @@ namespace InvestmentDataSampleApp
 
         async void HandleWelcomeViewDisappearing(object sender, EventArgs e)
         {
-            await (_welcomeView?.HideView() ?? Task.CompletedTask);
+            if (_welcomeView is null || _mainLayout is null)
+                return;
+
+            await _welcomeView.HideView();
 
             Device.BeginInvokeOnMainThread(() =>
             {
@@ -114,23 +102,22 @@ namespace InvestmentDataSampleApp
 
         Task DisplayWelcomeView()
         {
-            if (Settings.ShouldShowWelcomeView)
+            if (Settings.ShouldShowWelcomeView && _mainLayout != null)
             {
                 _welcomeView = new WelcomeView();
 
                 return Device.InvokeOnMainThreadAsync(() =>
                 {
-                    _mainLayout?.Children?.Add(_welcomeView,
+                    _mainLayout.Children.Add(_welcomeView,
                        Constraint.Constant(0),
                        Constraint.Constant(0));
 
-                    return _welcomeView.ShowView() ?? Task.CompletedTask;
+                    return _welcomeView.ShowView();
                 });
             }
 
             return Task.CompletedTask;
         }
-        #endregion
     }
 }
 

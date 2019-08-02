@@ -32,9 +32,10 @@ namespace InvestmentDataSampleApp.UITests
             OpportunityDetailPage.WaitForPageToAppear();
 
             //Assert
-            Assert.AreEqual(PageTitleConstants.OpportunityDetailPageTitle, OpportunityDetailPage.Title);
+            Assert.AreEqual(PageTitleConstants.OpportunityDetailPage, OpportunityDetailPage.Title);
         }
 
+        [Ignore("ContextActions not currently available in Xamarin.Forms.CollectionView: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/collectionview/introduction#move-from-listview-to-collectionview")]
         [Test]
         public async Task DeleteOpportunity()
         {
@@ -88,7 +89,7 @@ namespace InvestmentDataSampleApp.UITests
             OpportunityDetailPage.WaitForPageToAppear();
 
             //Assert
-            Assert.AreEqual(PageTitleConstants.OpportunityDetailPageTitle, OpportunityDetailPage.Title);
+            Assert.AreEqual(PageTitleConstants.OpportunityDetailPage, OpportunityDetailPage.Title);
         }
 
         [Test]

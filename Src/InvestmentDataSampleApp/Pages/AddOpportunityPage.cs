@@ -9,21 +9,17 @@ namespace InvestmentDataSampleApp
 {
     public class AddOpportunityPage : BaseContentPage<AddOpportunityViewModel>
     {
-        #region Constant Fields
-        const string _saveToolBarItemText = AutomationIdConstants.SaveButton;
-        const string _cancelToolBarItemText = AutomationIdConstants.CancelButton;
+        const string _saveToolBarItemText = "Save";
+        const string _cancelToolBarItemText = "Cancel";
         const int _relativeLayoutSpacing = 5;
         readonly ToolbarItem _cancelButtonToolBarItem;
         readonly Entry _topicEntry, _companyEntry, _leaseAmountEntry, _ownerEntry, _dbaEntry;
-        #endregion
 
-        #region Constructors
         public AddOpportunityPage()
         {
             ViewModel.SaveError += HandleSaveError;
             ViewModel.SaveToDatabaseCompleted += HandleCancelButtonTapped;
 
-            #region Create Topic Controls
             var topicLabel = new Label
             {
                 Text = "Topic"
@@ -35,9 +31,8 @@ namespace InvestmentDataSampleApp
                 AutomationId = AutomationIdConstants.TopicEntry
             };
             _topicEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Topic));
-            #endregion
 
-            #region Create Company Controls
+
             var companyLabel = new Label
             {
                 Text = "Company"
@@ -49,9 +44,8 @@ namespace InvestmentDataSampleApp
                 AutomationId = AutomationIdConstants.CompanyEntry
             };
             _companyEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Company));
-            #endregion
 
-            #region Create DBA Controls
+
             var dbaLabel = new Label
             {
                 Text = "DBA"
@@ -64,9 +58,8 @@ namespace InvestmentDataSampleApp
             };
             _dbaEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.DBA));
             _dbaEntry.SetBinding(Entry.ReturnCommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped));
-            #endregion
 
-            #region Create LeaseAmount Controls
+
             var leaseAmountLabel = new Label
             {
                 Text = "Lease Amount"
@@ -80,9 +73,8 @@ namespace InvestmentDataSampleApp
                 Placeholder = "0"
             };
             _leaseAmountEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.LeaseAmount));
-            #endregion
 
-            #region Create Owner Controls
+
             var ownerLabel = new Label
             {
                 Text = "Owner"
@@ -94,9 +86,8 @@ namespace InvestmentDataSampleApp
                 AutomationId = AutomationIdConstants.OwnerEntry
             };
             _ownerEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Owner));
-            #endregion
 
-            #region create the Relative Layout
+
             var mainLayout = new RelativeLayout();
             mainLayout.Children.Add(topicLabel,
                    Constraint.Constant(0),
@@ -133,9 +124,8 @@ namespace InvestmentDataSampleApp
                 Constraint.Constant(0),
                 Constraint.RelativeToView(dbaLabel, (parent, view) => view.Y + view.Height),
                 Constraint.RelativeToParent((parent) => parent.Width));
-            #endregion
 
-            #region Create Save Button
+
             var saveButtonToolBar = new ToolbarItem
             {
                 Text = _saveToolBarItemText,
@@ -144,9 +134,8 @@ namespace InvestmentDataSampleApp
             };
             saveButtonToolBar.SetBinding(ToolbarItem.CommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped));
             ToolbarItems.Add(saveButtonToolBar);
-            #endregion
 
-            #region Create Cancel Button
+
             _cancelButtonToolBarItem = new ToolbarItem
             {
                 Text = _cancelToolBarItemText,
@@ -155,17 +144,15 @@ namespace InvestmentDataSampleApp
             };
             _cancelButtonToolBarItem.Clicked += HandleCancelButtonTapped;
             ToolbarItems.Add(_cancelButtonToolBarItem);
-            #endregion
 
-            Title = PageTitleConstants.AddOpportunityPageTitle;
+            Title = PageTitleConstants.AddOpportunityPage;
 
             Padding = new Thickness(20, 10, 20, 0);
 
             Content = mainLayout;
         }
-        #endregion
 
-        #region Methods
+
         void HandleSaveError(object sender, EventArgs e)
         {
             var opportunityViewModel = sender as AddOpportunityViewModel;
@@ -188,7 +175,6 @@ namespace InvestmentDataSampleApp
         }
 
         void HandleCancelButtonTapped(object sender, EventArgs e) => Device.BeginInvokeOnMainThread(async () => await Navigation.PopModalAsync());
-        #endregion
     }
 }
 

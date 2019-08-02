@@ -9,20 +9,15 @@ namespace InvestmentDataSampleApp
 {
     public class AddOpportunityViewModel : BaseViewModel
     {
-        #region Constant Fields
         readonly WeakEventManager _saveErrorEventManager = new WeakEventManager();
         readonly WeakEventManager _saveToDatabaseCompleted = new WeakEventManager();
-        #endregion
 
-        #region Fields
         string _topic, _company, _dba, _owner;
         long _leaseAmount;
         SalesStages _salesStage;
         DateTimeOffset _dateCreated;
         ICommand _saveButtonTapped;
-        #endregion
 
-        #region Events
         public event EventHandler SaveError
         {
             add => _saveErrorEventManager.AddEventHandler(value);
@@ -34,9 +29,8 @@ namespace InvestmentDataSampleApp
             add => _saveToDatabaseCompleted.AddEventHandler(value);
             remove => _saveToDatabaseCompleted.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Properties
+
         public ICommand SaveButtonTapped => _saveButtonTapped ??
             (_saveButtonTapped = new AsyncCommand(ExecuteSaveButtonTapped));
 
@@ -81,7 +75,6 @@ namespace InvestmentDataSampleApp
             get => _dateCreated;
             set => SetProperty(ref _dateCreated, value);
         }
-        #endregion
 
         public AddOpportunityViewModel() => SalesStage = SalesStages.New;
 
@@ -98,7 +91,7 @@ namespace InvestmentDataSampleApp
             }
 
             DateCreated = DateTimeOffset.UtcNow;
-            await OpportunityModelDatabase.SaveOpportunityAsync(new OpportunityModel
+            await OpportunityModelDatabase.SaveOpportunity(new OpportunityModel
             {
                 Topic = Topic,
                 Company = Company,

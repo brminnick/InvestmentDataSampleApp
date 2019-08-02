@@ -13,34 +13,27 @@ namespace InvestmentDataSampleApp
 {
     public class OpportunitiesViewModel : BaseViewModel
     {
-        #region Constant Fields
         readonly WeakEventManager _okButtonTappedEventManager = new WeakEventManager();
-        #endregion
-
-        #region Fields
+    
         bool _isListViewRefreshing;
         string _searchBarText;
         IList<OpportunityModel> _allOpportunitiesData, _viewableOpportunitiesData;
-        ICommand _refreshAllDataCommand, _okButtonTappedCommand, _filterTextEnteredCommand;
-        #endregion
+        ICommand _refreshDataCommand,  _okButtonTappedCommand, _filterTextEnteredCommand;
 
-        #region Events
         public event EventHandler OkButtonTapped
         {
             add => _okButtonTappedEventManager.AddEventHandler(value);
             remove => _okButtonTappedEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Properties
         public ICommand OkButtonTappedCommand => _okButtonTappedCommand ??
             (_okButtonTappedCommand = new Command(ExecuteOkButtonTapped));
 
         public ICommand FilterTextEnteredCommand => _filterTextEnteredCommand ??
             (_filterTextEnteredCommand = new Command<string>(ExecuteFilterTextEnteredCommand));
 
-        public ICommand RefreshAllDataCommand => _refreshAllDataCommand ??
-            (_refreshAllDataCommand = new AsyncCommand(ExecuteRefreshAllDataCommand));
+        public ICommand RefreshDataCommand => _refreshDataCommand ??
+            (_refreshDataCommand = new AsyncCommand(ExecuteRefreshDataCommand));
 
         public string SearchBarText
         {
@@ -65,9 +58,7 @@ namespace InvestmentDataSampleApp
             get => _isListViewRefreshing;
             set => SetProperty(ref _isListViewRefreshing, value);
         }
-        #endregion
 
-        #region Methods
         void FilterList(string filter)
         {
             if (string.IsNullOrWhiteSpace(filter))
@@ -114,28 +105,24 @@ namespace InvestmentDataSampleApp
                 newOpportunity.Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}";
                 newOpportunity.CreatedAt = new DateTimeOffset(yearIndex, monthIndex, dayIndex, 0, 0, 0, default);
 
-                await OpportunityModelDatabase.SaveOpportunityAsync(newOpportunity).ConfigureAwait(false);
+                await OpportunityModelDatabase.SaveOpportunity(newOpportunity).ConfigureAwait(false);
             }
         }
 
-        async Task ExecuteRefreshAllDataCommand()
+        async Task ExecuteRefreshDataCommand()
         {
             try
             {
-                var minimumRefreshTimeTask = Task.Delay(1000);
-
-                var opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest().ConfigureAwait(false);
+                var opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityData_OldestToNewest().ConfigureAwait(false);
 
                 // If the database is empty, initialize the database with dummy data
                 if (!opportunityModelsFromDatabase.Any())
                 {
                     await InitializeDataInDatabaseAsync().ConfigureAwait(false);
-                    opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityDataAsync_OldestToNewest().ConfigureAwait(false);
+                    opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityData_OldestToNewest().ConfigureAwait(false);
                 }
 
                 AllOpportunitiesData = opportunityModelsFromDatabase;
-
-                await minimumRefreshTimeTask.ConfigureAwait(false);
             }
             finally
             {
@@ -153,7 +140,6 @@ namespace InvestmentDataSampleApp
 
         void OnOkButtonTapped() =>
              _okButtonTappedEventManager.HandleEvent(this, EventArgs.Empty, nameof(OkButtonTapped));
-        #endregion
     }
 }
 

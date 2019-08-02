@@ -2,26 +2,20 @@
 {
     public static class AutomationIdConstants
     {
-        #region OpportunitiesPage Constants
-        public const string AddOpportunityButton = "AddOpportunityButton";
-        public const string OpportunitySearchBar = "OpportunitySearchBar";
-        public const string WelcomeViewTitleLabel = "WelcomeViewTitleLabel";
-        public const string WelcomeViewBodyLabel = "WelcomeViewBodyLabel";
-        public const string WelcomeViewOkButton = "WelcomeViewOkButton";
-        #endregion
+        public const string AddOpportunityButton = nameof(AddOpportunityButton);
+        public const string OpportunitySearchBar = nameof(OpportunitySearchBar);
+        public const string WelcomeViewTitleLabel = nameof(WelcomeViewTitleLabel);
+        public const string WelcomeViewBodyLabel = nameof(WelcomeViewBodyLabel);
+        public const string WelcomeViewOkButton = nameof(WelcomeViewOkButton);
 
-        #region TermsPage Constants
-        public const string PageNumberLabel = "PageNumberLabel";
-        #endregion
+        public const string PageNumberLabel = nameof(PageNumberLabel);
 
-        #region AddOpportunityPage Constants
-        public const string TopicEntry = "TopicEntry";
-        public const string CompanyEntry = "CompanyEntry";
-        public const string LeaseAmountEntry = "LeaseAmountEntry";
-        public const string OwnerEntry = "OwnerEntry";
-        public const string DBAEntry = "DBAEntry";
-        public const string SaveButton = "Save";
-        public const string CancelButton = "Cancel";
-        #endregion
+        public const string TopicEntry = nameof(TopicEntry);
+        public const string CompanyEntry = nameof(CompanyEntry);
+        public const string LeaseAmountEntry = nameof(LeaseAmountEntry);
+        public const string OwnerEntry = nameof(OwnerEntry);
+        public const string DBAEntry = nameof(DBAEntry);
+        public const string SaveButton = nameof(SaveButton);
+        public const string CancelButton = nameof(CancelButton);
     }
 }

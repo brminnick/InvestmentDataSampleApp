@@ -25,7 +25,7 @@ namespace InvestmentDataSampleApp.UITests
 		#region Methods
 		public void WaitForPageToAppear()
 		{
-			App.WaitForElement(PageTitleConstants.OpportunityDetailPageTitle);
+			App.WaitForElement(PageTitleConstants.OpportunityDetailPage);
 		}
 
 		string GetTitle()
@@ -33,9 +33,9 @@ namespace InvestmentDataSampleApp.UITests
 			AppResult[] titleQuery;
 
 			if (App is iOSApp)
-				titleQuery = App.Query(x => x.Class("UILabel").Marked(PageTitleConstants.OpportunityDetailPageTitle));
+				titleQuery = App.Query(x => x.Class("UILabel").Marked(PageTitleConstants.OpportunityDetailPage));
 			else
-				titleQuery = App.Query(x => x.Class("AppCompatTextView").Marked(PageTitleConstants.OpportunityDetailPageTitle));
+				titleQuery = App.Query(x => x.Class("AppCompatTextView").Marked(PageTitleConstants.OpportunityDetailPage));
 
 			return titleQuery?.FirstOrDefault()?.Text;
 		}

@@ -90,14 +90,13 @@
         <Reference Include="System.Net.Http" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
-        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.14" />
         <PackageReference Include="Xamarin.Forms" Version="4.2.0.618605-pre2" />
         <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.0.0-pre4" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.1.0-pre2" />
         <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.8" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.6.258-beta" />
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
@@ -118,7 +117,6 @@
     <ItemGroup>
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
-        <Compile Include="CustomRenderers\OpportunitiesViewCellCustomRenderer.cs" />
         <Compile Include="CustomRenderers\AddOpportunityPageCustomRenderer.cs" />
     </ItemGroup>
     <ItemGroup>
