@@ -11,24 +11,17 @@ namespace InvestmentDataSampleApp.UITests
 {
     public class OpportunitiesPage : BasePage
     {
-        #region Constant Fields
         readonly Query _addOpportunityButton, _opportunitySearchBar, _welcomeViewOkButton;
-        #endregion
 
-        #region Constructors
         public OpportunitiesPage(IApp app) : base(app)
         {
             _addOpportunityButton = x => x.Marked(AutomationIdConstants.AddOpportunityButton);
             _opportunitySearchBar = x => x.Marked(AutomationIdConstants.OpportunitySearchBar);
             _welcomeViewOkButton = x => x.Marked(AutomationIdConstants.WelcomeViewOkButton);
         }
-        #endregion
 
-        #region Properties
         public bool IsWelcomeViewVisible => IsWelcomeViewOnScreen();
-        #endregion
 
-        #region Methods
         public void TapAddOpportunityButton()
         {
             if (App is iOSApp)
@@ -98,6 +91,5 @@ namespace InvestmentDataSampleApp.UITests
                 return false;
             }
         }
-        #endregion
     }
 }

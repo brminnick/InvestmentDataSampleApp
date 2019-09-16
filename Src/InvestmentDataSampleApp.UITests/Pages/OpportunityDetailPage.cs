@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Xamarin.UITest;
 using Xamarin.UITest.iOS;
-using Xamarin.UITest.Queries;
+using Xamarin.UITest.Android;
 
 using InvestmentDataSampleApp.Shared;
 
@@ -12,17 +13,12 @@ namespace InvestmentDataSampleApp.UITests
 {
 	public class OpportunityDetailPage : BasePage
 	{
-		#region Constructors 
 		public OpportunityDetailPage(IApp app) : base(app)
 		{
 		}
-		#endregion
 
-		#region Properties
 		public string Title => GetTitle();
-		#endregion
 
-		#region Methods
 		public void WaitForPageToAppear()
 		{
 			App.WaitForElement(PageTitleConstants.OpportunityDetailPage);
@@ -30,15 +26,16 @@ namespace InvestmentDataSampleApp.UITests
 
 		string GetTitle()
 		{
-			AppResult[] titleQuery;
+            var titleQuery = App switch
+            {
+                iOSApp iOSApp => iOSApp.Query(x => x.Class("UILabel").Marked(PageTitleConstants.OpportunityDetailPage)),
 
-			if (App is iOSApp)
-				titleQuery = App.Query(x => x.Class("UILabel").Marked(PageTitleConstants.OpportunityDetailPage));
-			else
-				titleQuery = App.Query(x => x.Class("AppCompatTextView").Marked(PageTitleConstants.OpportunityDetailPage));
+                AndroidApp androidApp => androidApp.Query(x => x.Class("AppCompatTextView").Marked(PageTitleConstants.OpportunityDetailPage)),
 
-			return titleQuery?.FirstOrDefault()?.Text;
+                _ => throw new NotSupportedException(),
+            };
+
+            return titleQuery?.FirstOrDefault()?.Text;
 		}
-		#endregion
 	}
 }

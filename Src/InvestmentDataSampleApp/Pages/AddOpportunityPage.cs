@@ -20,71 +20,38 @@ namespace InvestmentDataSampleApp
             ViewModel.SaveError += HandleSaveError;
             ViewModel.SaveToDatabaseCompleted += HandleCancelButtonTapped;
 
-            var topicLabel = new Label
-            {
-                Text = "Topic"
-            };
+            var topicLabel = new AddOpportunityLabel("Topic");
 
-            _topicEntry = new Entry
-            {
-                ReturnType = ReturnType.Next,
-                AutomationId = AutomationIdConstants.TopicEntry
-            };
+            _topicEntry = new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.TopicEntry);
             _topicEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Topic));
 
 
-            var companyLabel = new Label
-            {
-                Text = "Company"
-            };
+            var companyLabel = new AddOpportunityLabel("Company");
 
-            _companyEntry = new Entry
-            {
-                ReturnType = ReturnType.Next,
-                AutomationId = AutomationIdConstants.CompanyEntry
-            };
+            _companyEntry = new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.CompanyEntry);
             _companyEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Company));
 
 
-            var dbaLabel = new Label
-            {
-                Text = "DBA"
-            };
+            var dbaLabel = new AddOpportunityLabel("DBA");
 
-            _dbaEntry = new Entry
-            {
-                AutomationId = AutomationIdConstants.DBAEntry,
-                ReturnType = ReturnType.Go
-            };
+            _dbaEntry = new AddOpportunityEntry(ReturnType.Go, AutomationIdConstants.DBAEntry);
             _dbaEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.DBA));
             _dbaEntry.SetBinding(Entry.ReturnCommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped));
 
 
-            var leaseAmountLabel = new Label
-            {
-                Text = "Lease Amount"
-            };
+            var leaseAmountLabel = new AddOpportunityLabel("Lease Amount");
 
-            _leaseAmountEntry = new Entry
+            _leaseAmountEntry = new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.LeaseAmountEntry)
             {
-                ReturnType = ReturnType.Next,
-                AutomationId = AutomationIdConstants.LeaseAmountEntry,
                 Keyboard = Keyboard.Numeric,
                 Placeholder = "0"
             };
             _leaseAmountEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.LeaseAmount));
 
 
-            var ownerLabel = new Label
-            {
-                Text = "Owner"
-            };
+            var ownerLabel = new AddOpportunityLabel("Owner");
 
-            _ownerEntry = new Entry
-            {
-                ReturnType = ReturnType.Next,
-                AutomationId = AutomationIdConstants.OwnerEntry
-            };
+            _ownerEntry = new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.OwnerEntry);
             _ownerEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Owner));
 
 
@@ -155,7 +122,7 @@ namespace InvestmentDataSampleApp
 
         void HandleSaveError(object sender, EventArgs e)
         {
-            var opportunityViewModel = sender as AddOpportunityViewModel;
+            var opportunityViewModel = (AddOpportunityViewModel)sender;
             var blankFieldsString = new StringBuilder();
 
             if (string.IsNullOrWhiteSpace(opportunityViewModel?.Topic))
@@ -174,7 +141,22 @@ namespace InvestmentDataSampleApp
             Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Error: Missing Data", $"The following fields are empty: \n{blankFieldsString}", "OK"));
         }
 
-        void HandleCancelButtonTapped(object sender, EventArgs e) => Device.BeginInvokeOnMainThread(async () => await Navigation.PopModalAsync());
+        void HandleCancelButtonTapped(object sender, EventArgs e) => Device.BeginInvokeOnMainThread(() => Navigation.PopModalAsync());
+
+        class AddOpportunityEntry : Entry
+        {
+            public AddOpportunityEntry(ReturnType returnType, string automationId)
+            {
+                ReturnType = returnType;
+                AutomationId = automationId;
+                ClearButtonVisibility = ClearButtonVisibility.WhileEditing;
+            }
+        }
+
+        class AddOpportunityLabel : Label
+        {
+            public AddOpportunityLabel(string text) => Text = text;
+        }
     }
 }
 

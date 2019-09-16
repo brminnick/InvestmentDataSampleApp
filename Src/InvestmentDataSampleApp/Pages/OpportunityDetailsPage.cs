@@ -6,16 +6,12 @@ namespace InvestmentDataSampleApp
 {
 	class OpportunityDetailsPage : ContentPage
 	{
-		#region Constant Fields
 		const int _relativeLayoutSpacing = 5;
-		#endregion
 
-		#region Constructors
 		public OpportunityDetailsPage(OpportunityModel opportunityModelSelected)
 		{
 			BindingContext = opportunityModelSelected;
 
-			#region Create Topic Controls
 			var topicLabel = new OpportunitiesDetailsTextLabel
 			{
 				Text = "Topic"
@@ -23,9 +19,7 @@ namespace InvestmentDataSampleApp
 
 			var topicEntry = new Label();
 			topicEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.Topic));
-			#endregion
 
-			#region Create Company Controls
 			var companyLabel = new OpportunitiesDetailsTextLabel
 			{
 				Text = "Company"
@@ -33,9 +27,7 @@ namespace InvestmentDataSampleApp
 
 			var companyEntry = new Label();
 			companyEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.Company));
-			#endregion
 
-			#region Create DBA Controls
 			var dbaLabel = new OpportunitiesDetailsTextLabel
 			{
 				Text = "DBA"
@@ -43,9 +35,7 @@ namespace InvestmentDataSampleApp
 
 			var dbaEntry = new Label();
 			dbaEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.DBA));
-			#endregion
-
-			#region Create LeaseAmount Controls
+	
 			var leaseAmountLabel = new OpportunitiesDetailsTextLabel
 			{
 				Text = "Lease Amount"
@@ -53,9 +43,7 @@ namespace InvestmentDataSampleApp
 
 			var leaseAmountEntry = new Label();
 			leaseAmountEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.LeaseAmount));
-			#endregion
 
-			#region Create Owner Controls
 			var ownerLabel = new OpportunitiesDetailsTextLabel
 			{
 				Text = "Owner"
@@ -63,9 +51,7 @@ namespace InvestmentDataSampleApp
 
 			var ownerEntry = new Label();
 			ownerEntry.SetBinding(Label.TextProperty, nameof(OpportunityModel.Owner));
-			#endregion
 
-			#region create the Relative Layout
 			var mainLayout = new RelativeLayout();
 			mainLayout.Children.Add(topicLabel,
 			   	Constraint.Constant(0),
@@ -112,7 +98,6 @@ namespace InvestmentDataSampleApp
 				Constraint.RelativeToView(dbaLabel, (parent, view) => view.Y + view.Height),
 				Constraint.RelativeToParent((parent) => parent.Width)
 		   	);
-			#endregion
 
 			Title = PageTitleConstants.OpportunityDetailPage;;
 
@@ -125,7 +110,6 @@ namespace InvestmentDataSampleApp
 
 			Content = termsScrollView;
 		}
-		#endregion
 	}
 }
 

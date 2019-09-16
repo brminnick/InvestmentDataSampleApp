@@ -6,17 +6,12 @@ namespace InvestmentDataSampleApp
 {
     public abstract class OverlayContentView : ContentView
     {
-        #region Constant Fields
         readonly BoxView _backgroundOverlayBoxView;
         readonly Frame _overlayFrame;
         readonly RelativeLayout _relativeLayout;
-        #endregion
 
-        #region Fields
         View _overlayContent;
-        #endregion
 
-        #region Constructors
         protected OverlayContentView(bool isChildOfNavigationPage)
         {
             _backgroundOverlayBoxView = new BoxView
@@ -63,9 +58,7 @@ namespace InvestmentDataSampleApp
             double getOverlayContentHeight(RelativeLayout p) => OverlayContent.Measure(p.Width, p.Height).Request.Height;
             double getOverlayContentWidth(RelativeLayout p) => OverlayContent.Measure(p.Width, p.Height).Request.Width;
         }
-        #endregion
 
-        #region Properties
         public View OverlayContent
         {
             get => _overlayContent;
@@ -79,9 +72,7 @@ namespace InvestmentDataSampleApp
                 Content = _relativeLayout;
             }
         }
-        #endregion
 
-        #region Methods
         public Task ShowView()
         {
             const uint overlayContentViewAnimationTime = 300;
@@ -116,7 +107,6 @@ namespace InvestmentDataSampleApp
                 _overlayFrame.Scale = 0;
             });
         }
-        #endregion
     }
 }
 

@@ -6,7 +6,6 @@ namespace InvestmentDataSampleApp
 {
     public class OpportunityModel
     {
-        #region Constructors
         public OpportunityModel()
         {
             Topic = "";
@@ -15,22 +14,20 @@ namespace InvestmentDataSampleApp
             LeaseAmount = 0;
             SalesStage = SalesStages.New;
             Owner = "";
-            CreatedAt = DateTime.Now;
+            CreatedAt = DateTimeOffset.UtcNow;
         }
-        #endregion
 
-        #region Properties
+        public string LeaseAmountAsCurrency => $"{LeaseAmount:C}";
+
         [PrimaryKey, AutoIncrement]
         public int? ID { get; set; }
         public string Topic { get; set; }
         public string Company { get; set; }
         public string DBA { get; set; }
         public long LeaseAmount { get; set; }
-        public string LeaseAmountAsCurrency => $"{LeaseAmount:C}";
         public SalesStages SalesStage { get; set; }
         public string Owner { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
-        #endregion
     }
 
     public enum SalesStages { New, Pending, Closed }

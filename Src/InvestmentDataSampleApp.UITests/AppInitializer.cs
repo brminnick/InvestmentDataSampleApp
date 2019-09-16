@@ -8,15 +8,12 @@ namespace InvestmentDataSampleApp.UITests
     {
         public static IApp StartApp(Platform platform)
         {
-            switch (platform)
+            return platform switch
             {
-                case Platform.Android:
-                    return ConfigureApp.Android.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
-                case Platform.iOS:
-                    return ConfigureApp.iOS.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
-                default:
-                    throw new NotSupportedException();
-            }
+                Platform.Android => ConfigureApp.Android.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear),
+                Platform.iOS => ConfigureApp.iOS.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear),
+                _ => throw new NotSupportedException(),
+            };
         }
     }
 }

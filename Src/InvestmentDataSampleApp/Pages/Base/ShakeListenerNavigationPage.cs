@@ -8,7 +8,6 @@ namespace InvestmentDataSampleApp
 {
     public class ShakeListenerNavigationPage : NavigationPage
     {
-        #region Constructors
         public ShakeListenerNavigationPage(Page root) : base(root)
         {
             try
@@ -21,12 +20,8 @@ namespace InvestmentDataSampleApp
                 Debug.WriteLine("Accelerometer Not Supported");
             }
         }
-        #endregion
 
-        #region Methods
         void HandleShakeDetected(object sender, EventArgs e) =>
             Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Shake Detected", "You shook your device!", "Ok"));
-        #endregion
-
     }
 }

@@ -93,20 +93,20 @@ namespace InvestmentDataSampleApp
 
             await _welcomeView.HideView();
 
-            Device.BeginInvokeOnMainThread(() =>
+            await Device.InvokeOnMainThreadAsync(() =>
             {
                 if (_mainLayout.Children.Contains(_welcomeView))
                     _mainLayout.Children.Remove(_welcomeView);
             });
         }
 
-        Task DisplayWelcomeView()
+        async Task DisplayWelcomeView()
         {
             if (Settings.ShouldShowWelcomeView && _mainLayout != null)
             {
                 _welcomeView = new WelcomeView();
 
-                return Device.InvokeOnMainThreadAsync(() =>
+                await Device.InvokeOnMainThreadAsync(() =>
                 {
                     _mainLayout.Children.Add(_welcomeView,
                        Constraint.Constant(0),
@@ -115,8 +115,6 @@ namespace InvestmentDataSampleApp
                     return _welcomeView.ShowView();
                 });
             }
-
-            return Task.CompletedTask;
         }
     }
 }

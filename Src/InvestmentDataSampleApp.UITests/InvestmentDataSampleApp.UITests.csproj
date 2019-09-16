@@ -9,6 +9,7 @@
         <AssemblyName>InvestmentDataSampleApp.UITests</AssemblyName>
         <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+        <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
