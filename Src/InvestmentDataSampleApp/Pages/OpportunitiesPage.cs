@@ -59,16 +59,16 @@ namespace InvestmentDataSampleApp
 
             Content = _mainLayout;
 
-            DisplayWelcomeView();
-
             double getSearchBarHeight(RelativeLayout p) => searchBar.Measure(p.Width, p.Height).Request.Height;
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
             ViewModel.RefreshDataCommand?.Execute(null);
+
+            await DisplayWelcomeView();
         }
 
         void HandleSelectionChanged(object sender, SelectionChangedEventArgs e)
