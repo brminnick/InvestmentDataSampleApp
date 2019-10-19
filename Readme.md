@@ -5,9 +5,9 @@ This sample app demonstrates the following new features in Xamarin.Forms:
 - Xamarin.Forms.RefreshView (docs link TBD)
 - [Xamarin.Forms.PlatformConfiguration.iOSSpecific.UIModalPresentationStyle.FormSheet](https://docs.microsoft.com/xamarin/xamarin-forms/platform/ios/page-presentation-style?WT.mc_id=social-github-bramin)
 
-| CollectionView + RefreshView | UIModalPresentationStyle.FormSheet |
-| ---------------------------- | ---------------------------------- |
-| ![Collection View + Refresh View Demo](https://user-images.githubusercontent.com/13558917/67148064-d3b98600-f24f-11e9-819f-c2736044c961.gif) | ![iOS Modal Page Demo](https://user-images.githubusercontent.com/13558917/67147948-a7e9d080-f24e-11e9-9e8d-c3c23fc3413c.gif) |
+| CollectionView + RefreshView (iOS) | UIModalPresentationStyle.FormSheet | CollectionView + RefreshView (Android) |
+| ---------------------------------- | -------------------------------------- | ---------------------------------- |
+| ![CollectionView + RefreshView Demo, iOS](https://user-images.githubusercontent.com/13558917/67148064-d3b98600-f24f-11e9-819f-c2736044c961.gif) | ![iOS Modal Page Demo](https://user-images.githubusercontent.com/13558917/67147948-a7e9d080-f24e-11e9-9e8d-c3c23fc3413c.gif) | ![CollectionView + RefreshView Demo, Android](https://user-images.githubusercontent.com/13558917/67148119-78d45e80-f250-11e9-8493-84583a19e809.gif) |
 
 ## UI Design
 
