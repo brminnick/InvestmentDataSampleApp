@@ -6,6 +6,8 @@ using Xamarin.UITest.iOS;
 using InvestmentDataSampleApp.Shared;
 
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
+using Xamarin.UITest.Android;
+using System;
 
 namespace InvestmentDataSampleApp.UITests
 {
@@ -46,8 +48,19 @@ namespace InvestmentDataSampleApp.UITests
 
         public void TapCancelButton()
         {
-            App.Tap(_cancelButton);
-            App.Screenshot("Tapped Cancel Button");
+            switch (App)
+            {
+                case AndroidApp androidApp:
+                    App.Tap(_cancelButton);
+                    App.Screenshot("Tapped Cancel Button");
+                    break;
+
+                case iOSApp iOSApp:
+                    throw new NotImplementedException();
+
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         public void WaitForErrorMessage() => App.WaitForElement("OK");

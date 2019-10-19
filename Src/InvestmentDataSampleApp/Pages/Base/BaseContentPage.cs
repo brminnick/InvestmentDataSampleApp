@@ -1,10 +1,16 @@
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace InvestmentDataSampleApp
 {
     public abstract class BaseContentPage<T> : ContentPage where T : BaseViewModel, new()
     {
-        protected BaseContentPage() => BindingContext = ViewModel;
+        protected BaseContentPage()
+        {
+            On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.FormSheet);
+            BindingContext = ViewModel;
+        }
 
         protected T ViewModel { get; } = new T();
     }

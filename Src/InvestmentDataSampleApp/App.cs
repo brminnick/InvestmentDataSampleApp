@@ -1,10 +1,17 @@
-﻿using Xamarin.Forms;
+﻿using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace InvestmentDataSampleApp
 {
-    public class App : Application
+    public class App : Xamarin.Forms.Application
     {
-        public App() => MainPage = new ShakeListenerNavigationPage(new OpportunitiesPage());
+        public App()
+        {
+            var navigationPage = new ShakeListenerNavigationPage(new OpportunitiesPage());
+            navigationPage.On<iOS>().SetPrefersLargeTitles(true);
+
+            MainPage = navigationPage;
+        }
     }
 }
 

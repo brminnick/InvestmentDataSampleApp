@@ -66,11 +66,9 @@
         <Reference Include="System.Numerics.Vectors" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
-        <PackageReference Include="Xamarin.Forms" Version="4.3.0.819712-pre2" />
+        <PackageReference Include="Xamarin.Forms" Version="4.3.0.851321-pre3" />
         <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.1.0" />
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
         <PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
     </ItemGroup>
@@ -99,7 +97,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\InvestmentDataSampleApp\InvestmentDataSampleApp.csproj">
-            <Project>{B6B0632A-D3B7-40F4-BD1A-806A8BF9EBA3}</Project>
+            <Project>{7AE99D47-E676-4DDE-B98F-C3732C4511FF}</Project>
             <Name>InvestmentDataSampleApp</Name>
         </ProjectReference>
     </ItemGroup>

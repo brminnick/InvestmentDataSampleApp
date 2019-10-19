@@ -1,18 +1,13 @@
 using System;
 using System.Text;
-
-using Xamarin.Forms;
-
 using InvestmentDataSampleApp.Shared;
+using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
 {
     public class AddOpportunityPage : BaseContentPage<AddOpportunityViewModel>
     {
-        const string _saveToolBarItemText = "Save";
-        const string _cancelToolBarItemText = "Cancel";
-        const int _relativeLayoutSpacing = 5;
-        readonly ToolbarItem _cancelButtonToolBarItem;
+        readonly Button _cancelButton, _saveButton;
         readonly Entry _topicEntry, _companyEntry, _leaseAmountEntry, _ownerEntry, _dbaEntry;
 
         public AddOpportunityPage()
@@ -54,71 +49,84 @@ namespace InvestmentDataSampleApp
             _ownerEntry = new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.OwnerEntry);
             _ownerEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Owner));
 
-
-            var mainLayout = new RelativeLayout();
-            mainLayout.Children.Add(topicLabel,
-                   Constraint.Constant(0),
-                   Constraint.Constant(0));
-            mainLayout.Children.Add(_topicEntry,
-                Constraint.Constant(0),
-                Constraint.RelativeToView(topicLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width));
-            mainLayout.Children.Add(companyLabel,
-                Constraint.Constant(0),
-                Constraint.RelativeToView(_topicEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing));
-            mainLayout.Children.Add(_companyEntry,
-                Constraint.Constant(0),
-                Constraint.RelativeToView(companyLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width));
-            mainLayout.Children.Add(leaseAmountLabel,
-                Constraint.Constant(0),
-                Constraint.RelativeToView(_companyEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing));
-            mainLayout.Children.Add(_leaseAmountEntry,
-                Constraint.Constant(0),
-                Constraint.RelativeToView(leaseAmountLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width));
-            mainLayout.Children.Add(ownerLabel,
-                Constraint.Constant(0),
-                Constraint.RelativeToView(_leaseAmountEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing));
-            mainLayout.Children.Add(_ownerEntry,
-                Constraint.Constant(0),
-                Constraint.RelativeToView(ownerLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width));
-            mainLayout.Children.Add(dbaLabel,
-                Constraint.Constant(0),
-                Constraint.RelativeToView(_ownerEntry, (parent, view) => view.Y + view.Height + _relativeLayoutSpacing));
-            mainLayout.Children.Add(_dbaEntry,
-                Constraint.Constant(0),
-                Constraint.RelativeToView(dbaLabel, (parent, view) => view.Y + view.Height),
-                Constraint.RelativeToParent((parent) => parent.Width));
-
-
-            var saveButtonToolBar = new ToolbarItem
+            _saveButton = new Button
             {
-                Text = _saveToolBarItemText,
-                Priority = 0,
+                Text = "Save",
                 AutomationId = AutomationIdConstants.SaveButton,
             };
-            saveButtonToolBar.SetBinding(ToolbarItem.CommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped));
-            ToolbarItems.Add(saveButtonToolBar);
+            _saveButton.SetBinding(Button.CommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped));
 
-
-            _cancelButtonToolBarItem = new ToolbarItem
+            _cancelButton = new Button
             {
-                Text = _cancelToolBarItemText,
-                Priority = 1,
+                Text = "Cancel",
                 AutomationId = AutomationIdConstants.CancelButton
             };
-            _cancelButtonToolBarItem.Clicked += HandleCancelButtonTapped;
-            ToolbarItems.Add(_cancelButtonToolBarItem);
+            _cancelButton.Clicked += HandleCancelButtonClicked;
+
+            const int rowHeight = 35;
+            var grid = new Grid
+            {
+                RowSpacing = 10,
+                RowDefinitions =
+                {
+                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
+                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
+                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
+                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
+                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
+                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
+                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
+                    new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+                },
+                ColumnDefinitions =
+                {
+                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                    new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) },
+                }
+            };
+
+            grid.Children.Add(topicLabel, 0, 1);
+            grid.Children.Add(_topicEntry, 1, 1);
+
+            grid.Children.Add(companyLabel, 0, 2);
+            grid.Children.Add(_companyEntry, 1, 2);
+
+            grid.Children.Add(dbaLabel, 0, 3);
+            grid.Children.Add(_dbaEntry, 1, 3);
+
+            grid.Children.Add(leaseAmountLabel, 0, 4);
+            grid.Children.Add(_leaseAmountEntry, 1, 4);
+
+            grid.Children.Add(ownerLabel, 0, 5);
+            grid.Children.Add(_ownerEntry, 1, 5);
+
+            grid.Children.Add(_saveButton, 0, 6);
+            Grid.SetColumnSpan(_saveButton, 2);
+
+            //Only display Cancel button on Android because iOS users can swipe away the modal page
+            if (Device.RuntimePlatform is Device.Android)
+            {
+                grid.Children.Add(_cancelButton, 0, 6);
+                Grid.SetColumnSpan(_cancelButton, 2);
+            }
 
             Title = PageTitleConstants.AddOpportunityPage;
 
             Padding = new Thickness(20, 10, 20, 0);
 
-            Content = mainLayout;
+            Content = grid;
         }
 
+        protected override async void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            if (Navigation.ModalStack.Count > 0)
+                await Navigation.PopModalAsync();
+        }
+
+        async void HandleCancelButtonClicked(object sender, EventArgs e) =>
+            await Navigation.PopModalAsync();
 
         void HandleSaveError(object sender, EventArgs e)
         {
@@ -147,6 +155,10 @@ namespace InvestmentDataSampleApp
         {
             public AddOpportunityEntry(ReturnType returnType, string automationId)
             {
+                VerticalTextAlignment = TextAlignment.Center;
+                HorizontalTextAlignment = TextAlignment.End;
+                TextColor = Color.Black;
+                BackgroundColor = Color.White;
                 ReturnType = returnType;
                 AutomationId = automationId;
                 ClearButtonVisibility = ClearButtonVisibility.WhileEditing;
@@ -155,7 +167,13 @@ namespace InvestmentDataSampleApp
 
         class AddOpportunityLabel : Label
         {
-            public AddOpportunityLabel(string text) => Text = text;
+            public AddOpportunityLabel(string text)
+            {
+                HorizontalOptions = LayoutOptions.Start;
+                VerticalTextAlignment = TextAlignment.Center;
+                HorizontalTextAlignment = TextAlignment.Start;
+                Text = text;
+            }
         }
     }
 }

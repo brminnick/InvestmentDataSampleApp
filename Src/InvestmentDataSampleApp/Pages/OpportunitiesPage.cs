@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Xamarin.Forms;
-
 using InvestmentDataSampleApp.Shared;
+using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace InvestmentDataSampleApp
 {
     public class OpportunitiesPage : BaseContentPage<OpportunitiesViewModel>
     {
+        readonly RefreshView _refreshView;
         readonly RelativeLayout _mainLayout;
 
-        WelcomeView _welcomeView;
+        readonly WelcomeView _welcomeView = new WelcomeView();
 
         public OpportunitiesPage()
         {
@@ -22,10 +23,14 @@ namespace InvestmentDataSampleApp
             {
                 ItemTemplate = new OpportunitiesDataTemplate(),
                 SelectionMode = SelectionMode.Single,
-                Margin = new Thickness(20,0,0,0)
+                Margin = new Thickness(20, 0, 0, 0)
             };
             collectionView.SelectionChanged += HandleSelectionChanged;
-            collectionView.SetBinding(CollectionView.ItemsSourceProperty, nameof(OpportunitiesViewModel.ViewableOpportunitiesData));
+            collectionView.SetBinding(CollectionView.ItemsSourceProperty, nameof(OpportunitiesViewModel.VisibleOpportunitiesCollection));
+
+            _refreshView = new RefreshView { Content = collectionView };
+            _refreshView.SetBinding(RefreshView.CommandProperty, nameof(OpportunitiesViewModel.RefreshDataCommand));
+            _refreshView.SetBinding(RefreshView.IsRefreshingProperty, nameof(OpportunitiesViewModel.IsCollectionRefreshing));
 
             var addButtonToolBar = new ToolbarItem
             {
@@ -47,7 +52,7 @@ namespace InvestmentDataSampleApp
                 Constraint.Constant(0),
                 Constraint.Constant(0),
                  Constraint.RelativeToParent(parent => parent.Width));
-            _mainLayout.Children.Add(collectionView,
+            _mainLayout.Children.Add(_refreshView,
                 Constraint.Constant(0),
                 Constraint.RelativeToParent(getSearchBarHeight),
                 Constraint.RelativeToParent(parent => parent.Width),
@@ -66,9 +71,14 @@ namespace InvestmentDataSampleApp
         {
             base.OnAppearing();
 
-            ViewModel.RefreshDataCommand?.Execute(null);
-
             await DisplayWelcomeView();
+
+            if (_refreshView.Content is CollectionView collectionView
+                && collectionView.ItemsSource is ICollection<OpportunityModel> collectionItemSource
+                && !collectionItemSource.Any())
+            {
+                _refreshView.IsRefreshing = true;
+            }
         }
 
         void HandleSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -84,13 +94,11 @@ namespace InvestmentDataSampleApp
         }
 
         async void HandleAddButtonClicked(object sender, EventArgs e) =>
-            await Navigation.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
+            await Navigation.PushModalAsync(new AddOpportunityPage());
+
 
         async void HandleWelcomeViewDisappearing(object sender, EventArgs e)
         {
-            if (_welcomeView is null || _mainLayout is null)
-                return;
-
             await _welcomeView.HideView();
 
             await Device.InvokeOnMainThreadAsync(() =>
@@ -102,10 +110,8 @@ namespace InvestmentDataSampleApp
 
         async Task DisplayWelcomeView()
         {
-            if (Settings.ShouldShowWelcomeView && _mainLayout != null)
+            if (Settings.ShouldShowWelcomeView)
             {
-                _welcomeView = new WelcomeView();
-
                 await Device.InvokeOnMainThreadAsync(() =>
                 {
                     _mainLayout.Children.Add(_welcomeView,
