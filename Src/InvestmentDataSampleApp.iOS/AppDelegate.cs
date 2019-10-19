@@ -4,11 +4,11 @@ using Foundation;
 namespace InvestmentDataSampleApp.iOS
 {
     [Register(nameof(AppDelegate))]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
-#if ENABLE_TEST_CLOUD
+#if DEBUG
             Xamarin.Calabash.Start();
 #endif
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
@@ -20,6 +20,14 @@ namespace InvestmentDataSampleApp.iOS
 
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
+
+        #region Backdoor Methods
+#if DEBUG
+        [Preserve, Export("triggerPullToRefresh:")]
+        public void TriggerPullToRefresh(NSString noValue) => UITestBackdoorMethodService.TriggerPullToRefresh();
+#endif
+#endregion
+
     }
 }
 

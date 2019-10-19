@@ -22,7 +22,6 @@ namespace InvestmentDataSampleApp
             {
                 ItemTemplate = new OpportunitiesDataTemplate(),
                 SelectionMode = SelectionMode.Single,
-                Margin = new Thickness(20, 0, 0, 0)
             };
             collectionView.SelectionChanged += HandleSelectionChanged;
             collectionView.SetBinding(CollectionView.ItemsSourceProperty, nameof(OpportunitiesViewModel.VisibleOpportunitiesCollection));
@@ -56,9 +55,6 @@ namespace InvestmentDataSampleApp
                 Constraint.RelativeToParent(getSearchBarHeight),
                 Constraint.RelativeToParent(parent => parent.Width),
                 Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent)));
-
-            var leftPadding = Device.RuntimePlatform is Device.Android ? 5 : 0;
-            Padding = new Thickness(leftPadding, 0, 0, 0);
 
             Title = PageTitleConstants.OpportunitiesPage;
 
@@ -95,8 +91,13 @@ namespace InvestmentDataSampleApp
             });
         }
 
-        async void HandleAddButtonClicked(object sender, EventArgs e) =>
-            await Navigation.PushModalAsync(new AddOpportunityPage());
+        async void HandleAddButtonClicked(object sender, EventArgs e)
+        {
+            if (Device.RuntimePlatform is Device.iOS)
+                await Navigation.PushModalAsync(new AddOpportunityPage());
+            else
+                await Navigation.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
+        }
 
 
         async void HandleWelcomeViewDisappearing(object sender, EventArgs e)

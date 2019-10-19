@@ -75,7 +75,7 @@ namespace InvestmentDataSampleApp
                 RowSpacing = 10,
                 RowDefinitions =
                 {
-                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
+                    new RowDefinition { Height = new GridLength(Device.RuntimePlatform is Device.iOS ? rowHeight * 1.5 : rowHeight, GridUnitType.Absolute) },
                     new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
                     new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
                     new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
@@ -92,20 +92,34 @@ namespace InvestmentDataSampleApp
                 }
             };
 
+            if (Device.RuntimePlatform is Device.iOS)
+            {
+                var titleLabel = new Label
+                {
+                    Margin = new Thickness(0, 10, 0, 10),
+                    Text = PageTitleConstants.AddOpportunityPage,
+                    FontSize = 24,
+                    FontAttributes = FontAttributes.Bold
+                };
+
+                grid.Children.Add(titleLabel, 0, 0);
+                Grid.SetColumnSpan(titleLabel, 2);
+            }
+
             grid.Children.Add(topicLabel, 0, 1);
             grid.Children.Add(_topicEntry, 1, 1);
 
             grid.Children.Add(companyLabel, 0, 2);
             grid.Children.Add(_companyEntry, 1, 2);
 
-            grid.Children.Add(dbaLabel, 0, 3);
-            grid.Children.Add(_dbaEntry, 1, 3);
+            grid.Children.Add(ownerLabel, 0, 3);
+            grid.Children.Add(_ownerEntry, 1, 3);
 
             grid.Children.Add(leaseAmountLabel, 0, 4);
             grid.Children.Add(_leaseAmountEntry, 1, 4);
 
-            grid.Children.Add(ownerLabel, 0, 5);
-            grid.Children.Add(_ownerEntry, 1, 5);
+            grid.Children.Add(dbaLabel, 0, 5);
+            grid.Children.Add(_dbaEntry, 1, 5);
 
             grid.Children.Add(_saveButton, 0, 6);
             Grid.SetColumnSpan(_saveButton, 2);
@@ -165,7 +179,7 @@ namespace InvestmentDataSampleApp
             public AddOpportunityEntry(ReturnType returnType, string automationId)
             {
                 VerticalTextAlignment = TextAlignment.Center;
-                HorizontalTextAlignment = TextAlignment.End;
+                HorizontalTextAlignment = TextAlignment.Start;
                 TextColor = Color.Black;
                 BackgroundColor = Color.White;
                 ReturnType = returnType;

@@ -12,11 +12,15 @@ namespace InvestmentDataSampleApp
         readonly WeakEventManager _saveErrorEventManager = new WeakEventManager();
         readonly WeakEventManager _saveToDatabaseCompleted = new WeakEventManager();
 
-        string _topic, _company, _dba, _owner;
+        string _topic = string.Empty,
+            _company = string.Empty,
+            _dba = string.Empty,
+            _owner=string.Empty;
+
         long _leaseAmount;
         SalesStages _salesStage;
         DateTimeOffset _dateCreated;
-        ICommand _saveButtonTapped;
+        ICommand? _saveButtonTapped;
 
         public event EventHandler SaveError
         {
@@ -30,9 +34,7 @@ namespace InvestmentDataSampleApp
             remove => _saveToDatabaseCompleted.RemoveEventHandler(value);
         }
 
-
-        public ICommand SaveButtonTapped => _saveButtonTapped ??
-            (_saveButtonTapped = new AsyncCommand(ExecuteSaveButtonTapped));
+        public ICommand SaveButtonTapped => _saveButtonTapped ??= new AsyncCommand(ExecuteSaveButtonTapped);
 
         public string Topic
         {
@@ -80,11 +82,11 @@ namespace InvestmentDataSampleApp
 
         async Task ExecuteSaveButtonTapped()
         {
-            if (Topic?.Length == 0 ||
-                Company?.Length == 0 ||
-                Owner?.Length == 0 ||
-                DBA?.Length == 0 ||
-                LeaseAmount == 0)
+            if (Topic.Length is 0 ||
+                Company.Length is 0 ||
+                Owner.Length is 0 ||
+                DBA.Length is 0 ||
+                LeaseAmount is 0)
             {
                 OnSaveError();
                 return;

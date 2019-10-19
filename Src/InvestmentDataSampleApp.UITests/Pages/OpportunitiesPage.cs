@@ -1,10 +1,10 @@
 ﻿using System;
-
-using Xamarin.UITest;
-using Xamarin.UITest.iOS;
-
+using System.Linq;
+using System.Threading.Tasks;
 using InvestmentDataSampleApp.Shared;
-
+using Xamarin.UITest;
+using Xamarin.UITest.Android;
+using Xamarin.UITest.iOS;
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
 namespace InvestmentDataSampleApp.UITests
@@ -21,6 +21,42 @@ namespace InvestmentDataSampleApp.UITests
         }
 
         public bool IsWelcomeViewVisible => IsWelcomeViewOnScreen();
+
+        public bool IsRefreshActivityIndicatorDisplayed => App switch
+        {
+            AndroidApp androidApp => (bool)(androidApp.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling")?.Invoke("isRefreshing"))?.FirstOrDefault() ?? false),
+            iOSApp iosApp => iosApp.Query(x => x.Class("UIRefreshControl")).Any(),
+            _ => throw new NotSupportedException(),
+        };
+
+        public async Task WaitForNoActivityIndicator(int timeoutInSeconds = 60)
+        {
+            int counter = 0;
+            while (IsRefreshActivityIndicatorDisplayed && counter < timeoutInSeconds)
+            {
+                await Task.Delay(1000).ConfigureAwait(false);
+                counter++;
+
+                if (counter >= timeoutInSeconds)
+                    throw new Exception($"Loading the list took longer than {timeoutInSeconds}s");
+            }
+        }
+
+        public void TriggerPullToRefresh()
+        {
+            switch (App)
+            {
+                case iOSApp iOSApp:
+                    iOSApp.Invoke("triggerPullToRefresh:", "");
+                    break;
+
+                case AndroidApp androidApp:
+                    androidApp.Invoke("TriggerPullToRefresh");
+                    break;
+            }
+
+            App.Screenshot("Triggered Pull To Refresh");
+        }
 
         public void TapAddOpportunityButton()
         {
@@ -71,9 +107,17 @@ namespace InvestmentDataSampleApp.UITests
                 App.ScrollDownTo(topic, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
                 return true;
             }
-            catch (Exception)
+            catch
             {
-                return false;
+                try
+                {
+                    App.ScrollUpTo(topic, timeout: TimeSpan.FromSeconds(timeoutInSeconds));
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
 

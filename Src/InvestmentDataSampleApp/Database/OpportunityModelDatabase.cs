@@ -11,14 +11,14 @@ namespace InvestmentDataSampleApp
             var filterAsLowerCase = filter.ToLower();
             var allOpportunityData = await GetAllOpportunityData_OldestToNewest().ConfigureAwait(false);
 
-            return allOpportunityData.Where(x =>
-                (x?.Company?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-                (x?.CreatedAt.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-                (x?.DBA?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-                (x?.LeaseAmountAsCurrency?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-                (x?.Owner?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-                (x?.SalesStage.ToString()?.ToLower()?.Contains(filterAsLowerCase) ?? false) ||
-                (x?.Topic?.ToLower()?.Contains(filterAsLowerCase) ?? false))?.ToList();
+            return allOpportunityData.Where(x => x != null &&
+                (x.Company.ToLower().Contains(filterAsLowerCase) ||
+                    x.CreatedAt.ToString().ToLower().Contains(filterAsLowerCase) ||
+                    x.DBA.ToLower().Contains(filterAsLowerCase) ||
+                    x.LeaseAmountAsCurrency.ToLower().Contains(filterAsLowerCase) ||
+                    x.Owner.ToLower().Contains(filterAsLowerCase) ||
+                    x.SalesStage.ToString().ToLower().Contains(filterAsLowerCase) ||
+                    x.Topic.ToLower().Contains(filterAsLowerCase))).ToList();
         }
 
         public static async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest()

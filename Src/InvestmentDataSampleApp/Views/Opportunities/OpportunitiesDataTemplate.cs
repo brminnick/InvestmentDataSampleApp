@@ -104,7 +104,8 @@ namespace InvestmentDataSampleApp
                 grid.Children.Add(ownerDescriptionLabel, 4, 1);
             }
 
-            grid.Margin = new Thickness(0, 5, 0, 15);
+            var gridLeftMargin = Device.RuntimePlatform is Device.Android ? 5 : 0;
+            grid.Margin = new Thickness(gridLeftMargin, 5, 0, 15);
 
             return grid;
         }

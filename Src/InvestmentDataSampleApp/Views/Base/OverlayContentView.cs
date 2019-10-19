@@ -10,7 +10,7 @@ namespace InvestmentDataSampleApp
         readonly Frame _overlayFrame;
         readonly RelativeLayout _relativeLayout;
 
-        View _overlayContent;
+        View? _overlayContent;
 
         protected OverlayContentView(bool isChildOfNavigationPage)
         {
@@ -55,19 +55,23 @@ namespace InvestmentDataSampleApp
                 }),
                 Constraint.RelativeToParent(parent => getOverlayContentHeight(parent) + 40));
 
-            double getOverlayContentHeight(RelativeLayout p) => OverlayContent.Measure(p.Width, p.Height).Request.Height;
-            double getOverlayContentWidth(RelativeLayout p) => OverlayContent.Measure(p.Width, p.Height).Request.Width;
+            double getOverlayContentHeight(RelativeLayout p) => OverlayContent?.Measure(p.Width, p.Height).Request.Height ?? default;
+            double getOverlayContentWidth(RelativeLayout p) => OverlayContent?.Measure(p.Width, p.Height).Request.Width ?? default;
         }
 
-        public View OverlayContent
+        public View? OverlayContent
         {
             get => _overlayContent;
             set
             {
                 _overlayContent = value;
-                _overlayContent.Scale = 0;
 
-                _overlayFrame.Content = _overlayContent;
+                if (_overlayContent != null)
+                {
+                    _overlayContent.Scale = 0;
+
+                    _overlayFrame.Content = _overlayContent;
+                }
 
                 Content = _relativeLayout;
             }
@@ -103,8 +107,10 @@ namespace InvestmentDataSampleApp
                 Opacity = 1;
 
                 _backgroundOverlayBoxView.Opacity = 0;
-                OverlayContent.Scale = 0;
                 _overlayFrame.Scale = 0;
+
+                if (OverlayContent != null)
+                    OverlayContent.Scale = 0;
             });
         }
     }

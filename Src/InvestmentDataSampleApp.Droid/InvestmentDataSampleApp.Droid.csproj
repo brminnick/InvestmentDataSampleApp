@@ -64,6 +64,7 @@
         <Reference Include="Java.Interop" />
         <Reference Include="System.Numerics" />
         <Reference Include="System.Numerics.Vectors" />
+        <Reference Include="Mono.Android.Export" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Xamarin.Forms" Version="4.3.0.851321-pre3" />

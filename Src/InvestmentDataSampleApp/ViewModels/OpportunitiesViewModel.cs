@@ -62,14 +62,14 @@ namespace InvestmentDataSampleApp
             {
                 var upperCaseFilter = filter.ToUpper();
 
-                var filteredOpportunitiesList = _allOpportunitiesList.Where(x =>
-                   (x?.Company?.ToUpper().Contains(upperCaseFilter) ?? false) ||
-                   (x?.CreatedAt.ToString().ToUpper()?.Contains(upperCaseFilter) ?? false) ||
-                   (x?.DBA?.ToUpper()?.Contains(upperCaseFilter) ?? false) ||
-                   (x?.LeaseAmountAsCurrency?.ToUpper()?.Contains(upperCaseFilter) ?? false) ||
-                   (x?.Owner?.ToUpper()?.Contains(upperCaseFilter) ?? false) ||
-                   (x?.SalesStage.ToString()?.ToUpper()?.Contains(upperCaseFilter) ?? false) ||
-                   (x?.Topic?.ToUpper()?.Contains(upperCaseFilter) ?? false));
+                var filteredOpportunitiesList = _allOpportunitiesList.Where(x => x != null && 
+                   (x.Company.ToUpper().Contains(upperCaseFilter) ||
+                    x.CreatedAt.ToString().ToUpper().Contains(upperCaseFilter) ||
+                    x.DBA.ToUpper().Contains(upperCaseFilter) ||
+                    x.LeaseAmountAsCurrency.ToUpper().Contains(upperCaseFilter) ||
+                    x.Owner.ToUpper().Contains(upperCaseFilter) ||
+                    x.SalesStage.ToString().ToUpper().Contains(upperCaseFilter) ||
+                    x.Topic.ToUpper().Contains(upperCaseFilter)));
 
                 VisibleOpportunitiesCollection.Clear();
 
@@ -108,6 +108,8 @@ namespace InvestmentDataSampleApp
 
         async Task ExecuteRefreshDataCommand()
         {
+            VisibleOpportunitiesCollection.Clear();
+
             try
             {
                 var opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityData_OldestToNewest();
@@ -120,7 +122,7 @@ namespace InvestmentDataSampleApp
                 }
 
                 _allOpportunitiesList = opportunityModelsFromDatabase.ToList();
-
+                
                 foreach (var opportunity in _allOpportunitiesList)
                     VisibleOpportunitiesCollection.Add(opportunity);
 
