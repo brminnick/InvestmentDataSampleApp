@@ -8,6 +8,7 @@ using InvestmentDataSampleApp.Shared;
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 using Xamarin.UITest.Android;
 using System;
+using System.Runtime.InteropServices;
 
 namespace InvestmentDataSampleApp.UITests
 {
@@ -56,7 +57,9 @@ namespace InvestmentDataSampleApp.UITests
                     break;
 
                 case iOSApp iOSApp:
-                    throw new NotImplementedException();
+                    var screenHeight = App.Query().First().Rect.Height;
+                    App.DragCoordinates(0, 100, 0, screenHeight);
+                    break;
 
                 default:
                     throw new NotSupportedException();

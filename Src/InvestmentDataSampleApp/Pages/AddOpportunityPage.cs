@@ -63,12 +63,19 @@ namespace InvestmentDataSampleApp
             };
             _cancelButton.Clicked += HandleCancelButtonClicked;
 
-            const int rowHeight = 35;
+            int rowHeight = Device.RuntimePlatform switch
+            {
+                Device.Android => 50,
+                Device.iOS => 35,
+                _ => throw new NotSupportedException()
+            };
+
             var grid = new Grid
             {
                 RowSpacing = 10,
                 RowDefinitions =
                 {
+                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
                     new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
                     new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
                     new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
@@ -106,9 +113,11 @@ namespace InvestmentDataSampleApp
             //Only display Cancel button on Android because iOS users can swipe away the modal page
             if (Device.RuntimePlatform is Device.Android)
             {
-                grid.Children.Add(_cancelButton, 0, 6);
+                grid.Children.Add(_cancelButton, 0, 7);
                 Grid.SetColumnSpan(_cancelButton, 2);
             }
+
+            BackgroundColor = Color.White;
 
             Title = PageTitleConstants.AddOpportunityPage;
 

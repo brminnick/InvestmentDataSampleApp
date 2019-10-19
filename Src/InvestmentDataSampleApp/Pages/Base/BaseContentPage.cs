@@ -10,6 +10,7 @@ namespace InvestmentDataSampleApp
         {
             On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.FormSheet);
             BindingContext = ViewModel;
+            BackgroundColor = Color.White;
         }
 
         protected T ViewModel { get; } = new T();

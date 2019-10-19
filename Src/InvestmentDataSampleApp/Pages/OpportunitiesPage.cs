@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using InvestmentDataSampleApp.Shared;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
 
 namespace InvestmentDataSampleApp
 {
@@ -51,12 +50,15 @@ namespace InvestmentDataSampleApp
             _mainLayout.Children.Add(searchBar,
                 Constraint.Constant(0),
                 Constraint.Constant(0),
-                 Constraint.RelativeToParent(parent => parent.Width));
+                Constraint.RelativeToParent(parent => parent.Width));
             _mainLayout.Children.Add(_refreshView,
                 Constraint.Constant(0),
                 Constraint.RelativeToParent(getSearchBarHeight),
                 Constraint.RelativeToParent(parent => parent.Width),
                 Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent)));
+
+            var leftPadding = Device.RuntimePlatform is Device.Android ? 5 : 0;
+            Padding = new Thickness(leftPadding, 0, 0, 0);
 
             Title = PageTitleConstants.OpportunitiesPage;
 

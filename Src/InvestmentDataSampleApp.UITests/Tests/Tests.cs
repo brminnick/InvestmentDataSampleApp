@@ -70,7 +70,7 @@ namespace InvestmentDataSampleApp.UITests
         public void AddNewOpportunity(bool shouldUseKeyboardReturnButton)
         {
             //Arrange
-            const string topicText = "714999 / Investment Data Corp";
+            const string topicText = "715023 / Investment Data Corp";
             const string companyText = "Test Company";
             const int leaseAmount = 123456789;
             const string ownerText = "Test Owner";
