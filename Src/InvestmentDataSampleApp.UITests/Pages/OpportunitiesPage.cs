@@ -11,7 +11,8 @@ namespace InvestmentDataSampleApp.UITests
 {
     public class OpportunitiesPage : BasePage
     {
-        readonly Query _addOpportunityButton, _opportunitySearchBar, _welcomeViewOkButton, _androidContextMenuOverflowButton;
+        readonly Query _addOpportunityButton, _opportunitySearchBar, _welcomeViewOkButton,
+            _androidContextMenuOverflowButton, _androidSearchBarButton;
 
         public OpportunitiesPage(IApp app) : base(app)
         {
@@ -19,6 +20,7 @@ namespace InvestmentDataSampleApp.UITests
             _opportunitySearchBar = x => x.Marked(AutomationIdConstants.OpportunitySearchBar);
             _welcomeViewOkButton = x => x.Marked(AutomationIdConstants.WelcomeViewOkButton);
             _androidContextMenuOverflowButton = x => x.Class("android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton");
+            _androidSearchBarButton = x => x.Id("ActionSearch");
         }
 
         public bool IsWelcomeViewVisible => IsWelcomeViewOnScreen();
@@ -99,6 +101,12 @@ namespace InvestmentDataSampleApp.UITests
 
         public void Search(string searchString)
         {
+            if (App.Query(_androidSearchBarButton).Any())
+            {
+                App.Tap(_androidSearchBarButton);
+                App.Screenshot("Tapped Android Search Bar Button");
+            }
+
             App.Tap(_opportunitySearchBar);
             App.EnterText(searchString);
             App.DismissKeyboard();
