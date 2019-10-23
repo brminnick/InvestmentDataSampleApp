@@ -18,7 +18,7 @@ namespace InvestmentDataSampleApp
         bool _isCollectionRefreshing;
         string _searchBarText = string.Empty;
         IReadOnlyList<OpportunityModel> _allOpportunitiesList = Enumerable.Empty<OpportunityModel>().ToList();
-        ICommand? _refreshDataCommand, _okButtonTappedCommand, _filterTextEnteredCommand;
+        ICommand? _refreshDataCommand, _okButtonTappedCommand, _filterTextCommand;
 
         public OpportunitiesViewModel()
         {
@@ -31,17 +31,11 @@ namespace InvestmentDataSampleApp
             remove => _okButtonTappedEventManager.RemoveEventHandler(value);
         }
 
-        public ICommand OkButtonTappedCommand => _okButtonTappedCommand ??= new Command(ExecuteOkButtonTapped);
-        public ICommand FilterTextEnteredCommand => _filterTextEnteredCommand ??= new Command<string>(ExecuteFilterTextEnteredCommand);
+        public ICommand OkButtonTappedCommand => _okButtonTappedCommand ??= new Command(ExecuteOkButtonTappedCommand);
+        public ICommand FilterTextCommand => _filterTextCommand ??= new Command<string>(ExecuteFilterTextCommand);
         public ICommand RefreshDataCommand => _refreshDataCommand ??= new AsyncCommand(ExecuteRefreshDataCommand);
 
         public ObservableCollection<OpportunityModel> VisibleOpportunitiesCollection { get; } = new ObservableCollection<OpportunityModel>();
-
-        public string SearchBarText
-        {
-            get => _searchBarText;
-            set => SetProperty(ref _searchBarText, value, () => FilterList(value));
-        }
 
         public bool IsCollectionRefreshing
         {
@@ -133,9 +127,9 @@ namespace InvestmentDataSampleApp
             }
         }
 
-        void ExecuteFilterTextEnteredCommand(string filterText) => FilterList(filterText);
+        void ExecuteFilterTextCommand(string filterText) => FilterList(filterText);
 
-        void ExecuteOkButtonTapped()
+        void ExecuteOkButtonTappedCommand()
         {
             OnOkButtonTapped();
             Settings.ShouldShowWelcomeView = false;

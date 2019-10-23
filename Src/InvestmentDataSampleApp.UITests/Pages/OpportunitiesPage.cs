@@ -11,13 +11,16 @@ namespace InvestmentDataSampleApp.UITests
 {
     public class OpportunitiesPage : BasePage
     {
-        readonly Query _addOpportunityButton, _opportunitySearchBar, _welcomeViewOkButton;
+        readonly Query _addOpportunityButton, _opportunitySearchBar, _welcomeViewOkButton,
+            _androidContextMenuOverflowButton, _androidSearchBarButton;
 
         public OpportunitiesPage(IApp app) : base(app)
         {
             _addOpportunityButton = x => x.Marked(AutomationIdConstants.AddOpportunityButton);
             _opportunitySearchBar = x => x.Marked(AutomationIdConstants.OpportunitySearchBar);
             _welcomeViewOkButton = x => x.Marked(AutomationIdConstants.WelcomeViewOkButton);
+            _androidContextMenuOverflowButton = x => x.Class("android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton");
+            _androidSearchBarButton = x => x.Id("ActionSearch");
         }
 
         public bool IsWelcomeViewVisible => IsWelcomeViewOnScreen();
@@ -29,7 +32,20 @@ namespace InvestmentDataSampleApp.UITests
             _ => throw new NotSupportedException(),
         };
 
-        public async Task WaitForNoActivityIndicator(int timeoutInSeconds = 60)
+        public async Task WaitForPullToRefreshIndicator(int timeoutInSeconds = 60)
+        {
+            int counter = 0;
+            while (!IsRefreshActivityIndicatorDisplayed && counter < timeoutInSeconds)
+            {
+                await Task.Delay(1000).ConfigureAwait(false);
+                counter++;
+
+                if (counter >= timeoutInSeconds)
+                    throw new Exception($"Loading the list took longer than {timeoutInSeconds}s");
+            }
+        }
+
+        public async Task WaitForNoPullToRefreshIndicator(int timeoutInSeconds = 60)
         {
             int counter = 0;
             while (IsRefreshActivityIndicatorDisplayed && counter < timeoutInSeconds)
@@ -60,10 +76,14 @@ namespace InvestmentDataSampleApp.UITests
 
         public void TapAddOpportunityButton()
         {
-            if (App is iOSApp)
-                App.Tap(_addOpportunityButton);
-            else
-                App.Tap(x => x.Class("ActionMenuItemView"));
+            if (App.Query(_androidContextMenuOverflowButton).Any())
+            {
+                App.Tap(_androidContextMenuOverflowButton);
+                App.Screenshot("Android Overflow Button Tapped");
+            }
+
+            App.Tap(_addOpportunityButton);
+
             App.Screenshot("Tapped Add Opportunity Button");
         }
 
@@ -94,6 +114,12 @@ namespace InvestmentDataSampleApp.UITests
 
         public void Search(string searchString)
         {
+            if (App.Query(_androidSearchBarButton).Any())
+            {
+                App.Tap(_androidSearchBarButton);
+                App.Screenshot("Tapped Android Search Bar Button");
+            }
+
             App.Tap(_opportunitySearchBar);
             App.EnterText(searchString);
             App.DismissKeyboard();
