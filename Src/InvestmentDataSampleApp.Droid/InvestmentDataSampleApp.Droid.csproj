@@ -67,16 +67,20 @@
         <Reference Include="Mono.Android.Export" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="4.3.0.851321-pre3" />
+        <PackageReference Include="Xamarin.Forms" Version="4.3.0.908675" />
         <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.1.0" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
         <PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
+        <PackageReference Include="Plugin.CurrentActivity">
+          <Version>2.1.0.4</Version>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="MainActivity.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="CustomRenderers\SearchPageRenderer.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Resources\AboutResources.txt" />
@@ -85,6 +89,8 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\layout\" />
+        <Folder Include="Resources\menu\" />
+        <Folder Include="CustomRenderers\" />
     </ItemGroup>
     <ItemGroup>
         <AndroidResource Include="Resources\drawable\icon.png" />
@@ -95,6 +101,18 @@
         <AndroidResource Include="Resources\values\style.xml" />
         <AndroidResource Include="Resources\drawable-xhdpi\beaconfundingicon.png" />
         <AndroidResource Include="Resources\values-v21\style.xml" />
+        <AndroidResource Include="Resources\menu\MainMenu.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\Tabbar.axml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\Toolbar.axml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\InvestmentDataSampleApp\InvestmentDataSampleApp.csproj">

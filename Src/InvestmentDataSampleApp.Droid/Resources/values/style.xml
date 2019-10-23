@@ -5,5 +5,6 @@
 	<style name="MyTheme.Base" parent="Theme.AppCompat.Light">
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
+        <item name="colorPrimaryDark">#1C3131</item>
 	</style>
 </resources>

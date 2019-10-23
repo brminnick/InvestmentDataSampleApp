@@ -13,7 +13,7 @@ namespace InvestmentDataSampleApp.UITests
         {
         }
 
-        [Test, Ignore("REPL used for manually exploring app")]
+        //[Test, Ignore("REPL used for manually exploring app")]
         public void ReplTest() => App.Repl();
     }
 }

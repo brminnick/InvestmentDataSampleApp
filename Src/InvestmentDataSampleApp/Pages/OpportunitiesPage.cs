@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AsyncAwaitBestPractices;
 using InvestmentDataSampleApp.Shared;
 using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
 {
-    public class OpportunitiesPage : BaseContentPage<OpportunitiesViewModel>
+    public class OpportunitiesPage : BaseContentPage<OpportunitiesViewModel>, ISearchPage
     {
+        readonly WeakEventManager<string> _searchBarChangedEventManager = new WeakEventManager<string>();
+
         readonly RefreshView _refreshView;
         readonly RelativeLayout _mainLayout;
 
@@ -16,6 +19,7 @@ namespace InvestmentDataSampleApp
 
         public OpportunitiesPage()
         {
+            SearchBarTextChanged += HandleSearchBarTextChanged;
             ViewModel.OkButtonTapped += HandleWelcomeViewDisappearing;
 
             var collectionView = new CollectionView
@@ -33,37 +37,36 @@ namespace InvestmentDataSampleApp
             var addButtonToolBar = new ToolbarItem
             {
                 IconImageSource = "Add",
-                AutomationId = AutomationIdConstants.AddOpportunityButton
+                Text = "Add",
+                AutomationId = AutomationIdConstants.AddOpportunityButton,
+                Order = Device.RuntimePlatform is Device.Android ? ToolbarItemOrder.Secondary : ToolbarItemOrder.Default
             };
             addButtonToolBar.Clicked += HandleAddButtonClicked;
             ToolbarItems.Add(addButtonToolBar);
 
-            var searchBar = new SearchBar
-            {
-                AutomationId = AutomationIdConstants.OpportunitySearchBar
-            };
-            searchBar.SetBinding(SearchBar.TextProperty, nameof(OpportunitiesViewModel.SearchBarText));
-
             _mainLayout = new RelativeLayout();
 
-            _mainLayout.Children.Add(searchBar,
-                Constraint.Constant(0),
-                Constraint.Constant(0),
-                Constraint.RelativeToParent(parent => parent.Width));
             _mainLayout.Children.Add(_refreshView,
                 Constraint.Constant(0),
-                Constraint.RelativeToParent(getSearchBarHeight),
+                Constraint.Constant(0),
                 Constraint.RelativeToParent(parent => parent.Width),
-                Constraint.RelativeToParent(parent => parent.Height - getSearchBarHeight(parent)));
+                Constraint.RelativeToParent(parent => parent.Height));
 
             Title = PageTitleConstants.OpportunitiesPage;
 
             NavigationPage.SetBackButtonTitle(this, "");
 
             Content = _mainLayout;
-
-            double getSearchBarHeight(RelativeLayout p) => searchBar.Measure(p.Width, p.Height).Request.Height;
         }
+
+        public event EventHandler<string> SearchBarTextChanged
+        {
+            add => _searchBarChangedEventManager.AddEventHandler(value);
+            remove => _searchBarChangedEventManager.RemoveEventHandler(value);
+        }
+
+        public void OnSearchBarTextChanged(in string text) =>
+            _searchBarChangedEventManager.HandleEvent(this, text, nameof(SearchBarTextChanged));
 
         protected override async void OnAppearing()
         {
@@ -125,6 +128,8 @@ namespace InvestmentDataSampleApp
                 });
             }
         }
+
+        void HandleSearchBarTextChanged(object sender, string text) => ViewModel.FilterTextCommand.Execute(text);
     }
 }
 

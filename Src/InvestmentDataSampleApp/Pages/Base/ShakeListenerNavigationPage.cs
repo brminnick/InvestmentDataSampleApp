@@ -10,6 +10,9 @@ namespace InvestmentDataSampleApp
     {
         public ShakeListenerNavigationPage(Page root) : base(root)
         {
+            BarBackgroundColor = Color.DarkSlateGray;
+            BarTextColor = Color.White;
+
             try
             {
                 Accelerometer.Start(SensorSpeed.UI);

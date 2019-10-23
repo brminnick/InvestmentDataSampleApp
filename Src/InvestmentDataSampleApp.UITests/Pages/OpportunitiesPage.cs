@@ -11,13 +11,14 @@ namespace InvestmentDataSampleApp.UITests
 {
     public class OpportunitiesPage : BasePage
     {
-        readonly Query _addOpportunityButton, _opportunitySearchBar, _welcomeViewOkButton;
+        readonly Query _addOpportunityButton, _opportunitySearchBar, _welcomeViewOkButton, _androidContextMenuOverflowButton;
 
         public OpportunitiesPage(IApp app) : base(app)
         {
             _addOpportunityButton = x => x.Marked(AutomationIdConstants.AddOpportunityButton);
             _opportunitySearchBar = x => x.Marked(AutomationIdConstants.OpportunitySearchBar);
             _welcomeViewOkButton = x => x.Marked(AutomationIdConstants.WelcomeViewOkButton);
+            _androidContextMenuOverflowButton = x => x.Class("android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton");
         }
 
         public bool IsWelcomeViewVisible => IsWelcomeViewOnScreen();
@@ -60,10 +61,14 @@ namespace InvestmentDataSampleApp.UITests
 
         public void TapAddOpportunityButton()
         {
-            if (App is iOSApp)
-                App.Tap(_addOpportunityButton);
-            else
-                App.Tap(x => x.Class("ActionMenuItemView"));
+            if (App.Query(_androidContextMenuOverflowButton).Any())
+            {
+                App.Tap(_androidContextMenuOverflowButton);
+                App.Screenshot("Android Overflow Button Tapped");
+            }
+
+            App.Tap(_addOpportunityButton);
+
             App.Screenshot("Tapped Add Opportunity Button");
         }
 
