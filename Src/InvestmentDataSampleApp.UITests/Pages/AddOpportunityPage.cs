@@ -72,18 +72,20 @@ namespace InvestmentDataSampleApp.UITests
         {
             EnterTextThenDismissKeyboard(_topicEntry, topicText);
             EnterTextThenDismissKeyboard(_companyEntry, companyText);
-            EnterTextThenDismissKeyboard(_leaseAmountEntry, leaseAmount.ToString());
             EnterTextThenDismissKeyboard(_ownerEntry, ownerText);
+            EnterTextThenDismissKeyboard(_leaseAmountEntry, leaseAmount.ToString());
             EnterTextThenDismissKeyboard(_dbaEntry, dbaText);
         }
 
         void PopulateAllFieldsByUsingKeyboardReturnButton(string topicText, string companyText, int leaseAmount, string ownerText, string dbaText)
         {
-            EnterTextThenPressEnter(_topicEntry, topicText);
-            EnterTextThenPressEnter(_companyEntry, companyText);
-            EnterTextThenPressEnter(_leaseAmountEntry, leaseAmount.ToString());
-            EnterTextThenPressEnter(_ownerEntry, ownerText);
-            EnterTextThenPressEnter(_dbaEntry, dbaText);
+            App.Tap(_topicEntry);
+
+            EnterTextThenPressEnter(topicText);
+            EnterTextThenPressEnter(companyText);
+            EnterTextThenPressEnter(ownerText);
+            EnterTextThenPressEnter(leaseAmount.ToString());
+            EnterTextThenPressEnter(dbaText);
         }
 
         void EnterTextThenDismissKeyboard(Query entryQuery, string text)
@@ -94,9 +96,9 @@ namespace InvestmentDataSampleApp.UITests
             App.Screenshot($"Entered {text} into {nameof(entryQuery)}");
         }
 
-        void EnterTextThenPressEnter(Query entryQuery, string text)
+        void EnterTextThenPressEnter(string text)
         {
-            App.EnterText(entryQuery, text);
+            App.EnterText(text);
             App.PressEnter();
 
             App.Screenshot($"Entered {text}");

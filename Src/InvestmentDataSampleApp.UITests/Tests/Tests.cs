@@ -90,7 +90,7 @@ namespace InvestmentDataSampleApp.UITests
                 AddOpportunityPage.TapSaveButton();
 
             OpportunitiesPage.TriggerPullToRefresh();
-            await OpportunitiesPage.WaitForNoActivityIndicator().ConfigureAwait(false);
+            await OpportunitiesPage.WaitForNoPullToRefreshIndicator().ConfigureAwait(false);
 
             OpportunitiesPage.TapOpportunityViewCell(topicText);
 

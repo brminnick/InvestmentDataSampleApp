@@ -32,7 +32,20 @@ namespace InvestmentDataSampleApp.UITests
             _ => throw new NotSupportedException(),
         };
 
-        public async Task WaitForNoActivityIndicator(int timeoutInSeconds = 60)
+        public async Task WaitForPullToRefreshIndicator(int timeoutInSeconds = 60)
+        {
+            int counter = 0;
+            while (!IsRefreshActivityIndicatorDisplayed && counter < timeoutInSeconds)
+            {
+                await Task.Delay(1000).ConfigureAwait(false);
+                counter++;
+
+                if (counter >= timeoutInSeconds)
+                    throw new Exception($"Loading the list took longer than {timeoutInSeconds}s");
+            }
+        }
+
+        public async Task WaitForNoPullToRefreshIndicator(int timeoutInSeconds = 60)
         {
             int counter = 0;
             while (IsRefreshActivityIndicatorDisplayed && counter < timeoutInSeconds)
