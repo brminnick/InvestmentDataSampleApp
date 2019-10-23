@@ -25,7 +25,6 @@ namespace InvestmentDataSampleApp
 
             var bodyLabel = new Label
             {
-                TextColor = Color.DarkSlateGray,
                 Text = bodyText,
                 HorizontalTextAlignment = TextAlignment.Center,
                 AutomationId = AutomationIdConstants.WelcomeViewBodyLabel

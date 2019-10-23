@@ -73,13 +73,20 @@ namespace InvestmentDataSampleApp
 
             var grid = new Grid
             {
-                ColumnSpacing = 20
+                Margin = new Thickness(0, 5, 0, 15),
+                Padding = new Thickness(5, 0, 0, 0),
+                ColumnSpacing = 20,
+                RowDefinitions =
+                {
+                    new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                    new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+                },
+                ColumnDefinitions =
+                {
+                    new ColumnDefinition { Width = new GridLength(_rowHeight / 3, GridUnitType.Absolute) },
+                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+                }
             };
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(_rowHeight / 3, GridUnitType.Absolute) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) });
 
             grid.Children.Add(beaconFundingImage, 0, 0);
             Grid.SetRowSpan(beaconFundingImage, 2);
@@ -103,9 +110,6 @@ namespace InvestmentDataSampleApp
                 grid.Children.Add(ownerTitleLabel, 4, 0);
                 grid.Children.Add(ownerDescriptionLabel, 4, 1);
             }
-
-            var gridLeftMargin = Device.RuntimePlatform is Device.Android ? 5 : 0;
-            grid.Margin = new Thickness(gridLeftMargin, 5, 0, 15);
 
             return grid;
         }

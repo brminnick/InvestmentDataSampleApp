@@ -6,13 +6,10 @@ using Xamarin.Essentials;
 
 namespace InvestmentDataSampleApp
 {
-    public class ShakeListenerNavigationPage : NavigationPage
+    public class ShakeListenerNavigationPage : BaseNavigationPage
     {
         public ShakeListenerNavigationPage(Page root) : base(root)
         {
-            BarBackgroundColor = Color.DarkSlateGray;
-            BarTextColor = Color.White;
-
             try
             {
                 Accelerometer.Start(SensorSpeed.UI);

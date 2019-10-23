@@ -99,7 +99,7 @@ namespace InvestmentDataSampleApp
             if (Device.RuntimePlatform is Device.iOS)
                 await Navigation.PushModalAsync(new AddOpportunityPage());
             else
-                await Navigation.PushModalAsync(new NavigationPage(new AddOpportunityPage()));
+                await Navigation.PushModalAsync(new BaseNavigationPage(new AddOpportunityPage()));
         }
 
 
