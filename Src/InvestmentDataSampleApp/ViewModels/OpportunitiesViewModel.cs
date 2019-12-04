@@ -56,7 +56,7 @@ namespace InvestmentDataSampleApp
             {
                 var upperCaseFilter = filter.ToUpper();
 
-                var filteredOpportunitiesList = _allOpportunitiesList.Where(x => x != null && 
+                var filteredOpportunitiesList = _allOpportunitiesList.Where(x => x != null &&
                    (x.Company.ToUpper().Contains(upperCaseFilter) ||
                     x.CreatedAt.ToString().ToUpper().Contains(upperCaseFilter) ||
                     x.DBA.ToUpper().Contains(upperCaseFilter) ||
@@ -116,7 +116,7 @@ namespace InvestmentDataSampleApp
                 }
 
                 _allOpportunitiesList = opportunityModelsFromDatabase.ToList();
-                
+
                 foreach (var opportunity in _allOpportunitiesList)
                     VisibleOpportunitiesCollection.Add(opportunity);
 

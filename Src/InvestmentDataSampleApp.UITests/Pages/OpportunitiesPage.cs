@@ -98,12 +98,9 @@ namespace InvestmentDataSampleApp.UITests
         {
             App.ScrollDownTo(topic);
 
-            if (App is iOSApp)
-                App.SwipeRightToLeft(topic);
-            else
-                App.TouchAndHold(topic);
+            App.SwipeRightToLeft(topic, .75, 1000, false);
 
-            App.Tap("Delete");
+            App.Screenshot($"Deleted {topic}");
         }
 
         public void TapWelcomeViewOkButton()
