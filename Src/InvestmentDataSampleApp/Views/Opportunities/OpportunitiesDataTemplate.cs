@@ -1,3 +1,8 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using AsyncAwaitBestPractices.MVVM;
 using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
@@ -11,7 +16,7 @@ namespace InvestmentDataSampleApp
 
         }
 
-        static Grid LoadTemplate()
+        static SwipeView LoadTemplate()
         {
             var beaconFundingImage = new Image
             {
@@ -73,8 +78,11 @@ namespace InvestmentDataSampleApp
 
             var grid = new Grid
             {
+                BackgroundColor = Color.White,
+
                 Margin = new Thickness(0, 5, 0, 15),
                 Padding = new Thickness(5, 0, 0, 0),
+
                 ColumnSpacing = 20,
                 RowDefinitions =
                 {
@@ -111,7 +119,41 @@ namespace InvestmentDataSampleApp
                 grid.Children.Add(ownerDescriptionLabel, 4, 1);
             }
 
-            return grid;
+            var deleteSwipeItem = new SwipeItem
+            {
+                Text = "Delete",
+                BackgroundColor = Color.Red,
+                Command = new AsyncCommand<string>(ExecuteSwipeToDeleteCommand)
+            };
+            deleteSwipeItem.SetBinding(SwipeItem.CommandParameterProperty, nameof(OpportunityModel.Topic));
+
+            var swipeView = new SwipeView
+            {
+                RightItems = new SwipeItems { Mode = SwipeMode.Execute },
+                Content = grid
+            };
+            swipeView.RightItems.Add(deleteSwipeItem);
+
+            return swipeView;
+        }
+
+        static async Task ExecuteSwipeToDeleteCommand(string topic)
+        {
+            var opportunityModelToDelete = await OpportunityModelDatabase.GetOpportunityByTopic(topic).ConfigureAwait(false);
+            await OpportunityModelDatabase.DeleteItem(opportunityModelToDelete).ConfigureAwait(false);
+
+            await TriggerPullToRefresh().ConfigureAwait(false);
+        }
+
+        static Task TriggerPullToRefresh()
+        {
+            var navigationPage = (NavigationPage)Application.Current.MainPage;
+            var opportunityPage = navigationPage.Navigation.NavigationStack.OfType<OpportunitiesPage>().First();
+
+            var opportunityPageLayout = (Layout<View>)opportunityPage.Content;
+            var refreshView = opportunityPageLayout.Children.OfType<RefreshView>().First();
+
+            return Device.InvokeOnMainThreadAsync(() => refreshView.IsRefreshing = true);
         }
     }
 }

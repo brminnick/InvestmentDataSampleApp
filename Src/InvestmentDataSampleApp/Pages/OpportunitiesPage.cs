@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
@@ -11,10 +11,7 @@ namespace InvestmentDataSampleApp
     public class OpportunitiesPage : BaseContentPage<OpportunitiesViewModel>, ISearchPage
     {
         readonly WeakEventManager<string> _searchBarChangedEventManager = new WeakEventManager<string>();
-
-        readonly RefreshView _refreshView;
         readonly RelativeLayout _mainLayout;
-
         readonly WelcomeView _welcomeView = new WelcomeView();
 
         public OpportunitiesPage()
@@ -30,9 +27,9 @@ namespace InvestmentDataSampleApp
             collectionView.SelectionChanged += HandleSelectionChanged;
             collectionView.SetBinding(CollectionView.ItemsSourceProperty, nameof(OpportunitiesViewModel.VisibleOpportunitiesCollection));
 
-            _refreshView = new RefreshView { Content = collectionView };
-            _refreshView.SetBinding(RefreshView.CommandProperty, nameof(OpportunitiesViewModel.RefreshDataCommand));
-            _refreshView.SetBinding(RefreshView.IsRefreshingProperty, nameof(OpportunitiesViewModel.IsCollectionRefreshing));
+            var refreshView = new RefreshView { Content = collectionView };
+            refreshView.SetBinding(RefreshView.CommandProperty, nameof(OpportunitiesViewModel.RefreshDataCommand));
+            refreshView.SetBinding(RefreshView.IsRefreshingProperty, nameof(OpportunitiesViewModel.IsCollectionRefreshing));
 
             var addButtonToolBar = new ToolbarItem
             {
@@ -46,7 +43,7 @@ namespace InvestmentDataSampleApp
 
             _mainLayout = new RelativeLayout();
 
-            _mainLayout.Children.Add(_refreshView,
+            _mainLayout.Children.Add(refreshView,
                 Constraint.Constant(0),
                 Constraint.Constant(0),
                 Constraint.RelativeToParent(parent => parent.Width),
@@ -74,24 +71,24 @@ namespace InvestmentDataSampleApp
 
             await DisplayWelcomeView();
 
-            if (_refreshView.Content is CollectionView collectionView
-                && collectionView.ItemsSource is ICollection<OpportunityModel> collectionItemSource
-                && !collectionItemSource.Any())
+            if (Content is Layout<View> layout
+                && layout.Children.OfType<RefreshView>().First() is RefreshView refreshView
+                && refreshView.Content is CollectionView collectionView
+                && IsNullOrEmpty(collectionView.ItemsSource))
             {
-                _refreshView.IsRefreshing = true;
+                refreshView.IsRefreshing = true;
             }
+
+            static bool IsNullOrEmpty(in IEnumerable? enumerable) => !enumerable?.GetEnumerator().MoveNext() ?? true;
         }
 
-        void HandleSelectionChanged(object sender, SelectionChangedEventArgs e)
+        async void HandleSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                if (e.CurrentSelection.FirstOrDefault() is OpportunityModel itemTapped)
-                    await Navigation.PushAsync(new OpportunityDetailsPage(itemTapped));
+            var collectionView = (CollectionView)sender;
+            collectionView.SelectedItem = null;
 
-                if (sender is CollectionView collectionView)
-                    collectionView.SelectedItem = null;
-            });
+            if (e.CurrentSelection.FirstOrDefault() is OpportunityModel itemTapped)
+                await Navigation.PushAsync(new OpportunityDetailsPage(itemTapped));
         }
 
         async void HandleAddButtonClicked(object sender, EventArgs e)
