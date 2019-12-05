@@ -129,10 +129,9 @@ namespace InvestmentDataSampleApp
 
             var swipeView = new SwipeView
             {
-                RightItems = new SwipeItems { Mode = SwipeMode.Execute },
+                RightItems = { deleteSwipeItem },
                 Content = grid
             };
-            swipeView.RightItems.Add(deleteSwipeItem);
 
             return swipeView;
         }
