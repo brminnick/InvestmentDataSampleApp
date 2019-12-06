@@ -6,9 +6,9 @@ This sample app demonstrates the following new features in Xamarin.Forms:
 - [Xamarin.Forms.CollectionView](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/collectionview?WT.mc_id=social-github-bramin)
 - [Xamarin.Forms.PlatformConfiguration.iOSSpecific.UIModalPresentationStyle.FormSheet](https://docs.microsoft.com/xamarin/xamarin-forms/platform/ios/page-presentation-style?WT.mc_id=social-github-bramin)
 
-| CollectionView + RefreshView (iOS) | UIModalPresentationStyle.FormSheet | CollectionView + RefreshView (Android) |
-| ---------------------------------- | -------------------------------------- | ---------------------------------- |
-| ![CollectionView + RefreshView Demo, iOS](https://user-images.githubusercontent.com/13558917/67148064-d3b98600-f24f-11e9-819f-c2736044c961.gif) | ![iOS Modal Page Demo](https://user-images.githubusercontent.com/13558917/67147948-a7e9d080-f24e-11e9-9e8d-c3c23fc3413c.gif) | ![CollectionView + RefreshView Demo, Android](https://user-images.githubusercontent.com/13558917/67148119-78d45e80-f250-11e9-8493-84583a19e809.gif) |
+| CollectionView + RefreshView (iOS) | UIModalPresentationStyle.FormSheet | CollectionView + RefreshView (Android) | SwipeView (Android) |
+| ---------------------------------- | -------------------------------------- | ---------------------------------- | ------------------ |
+| ![CollectionView + RefreshView Demo, iOS](https://user-images.githubusercontent.com/13558917/70351802-95d3e980-181e-11ea-9f34-357a687b5fe2.gif) | ![iOS Modal Page Demo](https://user-images.githubusercontent.com/13558917/70351803-95d3e980-181e-11ea-8435-ec4d5a3ec7fb.gif) | ![CollectionView + RefreshView Demo, Android](https://user-images.githubusercontent.com/13558917/70351805-966c8000-181e-11ea-9ea0-8cadfe0fd9a8.gif) | ![SwipeView Android](https://user-images.githubusercontent.com/13558917/70351804-966c8000-181e-11ea-990f-623a01a2ebda.gif) |
 
 ## UI Design
 
