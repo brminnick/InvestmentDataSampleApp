@@ -80,7 +80,6 @@ namespace InvestmentDataSampleApp
             {
                 BackgroundColor = Color.White,
 
-                Margin = new Thickness(0, 5, 0, 15),
                 Padding = new Thickness(5, 0, 0, 0),
 
                 ColumnSpacing = 20,
@@ -130,7 +129,8 @@ namespace InvestmentDataSampleApp
             var swipeView = new SwipeView
             {
                 RightItems = { deleteSwipeItem },
-                Content = grid
+                Content = grid,
+                Margin = new Thickness(0, 5, 0, 15)
             };
 
             return swipeView;
