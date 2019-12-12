@@ -67,7 +67,7 @@
         <Reference Include="Mono.Android.Export" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="4.4.0.991220-pre3" />
+        <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
         <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.0.0-pre3" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />

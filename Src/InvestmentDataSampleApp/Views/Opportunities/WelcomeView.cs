@@ -12,8 +12,6 @@ namespace InvestmentDataSampleApp
             const string bodyText = "Enjoy InvestmentDataSampleApp";
             const string okButtonText = "Ok, thanks!";
 
-            var viewModel = BindingContext as OpportunitiesViewModel;
-
             var titleLabel = new Label
             {
                 TextColor = Color.DarkSlateGray,
@@ -41,7 +39,7 @@ namespace InvestmentDataSampleApp
                 Text = okButtonText,
                 AutomationId = AutomationIdConstants.WelcomeViewOkButton
             };
-            okButton.SetBinding(Button.CommandProperty, nameof(viewModel.OkButtonTappedCommand));
+            okButton.SetBinding(Button.CommandProperty, nameof(OpportunitiesViewModel.OkButtonTappedCommand));
 
             var textAndButtonStack = new StackLayout
             {
