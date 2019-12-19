@@ -28,11 +28,11 @@ namespace InvestmentDataSampleApp
             return DatabaseConnection;
         }
 
-        protected static Task<T> ExecuteDatabaseFunction<T>(Func<Task<T>> action, int numRetries = 3)
+        protected static Task<T> AttemptAndRetry<T>(Func<Task<T>> action, int numRetries = 3)
         {
             return Policy.Handle<Exception>().WaitAndRetryAsync(numRetries, pollyRetryAttempt).ExecuteAsync(action);
 
-            TimeSpan pollyRetryAttempt(int attemptNumber) => TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
+            static TimeSpan pollyRetryAttempt(int attemptNumber) => TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
         }
     }
 }
