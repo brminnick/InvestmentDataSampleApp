@@ -1,7 +1,7 @@
 # InvestmentDataSampleApp
 
 This sample app demonstrates the following new features in Xamarin.Forms:
-- Xamarin.Forms.SwipeView (docs link TBD)
+- [Xamarin.Forms.SwipeView](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/swipeview?WT.mc_id=social-github-bramin)
 - [Xamarin.Forms.RefreshView](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/refreshview?WT.mc_id=social-github-bramin)
 - [Xamarin.Forms.CollectionView](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/collectionview?WT.mc_id=social-github-bramin)
 - [Xamarin.Forms.PlatformConfiguration.iOSSpecific.UIModalPresentationStyle.FormSheet](https://docs.microsoft.com/xamarin/xamarin-forms/platform/ios/page-presentation-style?WT.mc_id=social-github-bramin)
