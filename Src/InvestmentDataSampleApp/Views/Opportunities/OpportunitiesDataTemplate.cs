@@ -119,14 +119,21 @@ namespace InvestmentDataSampleApp
             var deleteSwipeItem = new SwipeItem
             {
                 Text = "Delete",
+                IconImageSource = "Delete",
                 BackgroundColor = Color.Red,
                 Command = new AsyncCommand<string>(ExecuteSwipeToDeleteCommand)
             };
             deleteSwipeItem.SetBinding(SwipeItem.CommandParameterProperty, nameof(OpportunityModel.Topic));
 
+            var rightSwipeItems = new SwipeItems
+            {
+                Mode = SwipeMode.Execute
+            };
+            rightSwipeItems.Add(deleteSwipeItem);
+
             var swipeView = new SwipeView
             {
-                RightItems = { deleteSwipeItem },
+                RightItems = rightSwipeItems,
                 Content = grid,
                 Margin = new Thickness(0, 5, 0, 15)
             };

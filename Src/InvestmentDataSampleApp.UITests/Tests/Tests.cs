@@ -70,8 +70,8 @@ namespace InvestmentDataSampleApp.UITests
 
             AddOpportunityPage.TapSaveButton();
             AddOpportunityPage.WaitForErrorMessage();
-            //Assert
 
+            //Assert
             Assert.IsTrue(AddOpportunityPage.IsErrorMessageDisplayed);
         }
 

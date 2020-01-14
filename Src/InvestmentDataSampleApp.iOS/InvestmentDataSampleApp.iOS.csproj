@@ -124,6 +124,8 @@
     <ItemGroup>
         <BundleResource Include="Resources\beaconfundingicon.png" />
         <BundleResource Include="Resources\Add%402x.png" />
+        <BundleResource Include="Resources\Delete%402x.png" />
+        <BundleResource Include="Resources\Delete%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\InvestmentDataSampleApp\InvestmentDataSampleApp.csproj">
