@@ -35,7 +35,7 @@ namespace InvestmentDataSampleApp.UITests
                 _ => throw new NotSupportedException(),
             };
 
-            return titleQuery?.FirstOrDefault()?.Text;
+            return titleQuery.First().Text;
 		}
 	}
 }

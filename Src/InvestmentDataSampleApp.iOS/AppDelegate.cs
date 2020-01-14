@@ -25,7 +25,7 @@ namespace InvestmentDataSampleApp.iOS
         [Preserve, Export("triggerPullToRefresh:")]
         public void TriggerPullToRefresh(NSString noValue) => UITestBackdoorMethodService.TriggerPullToRefresh();
 #endif
-#endregion
+        #endregion
 
     }
 }

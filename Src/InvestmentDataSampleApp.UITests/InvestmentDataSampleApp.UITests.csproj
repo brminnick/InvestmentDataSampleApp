@@ -9,7 +9,8 @@
         <AssemblyName>InvestmentDataSampleApp.UITests</AssemblyName>
         <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-        <LangVersion>8.0</LangVersion>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -39,7 +40,7 @@
         <Compile Include="Tests\BaseTest.cs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.UITest" Version="3.0.5" />
+        <PackageReference Include="Xamarin.UITest" Version="3.0.6-dev1" />
         <PackageReference Include="NUnit" Version="3.12.0" />
     </ItemGroup>
     <ItemGroup>

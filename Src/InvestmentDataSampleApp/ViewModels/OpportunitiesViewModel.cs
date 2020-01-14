@@ -16,12 +16,12 @@ namespace InvestmentDataSampleApp
         readonly WeakEventManager _okButtonTappedEventManager = new WeakEventManager();
 
         bool _isCollectionRefreshing;
-        string _searchBarText = string.Empty;
         IReadOnlyList<OpportunityModel> _allOpportunitiesList = Enumerable.Empty<OpportunityModel>().ToList();
         ICommand? _refreshDataCommand, _okButtonTappedCommand, _filterTextCommand;
 
         public OpportunitiesViewModel()
         {
+            //https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
             BindingBase.EnableCollectionSynchronization(VisibleOpportunitiesCollection, null, ObservableCollectionCallback);
         }
 
@@ -32,7 +32,7 @@ namespace InvestmentDataSampleApp
         }
 
         public ICommand OkButtonTappedCommand => _okButtonTappedCommand ??= new Command(ExecuteOkButtonTappedCommand);
-        public ICommand FilterTextCommand => _filterTextCommand ??= new Command<string>(ExecuteFilterTextCommand);
+        public ICommand FilterTextCommand => _filterTextCommand ??= new Command<string>(FilterList);
         public ICommand RefreshDataCommand => _refreshDataCommand ??= new AsyncCommand(ExecuteRefreshDataCommand);
 
         public ObservableCollection<OpportunityModel> VisibleOpportunitiesCollection { get; } = new ObservableCollection<OpportunityModel>();
@@ -78,7 +78,7 @@ namespace InvestmentDataSampleApp
             {
                 var newOpportunity = new OpportunityModel();
 
-                var rnd = new Random();
+                var rnd = new Random((int)DateTime.Now.Ticks);
                 var companyIndex = rnd.Next(50);
                 var dbaIndex = rnd.Next(50);
                 var leaseAmount = rnd.Next(1000000);
@@ -106,13 +106,13 @@ namespace InvestmentDataSampleApp
 
             try
             {
-                var opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityData_OldestToNewest();
+                var opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityData_OldestToNewest().ConfigureAwait(false);
 
                 // If the database is empty, initialize the database with dummy data
                 if (!opportunityModelsFromDatabase.Any())
                 {
-                    await InitializeDataInDatabaseAsync();
-                    opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityData_OldestToNewest();
+                    await InitializeDataInDatabaseAsync().ConfigureAwait(false);
+                    opportunityModelsFromDatabase = await OpportunityModelDatabase.GetAllOpportunityData_OldestToNewest().ConfigureAwait(false);
                 }
 
                 _allOpportunitiesList = opportunityModelsFromDatabase.ToList();
@@ -127,14 +127,13 @@ namespace InvestmentDataSampleApp
             }
         }
 
-        void ExecuteFilterTextCommand(string filterText) => FilterList(filterText);
-
         void ExecuteOkButtonTappedCommand()
         {
             OnOkButtonTapped();
             Settings.ShouldShowWelcomeView = false;
         }
 
+        //https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
         void ObservableCollectionCallback(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
         {
             lock (collection)
