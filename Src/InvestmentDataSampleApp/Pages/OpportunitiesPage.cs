@@ -21,10 +21,9 @@ namespace InvestmentDataSampleApp
 
             var collectionView = new CollectionView
             {
-                ItemTemplate = new OpportunitiesDataTemplate(),
+                ItemTemplate = new OpportunitiesDataTemplateSelector(),
                 SelectionMode = SelectionMode.Single,
             };
-            collectionView.SelectionChanged += HandleSelectionChanged;
             collectionView.SetBinding(CollectionView.ItemsSourceProperty, nameof(OpportunitiesViewModel.VisibleOpportunitiesCollection));
 
             var refreshView = new RefreshView { Content = collectionView };
@@ -80,15 +79,6 @@ namespace InvestmentDataSampleApp
             }
 
             static bool IsNullOrEmpty(in IEnumerable? enumerable) => !enumerable?.GetEnumerator().MoveNext() ?? true;
-        }
-
-        async void HandleSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var collectionView = (CollectionView)sender;
-            collectionView.SelectedItem = null;
-
-            if (e.CurrentSelection.FirstOrDefault() is OpportunityModel itemTapped)
-                await Navigation.PushAsync(new OpportunityDetailsPage(itemTapped));
         }
 
         async void HandleAddButtonClicked(object sender, EventArgs e)
