@@ -19,7 +19,7 @@ namespace InvestmentDataSampleApp.UITests
             _addOpportunityButton = x => x.Marked(AutomationIdConstants.AddOpportunityButton);
             _opportunitySearchBar = x => x.Marked(AutomationIdConstants.OpportunitySearchBar);
             _welcomeViewOkButton = x => x.Marked(AutomationIdConstants.WelcomeViewOkButton);
-            _androidContextMenuOverflowButton = x => x.Class("android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton");
+            _androidContextMenuOverflowButton = x => x.Class("androidx.appcompat.widget.ActionMenuPresenter$OverflowMenuButton");
             _androidSearchBarButton = x => x.Id("ActionSearch");
         }
 

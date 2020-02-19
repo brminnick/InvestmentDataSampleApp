@@ -1,14 +1,14 @@
 ﻿using Android.Content;
 using Android.Runtime;
-using Android.Support.V7.Widget;
 using Android.Text;
 using Android.Views.InputMethods;
-using Plugin.CurrentActivity;
+using AndroidX.AppCompat.Widget;
 using InvestmentDataSampleApp;
 using InvestmentDataSampleApp.Droid;
+using InvestmentDataSampleApp.Shared;
+using Plugin.CurrentActivity;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using InvestmentDataSampleApp.Shared;
 
 [assembly: ExportRenderer(typeof(OpportunitiesPage), typeof(SearchPageRenderer))]
 namespace InvestmentDataSampleApp.Droid
