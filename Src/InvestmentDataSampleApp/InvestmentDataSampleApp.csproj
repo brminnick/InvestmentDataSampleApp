@@ -17,8 +17,8 @@
         <Folder Include="Views\OpportunityDetails\" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="4.5.0.282-pre4" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.5.0-pre1" />
+        <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.1.0" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
         <PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
