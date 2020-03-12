@@ -91,8 +91,8 @@
         <Reference Include="System.Net.Http" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />
+        <PackageReference Include="Xamarin.Forms" Version="4.6.0.379-pre1" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.1.0" />
         <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.9" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
