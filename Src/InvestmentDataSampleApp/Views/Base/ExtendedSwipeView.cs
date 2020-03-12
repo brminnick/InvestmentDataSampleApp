@@ -23,7 +23,7 @@ namespace InvestmentDataSampleApp
 
         public bool IsSwiped { get; private set; }
 
-        public ICommand? TappedCommand { get; }
+        public ICommand TappedCommand { get; }
         public object? TappedCommandProperty { get; }
 
         void OnCloseRequested(object sender, EventArgs e) => IsSwiped = false;
@@ -37,15 +37,17 @@ namespace InvestmentDataSampleApp
         void HandleTapped(object sender, EventArgs e)
         {
             if (!IsSwiped)
-                TappedCommand?.Execute(TappedCommandProperty);
+                TappedCommand.Execute(TappedCommandProperty);
+            else
+                IsSwiped = false;
         }
 
         SwipeMode GetSwipeMode(SwipeDirection swipeDirection) => swipeDirection switch
         {
-            SwipeDirection.Up => TopItems.Mode,
-            SwipeDirection.Right => RightItems.Mode,
-            SwipeDirection.Down => BottomItems.Mode,
-            SwipeDirection.Left => LeftItems.Mode,
+            SwipeDirection.Down => TopItems.Mode,
+            SwipeDirection.Left => RightItems.Mode,
+            SwipeDirection.Up => BottomItems.Mode,
+            SwipeDirection.Right => LeftItems.Mode,
             _ => throw new NotSupportedException()
         };
     }
