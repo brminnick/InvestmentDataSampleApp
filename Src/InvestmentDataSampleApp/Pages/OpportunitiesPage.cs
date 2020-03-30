@@ -26,7 +26,11 @@ namespace InvestmentDataSampleApp
             };
             collectionView.SetBinding(CollectionView.ItemsSourceProperty, nameof(OpportunitiesViewModel.VisibleOpportunitiesCollection));
 
-            var refreshView = new RefreshView { Content = collectionView };
+            var refreshView = new RefreshView
+            {
+                RefreshColor = Color.DarkSlateGray,
+                Content = collectionView
+            };
             refreshView.SetBinding(RefreshView.CommandProperty, nameof(OpportunitiesViewModel.RefreshDataCommand));
             refreshView.SetBinding(RefreshView.IsRefreshingProperty, nameof(OpportunitiesViewModel.IsCollectionRefreshing));
 
