@@ -140,14 +140,6 @@ namespace InvestmentDataSampleApp
             Content = grid;
         }
 
-        protected override async void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            if (Navigation.ModalStack.Count > 0)
-                await Navigation.PopModalAsync();
-        }
-
         async void HandleCancelButtonClicked(object sender, EventArgs e) =>
             await Navigation.PopModalAsync();
 
@@ -156,15 +148,15 @@ namespace InvestmentDataSampleApp
             var opportunityViewModel = (AddOpportunityViewModel)sender;
             var blankFieldsString = new StringBuilder();
 
-            if (string.IsNullOrWhiteSpace(opportunityViewModel?.Topic))
+            if (string.IsNullOrWhiteSpace(opportunityViewModel.Topic))
                 blankFieldsString.AppendLine("Topic");
-            if (string.IsNullOrWhiteSpace(opportunityViewModel?.Company))
+            if (string.IsNullOrWhiteSpace(opportunityViewModel.Company))
                 blankFieldsString.AppendLine("Company");
-            if (opportunityViewModel?.LeaseAmount == 0)
+            if (opportunityViewModel.LeaseAmount == 0)
                 blankFieldsString.AppendLine("Lease Amount");
-            if (string.IsNullOrWhiteSpace(opportunityViewModel?.Owner))
+            if (string.IsNullOrWhiteSpace(opportunityViewModel.Owner))
                 blankFieldsString.AppendLine("Owner");
-            if (string.IsNullOrWhiteSpace(opportunityViewModel?.DBA))
+            if (string.IsNullOrWhiteSpace(opportunityViewModel.DBA))
                 blankFieldsString.Append("DBA");
 
             blankFieldsString.Remove(blankFieldsString.Length - 1, 1);
