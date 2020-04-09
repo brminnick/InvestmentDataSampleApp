@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using InvestmentDataSampleApp.iOS;
 using UIKit;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
@@ -38,7 +36,7 @@ namespace InvestmentDataSampleApp.iOS
 
         void HandleAllEditingEvents(object sender, EventArgs e)
         {
-            if (AppInfo.RequestedTheme is AppTheme.Dark
+            if (Xamarin.Forms.Application.Current.RequestedTheme is AppTheme.Dark
                 && Control.Subviews.OfType<UIButton>().FirstOrDefault() is UIButton clearButton
                 && clearButton.CurrentImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate) is UIImage clearButtonImage)
             {
