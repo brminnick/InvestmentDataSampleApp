@@ -6,7 +6,6 @@ using AndroidX.AppCompat.Widget;
 using InvestmentDataSampleApp;
 using InvestmentDataSampleApp.Droid;
 using InvestmentDataSampleApp.Shared;
-using Plugin.CurrentActivity;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -85,6 +84,6 @@ namespace InvestmentDataSampleApp.Droid
                 searchPage.OnSearchBarTextChanged(e.NewText);
         }
 
-        Toolbar GetToolbar() => CrossCurrentActivity.Current.Activity.FindViewById<Toolbar>(Resource.Id.toolbar);
+        Toolbar GetToolbar() => Xamarin.Essentials.Platform.CurrentActivity.FindViewById<Toolbar>(Resource.Id.toolbar);
     }
 }

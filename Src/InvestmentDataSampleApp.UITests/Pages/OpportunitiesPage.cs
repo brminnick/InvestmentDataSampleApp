@@ -60,16 +60,7 @@ namespace InvestmentDataSampleApp.UITests
 
         public void TriggerPullToRefresh()
         {
-            switch (App)
-            {
-                case iOSApp iOSApp:
-                    iOSApp.Invoke("triggerPullToRefresh:", "");
-                    break;
-
-                case AndroidApp androidApp:
-                    androidApp.Invoke("TriggerPullToRefresh");
-                    break;
-            }
+            App.InvokeBackdoorMethod(UITestBackdoorConstants.TriggerRefresh);
 
             App.Screenshot("Triggered Pull To Refresh");
         }

@@ -36,7 +36,7 @@ namespace InvestmentDataSampleApp.iOS
 
         void HandleAllEditingEvents(object sender, EventArgs e)
         {
-            if (Xamarin.Forms.Application.Current.RequestedTheme is AppTheme.Dark
+            if (Xamarin.Forms.Application.Current.RequestedTheme is OSAppTheme.Dark
                 && Control.Subviews.OfType<UIButton>().FirstOrDefault() is UIButton clearButton
                 && clearButton.CurrentImage.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate) is UIImage clearButtonImage)
             {

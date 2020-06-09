@@ -1,5 +1,6 @@
 ﻿using UIKit;
 using Foundation;
+using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp.iOS
 {
@@ -22,7 +23,7 @@ namespace InvestmentDataSampleApp.iOS
 
         #region Backdoor Methods
 #if DEBUG
-        [Preserve, Export("triggerPullToRefresh:")]
+        [Preserve, Export(UITestBackdoorConstants.TriggerRefresh + ":")]
         public void TriggerPullToRefresh(NSString noValue) => UITestBackdoorMethodService.TriggerPullToRefresh();
 #endif
         #endregion

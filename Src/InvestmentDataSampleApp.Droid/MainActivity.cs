@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Java.Interop;
+using InvestmentDataSampleApp.Shared;
 
 namespace InvestmentDataSampleApp.Droid
 {
@@ -11,7 +12,7 @@ namespace InvestmentDataSampleApp.Droid
     {
         #region Backdoor Methods
 #if DEBUG
-        [Preserve, Export(nameof(TriggerPullToRefresh))]
+        [Preserve, Export(UITestBackdoorConstants.TriggerRefresh)]
         public void TriggerPullToRefresh() => UITestBackdoorMethodService.TriggerPullToRefresh();
 #endif
         #endregion
@@ -29,8 +30,6 @@ namespace InvestmentDataSampleApp.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

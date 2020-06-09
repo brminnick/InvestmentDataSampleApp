@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices.MVVM;
+using FFImageLoading.Forms;
 using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
@@ -22,7 +23,7 @@ namespace InvestmentDataSampleApp
 
             static SwipeView LoadTemplate(OpportunityModel opportunityModel)
             {
-                var beaconFundingImage = new Image
+                var beaconFundingImage = new CachedImage
                 {
                     Source = "beaconfundingicon",
                     HeightRequest = _rowHeight
@@ -88,15 +89,15 @@ namespace InvestmentDataSampleApp
 
                     ColumnSpacing = 20,
                     RowDefinitions =
-                {
-                    new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                    new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-                },
-                    ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = new GridLength(_rowHeight / 3, GridUnitType.Absolute) },
-                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
-                }
+                    {
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+                    },
+                        ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = new GridLength(_rowHeight / 3, GridUnitType.Absolute) },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+                    }
                 };
 
                 grid.Children.Add(beaconFundingImage, 0, 0);
