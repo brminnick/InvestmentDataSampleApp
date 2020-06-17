@@ -1,6 +1,6 @@
-﻿using Xamarin.Forms;
-
-using InvestmentDataSampleApp.Shared;
+﻿using InvestmentDataSampleApp.Shared;
+using Xamarin.Forms;
+using Xamarin.Forms.Markup;
 
 namespace InvestmentDataSampleApp
 {
@@ -8,51 +8,55 @@ namespace InvestmentDataSampleApp
     {
         public WelcomeView() : base(true)
         {
-            const string titleText = "Welcome";
-            const string bodyText = "Enjoy InvestmentDataSampleApp";
-            const string okButtonText = "Ok, thanks!";
-
-            var titleLabel = new Label
-            {
-                TextColor = Color.DarkSlateGray,
-                FontAttributes = FontAttributes.Bold,
-                Text = titleText,
-                HorizontalTextAlignment = TextAlignment.Center,
-                AutomationId = AutomationIdConstants.WelcomeViewTitleLabel
-            };
-
-            var bodyLabel = new Label
-            {
-                Text = bodyText,
-                HorizontalTextAlignment = TextAlignment.Center,
-                AutomationId = AutomationIdConstants.WelcomeViewBodyLabel
-            };
-
-            var okButton = new Button
-            {
-                BackgroundColor = Color.DarkSlateGray,
-                BorderWidth = 1,
-                BorderColor = Color.DarkSlateGray,
-                TextColor = Color.White,
-                FontAttributes = FontAttributes.Bold,
-                Margin = new Thickness(5),
-                Text = okButtonText,
-                AutomationId = AutomationIdConstants.WelcomeViewOkButton
-            };
-            okButton.SetBinding(Button.CommandProperty, nameof(OpportunitiesViewModel.OkButtonTappedCommand));
-
-            var textAndButtonStack = new StackLayout
+            OverlayContent = new StackLayout
             {
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 Spacing = 20,
-                Children = {
-                    titleLabel,
-                    bodyLabel,
-                    okButton
+                Children =
+                {
+                    new TitleLabel(),
+                    new BodyLabel(),
+                    new OkButton()
+                        .Bind(Button.CommandProperty, nameof(OpportunitiesViewModel.OkButtonTappedCommand))
                 }
             };
+        }
 
-            OverlayContent = textAndButtonStack;
+        class TitleLabel : Label
+        {
+            public TitleLabel()
+            {
+                Text = "Welcome";
+                TextColor = Color.DarkSlateGray;
+                FontAttributes = FontAttributes.Bold;
+                HorizontalTextAlignment = TextAlignment.Center;
+                AutomationId = AutomationIdConstants.WelcomeViewTitleLabel;
+            }
+        }
+
+        class BodyLabel : Label
+        {
+            public BodyLabel()
+            {
+                Text = $"Enjoy {nameof(InvestmentDataSampleApp)}";
+                HorizontalTextAlignment = TextAlignment.Center;
+                AutomationId = AutomationIdConstants.WelcomeViewBodyLabel;
+            }
+        }
+
+        class OkButton : Button
+        {
+            public OkButton()
+            {
+                Text = "Ok, thanks!";
+                BorderWidth = 1;
+                TextColor = Color.White;
+                Margin = new Thickness(5);
+                BorderColor = Color.DarkSlateGray;
+                BackgroundColor = Color.DarkSlateGray;
+                FontAttributes = FontAttributes.Bold;
+                AutomationId = AutomationIdConstants.WelcomeViewOkButton;
+            }
         }
     }
 }

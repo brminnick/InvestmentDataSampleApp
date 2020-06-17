@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
+using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
 {
@@ -35,6 +36,9 @@ namespace InvestmentDataSampleApp
         }
 
         public ICommand SaveButtonTapped => _saveButtonTapped ??= new AsyncCommand(ExecuteSaveButtonTapped);
+
+        public bool IsTitleVisible { get; } = Device.RuntimePlatform is Device.iOS;
+        public bool IsCancelButtonVisible { get; } = Device.RuntimePlatform is Device.Android;
 
         public string Topic
         {

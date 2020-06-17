@@ -31,7 +31,7 @@ namespace InvestmentDataSampleApp
             remove => _okButtonTappedEventManager.RemoveEventHandler(value);
         }
 
-        public ICommand OkButtonTappedCommand => _okButtonTappedCommand ??= new Command(ExecuteOkButtonTappedCommand);
+        public ICommand OkButtonTappedCommand => _okButtonTappedCommand ??= new Command(OnOkButtonTapped);
         public ICommand FilterTextCommand => _filterTextCommand ??= new Command<string>(FilterList);
         public ICommand RefreshDataCommand => _refreshDataCommand ??= new AsyncCommand(ExecuteRefreshDataCommand);
 
@@ -119,18 +119,11 @@ namespace InvestmentDataSampleApp
 
                 foreach (var opportunity in _allOpportunitiesList)
                     VisibleOpportunitiesCollection.Add(opportunity);
-
             }
             finally
             {
                 IsCollectionRefreshing = false;
             }
-        }
-
-        void ExecuteOkButtonTappedCommand()
-        {
-            OnOkButtonTapped();
-            Settings.ShouldShowWelcomeView = false;
         }
 
         //https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/

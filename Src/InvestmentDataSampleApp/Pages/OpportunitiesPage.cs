@@ -4,35 +4,34 @@ using System.Linq;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using InvestmentDataSampleApp.Shared;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Markup;
 
 namespace InvestmentDataSampleApp
 {
     public class OpportunitiesPage : BaseContentPage<OpportunitiesViewModel>, ISearchPage
     {
         readonly WeakEventManager<string> _searchBarChangedEventManager = new WeakEventManager<string>();
-        readonly RelativeLayout _mainLayout;
         readonly WelcomeView _welcomeView = new WelcomeView();
+
+        readonly RelativeLayout _mainLayout;
 
         public OpportunitiesPage()
         {
             SearchBarTextChanged += HandleSearchBarTextChanged;
-            ViewModel.OkButtonTapped += HandleWelcomeViewDisappearing;
-
-            var collectionView = new CollectionView
-            {
-                ItemTemplate = new OpportunitiesDataTemplateSelector(),
-                SelectionMode = SelectionMode.Single,
-            };
-            collectionView.SetBinding(CollectionView.ItemsSourceProperty, nameof(OpportunitiesViewModel.VisibleOpportunitiesCollection));
+            ViewModel.OkButtonTapped += HandleOkButtonTapped;
 
             var refreshView = new RefreshView
             {
                 RefreshColor = Color.DarkSlateGray,
-                Content = collectionView
-            };
-            refreshView.SetBinding(RefreshView.CommandProperty, nameof(OpportunitiesViewModel.RefreshDataCommand));
-            refreshView.SetBinding(RefreshView.IsRefreshingProperty, nameof(OpportunitiesViewModel.IsCollectionRefreshing));
+                Content = new CollectionView
+                {
+                    ItemTemplate = new OpportunitiesDataTemplate(),
+                    SelectionMode = SelectionMode.Single,
+                }.Bind(CollectionView.ItemsSourceProperty, nameof(OpportunitiesViewModel.VisibleOpportunitiesCollection))
+            }.Bind(RefreshView.CommandProperty, nameof(OpportunitiesViewModel.RefreshDataCommand))
+             .Bind(RefreshView.IsRefreshingProperty, nameof(OpportunitiesViewModel.IsCollectionRefreshing));
 
             var addButtonToolBar = new ToolbarItem
             {
@@ -72,7 +71,7 @@ namespace InvestmentDataSampleApp
         {
             base.OnAppearing();
 
-            await DisplayWelcomeView();
+            await TryDisplayWelcomeView();
 
             if (Content is Layout<View> layout
                 && layout.Children.OfType<RefreshView>().First() is RefreshView refreshView
@@ -93,23 +92,13 @@ namespace InvestmentDataSampleApp
                 await Navigation.PushModalAsync(new BaseNavigationPage(new AddOpportunityPage()));
         }
 
+        async void HandleOkButtonTapped(object sender, EventArgs e) => await _welcomeView.HideView();
 
-        async void HandleWelcomeViewDisappearing(object sender, EventArgs e)
+        async Task TryDisplayWelcomeView()
         {
-            await _welcomeView.HideView();
-
-            await Device.InvokeOnMainThreadAsync(() =>
+            if (VersionTracking.IsFirstLaunchEver && !_mainLayout.Children.Contains(_welcomeView))
             {
-                if (_mainLayout.Children.Contains(_welcomeView))
-                    _mainLayout.Children.Remove(_welcomeView);
-            });
-        }
-
-        async Task DisplayWelcomeView()
-        {
-            if (Settings.ShouldShowWelcomeView)
-            {
-                await Device.InvokeOnMainThreadAsync(() =>
+                await MainThread.InvokeOnMainThreadAsync(() =>
                 {
                     _mainLayout.Children.Add(_welcomeView,
                        Constraint.Constant(0),

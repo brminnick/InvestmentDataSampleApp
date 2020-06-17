@@ -17,7 +17,7 @@
         <Folder Include="Views\OpportunityDetails\" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="4.7.0.848-pre3" />
+        <PackageReference Include="Xamarin.Forms" Version="4.7.0.937-pre4" />
         <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.1.1" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />

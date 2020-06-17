@@ -1,67 +1,20 @@
 using System;
 using System.Text;
 using InvestmentDataSampleApp.Shared;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Markup;
+using static Xamarin.Forms.Markup.GridRowsColumns;
+using static InvestmentDataSampleApp.MarkupExtensions;
 
 namespace InvestmentDataSampleApp
 {
     public class AddOpportunityPage : BaseContentPage<AddOpportunityViewModel>
     {
-        readonly Button _cancelButton, _saveButton;
-        readonly Entry _topicEntry, _companyEntry, _leaseAmountEntry, _ownerEntry, _dbaEntry;
-
         public AddOpportunityPage()
         {
             ViewModel.SaveError += HandleSaveError;
             ViewModel.SaveToDatabaseCompleted += HandleCancelButtonTapped;
-
-            var topicLabel = new AddOpportunityLabel("Topic");
-
-            _topicEntry = new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.TopicEntry);
-            _topicEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Topic));
-
-
-            var companyLabel = new AddOpportunityLabel("Company");
-
-            _companyEntry = new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.CompanyEntry);
-            _companyEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Company));
-
-
-            var dbaLabel = new AddOpportunityLabel("DBA");
-
-            _dbaEntry = new AddOpportunityEntry(ReturnType.Go, AutomationIdConstants.DBAEntry);
-            _dbaEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.DBA));
-            _dbaEntry.SetBinding(Entry.ReturnCommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped));
-
-
-            var leaseAmountLabel = new AddOpportunityLabel("Lease Amount");
-
-            _leaseAmountEntry = new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.LeaseAmountEntry)
-            {
-                Keyboard = Keyboard.Numeric,
-                Placeholder = "0"
-            };
-            _leaseAmountEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.LeaseAmount));
-
-
-            var ownerLabel = new AddOpportunityLabel("Owner");
-
-            _ownerEntry = new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.OwnerEntry);
-            _ownerEntry.SetBinding(Entry.TextProperty, nameof(AddOpportunityViewModel.Owner));
-
-            _saveButton = new Button
-            {
-                Text = "Save",
-                AutomationId = AutomationIdConstants.SaveButton,
-            };
-            _saveButton.SetBinding(Button.CommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped));
-
-            _cancelButton = new Button
-            {
-                Text = "Cancel",
-                AutomationId = AutomationIdConstants.CancelButton
-            };
-            _cancelButton.Clicked += HandleCancelButtonClicked;
 
             int rowHeight = Device.RuntimePlatform switch
             {
@@ -70,78 +23,87 @@ namespace InvestmentDataSampleApp
                 _ => throw new NotSupportedException()
             };
 
-            var grid = new Grid
-            {
-                RowSpacing = 10,
-                RowDefinitions =
-                {
-                    new RowDefinition { Height = new GridLength(Device.RuntimePlatform is Device.iOS ? rowHeight * 1.5 : rowHeight, GridUnitType.Absolute) },
-                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
-                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
-                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
-                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
-                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
-                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
-                    new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) },
-                    new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-                },
-                ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                    new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) },
-                }
-            };
-
-            if (Device.RuntimePlatform is Device.iOS)
-            {
-                var titleLabel = new Label
-                {
-                    Margin = new Thickness(0, 10, 0, 10),
-                    Text = PageTitleConstants.AddOpportunityPage,
-                    FontSize = 24,
-                    FontAttributes = FontAttributes.Bold
-                };
-
-                grid.Children.Add(titleLabel, 0, 0);
-                Grid.SetColumnSpan(titleLabel, 2);
-            }
-
-            grid.Children.Add(topicLabel, 0, 1);
-            grid.Children.Add(_topicEntry, 1, 1);
-
-            grid.Children.Add(companyLabel, 0, 2);
-            grid.Children.Add(_companyEntry, 1, 2);
-
-            grid.Children.Add(ownerLabel, 0, 3);
-            grid.Children.Add(_ownerEntry, 1, 3);
-
-            grid.Children.Add(leaseAmountLabel, 0, 4);
-            grid.Children.Add(_leaseAmountEntry, 1, 4);
-
-            grid.Children.Add(dbaLabel, 0, 5);
-            grid.Children.Add(_dbaEntry, 1, 5);
-
-            grid.Children.Add(_saveButton, 0, 6);
-            Grid.SetColumnSpan(_saveButton, 2);
-
-            //Only display Cancel button on Android because iOS users can swipe away the modal page
-            if (Device.RuntimePlatform is Device.Android)
-            {
-                grid.Children.Add(_cancelButton, 0, 7);
-                Grid.SetColumnSpan(_cancelButton, 2);
-            }
-
             BackgroundColor = Color.White;
 
             Title = PageTitleConstants.AddOpportunityPage;
 
             Padding = new Thickness(20, 10, 20, 0);
 
-            Content = grid;
+            Content = new Grid
+            {
+                RowSpacing = 10,
+                RowDefinitions = Rows.Define(
+                    (Row.Title, Absolute(Device.RuntimePlatform is Device.iOS ? rowHeight * 1.5 : 0)),
+                    (Row.Topic, Absolute(rowHeight)),
+                    (Row.Company, Absolute(rowHeight)),
+                    (Row.Owner, Absolute(rowHeight)),
+                    (Row.LeaseAmount, Absolute(rowHeight)),
+                    (Row.DBA, Absolute(rowHeight)),
+                    (Row.Save, Absolute(rowHeight)),
+                    (Row.Cancel, Stars(1))),
+
+                ColumnDefinitions = Columns.Define(
+                    (Column.Description, Stars(1)),
+                    (Column.Entry, Stars(2))),
+
+                Children =
+                {
+                    new TitleLabel()
+                        .Row(Row.Title).ColumnSpan(All<Column>())
+                        .Bind(IsVisibleProperty,nameof(AddOpportunityViewModel.IsTitleVisible)),
+
+                    new AddOpportunityLabel("Topic")
+                        .Row(Row.Topic).Column(Column.Description),
+
+                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.TopicEntry)
+                        .Row(Row.Topic).Column(Column.Entry)
+                        .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.Topic)),
+
+                    new AddOpportunityLabel("Company")
+                        .Row(Row.Company).Column(Column.Description),
+
+                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.CompanyEntry)
+                        .Row(Row.Company).Column(Column.Entry)
+                        .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.Company)),
+
+                    new AddOpportunityLabel("DBA")
+                        .Row(Row.DBA).Column(Column.Description),
+
+                    new AddOpportunityEntry(ReturnType.Go, AutomationIdConstants.DBAEntry)
+                        .Row(Row.DBA).Column(Column.Entry)
+                        .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.DBA))
+                        .Bind(Entry.ReturnCommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped)),
+
+                    new AddOpportunityLabel("Lease Amount")
+                        .Row(Row.LeaseAmount).Column(Column.Description),
+
+                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.LeaseAmountEntry) { Keyboard = Keyboard.Numeric }
+                        .Row(Row.LeaseAmount).Column(Column.Entry)
+                        .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.LeaseAmount)),
+
+                    new AddOpportunityLabel("Owner")
+                        .Row(Row.Owner).Column(Column.Description),
+
+                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.OwnerEntry)
+                        .Row(Row.Owner).Column(Column.Entry)
+                        .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.Owner)),
+
+                    new Button { Text = "Save", AutomationId = AutomationIdConstants.SaveButton }.CenterHorizontal()
+                        .Row(Row.Save).ColumnSpan(All<Column>())
+                        .Bind(Button.CommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped)),
+
+                    new Button { Text = "Cancel", AutomationId = AutomationIdConstants.CancelButton }.CenterHorizontal().Top()
+                        .Row(Row.Cancel).ColumnSpan(All<Column>())
+                        .Bind(IsVisibleProperty, nameof(AddOpportunityViewModel.IsCancelButtonVisible))
+                        .Invoke(cancelButton => cancelButton.Clicked += HandleCancelButtonClicked)
+                }
+            };
         }
 
-        async void HandleCancelButtonClicked(object sender, EventArgs e) =>
-            await Navigation.PopModalAsync();
+        enum Row { Title, Topic, Company, Owner, LeaseAmount, DBA, Save, Cancel }
+        enum Column { Description, Entry }
+
+        async void HandleCancelButtonClicked(object sender, EventArgs e) => await Navigation.PopModalAsync();
 
         void HandleSaveError(object sender, EventArgs e)
         {
@@ -152,7 +114,7 @@ namespace InvestmentDataSampleApp
                 blankFieldsString.AppendLine("Topic");
             if (string.IsNullOrWhiteSpace(opportunityViewModel.Company))
                 blankFieldsString.AppendLine("Company");
-            if (opportunityViewModel.LeaseAmount == 0)
+            if (opportunityViewModel.LeaseAmount is 0)
                 blankFieldsString.AppendLine("Lease Amount");
             if (string.IsNullOrWhiteSpace(opportunityViewModel.Owner))
                 blankFieldsString.AppendLine("Owner");
@@ -161,33 +123,45 @@ namespace InvestmentDataSampleApp
 
             blankFieldsString.Remove(blankFieldsString.Length - 1, 1);
 
-            Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Error: Missing Data", $"The following fields are empty: \n{blankFieldsString}", "OK"));
+            MainThread.BeginInvokeOnMainThread(async () => await DisplayAlert("Error: Missing Data", $"The following fields are empty:\n{blankFieldsString}", "OK"));
         }
 
-        void HandleCancelButtonTapped(object sender, EventArgs e) => Device.BeginInvokeOnMainThread(() => Navigation.PopModalAsync());
+        void HandleCancelButtonTapped(object sender, EventArgs e) => MainThread.BeginInvokeOnMainThread(() => Navigation.PopModalAsync());
 
         class AddOpportunityEntry : Entry
         {
-            public AddOpportunityEntry(ReturnType returnType, string automationId)
+            public AddOpportunityEntry(in ReturnType returnType, in string automationId)
             {
-                VerticalTextAlignment = TextAlignment.Center;
-                HorizontalTextAlignment = TextAlignment.Start;
-                TextColor = Color.Black;
-                BackgroundColor = Color.White;
                 ReturnType = returnType;
                 AutomationId = automationId;
+
+                TextColor = Color.Black;
+                BackgroundColor = Color.White;
+                VerticalTextAlignment = TextAlignment.Center;
+                HorizontalTextAlignment = TextAlignment.Start;
                 ClearButtonVisibility = ClearButtonVisibility.WhileEditing;
             }
         }
 
         class AddOpportunityLabel : Label
         {
-            public AddOpportunityLabel(string text)
+            public AddOpportunityLabel(in string text)
             {
+                Text = text;
                 HorizontalOptions = LayoutOptions.Start;
                 VerticalTextAlignment = TextAlignment.Center;
                 HorizontalTextAlignment = TextAlignment.Start;
-                Text = text;
+            }
+        }
+
+        class TitleLabel : Label
+        {
+            public TitleLabel()
+            {
+                FontSize = 24;
+                FontAttributes = FontAttributes.Bold;
+                Margin = new Thickness(0, 10, 0, 10);
+                Text = PageTitleConstants.AddOpportunityPage;
             }
         }
     }

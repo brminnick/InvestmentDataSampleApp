@@ -2,156 +2,81 @@ using System.Linq;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices.MVVM;
 using FFImageLoading.Forms;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Markup;
+using static Xamarin.Forms.Markup.GridRowsColumns;
+using static InvestmentDataSampleApp.MarkupExtensions;
 
 namespace InvestmentDataSampleApp
 {
-    class OpportunitiesDataTemplateSelector : DataTemplateSelector
+    class OpportunitiesDataTemplate : DataTemplate
     {
         readonly static int _rowHeight = Device.Idiom is TargetIdiom.Phone ? 50 : 150;
 
-        protected override DataTemplate OnSelectTemplate(object item, BindableObject container) =>
-            new OpportunitiesDataTemplate((OpportunityModel)item);
-
-        class OpportunitiesDataTemplate : DataTemplate
+        public OpportunitiesDataTemplate() : base(LoadTemplate)
         {
 
-            public OpportunitiesDataTemplate(OpportunityModel opportunityModel) : base(() => LoadTemplate(opportunityModel))
+        }
+
+        enum Row { Title, Description };
+        enum Column { Icon, Topic }
+
+        static SwipeView LoadTemplate() => new ExtendedSwipeView
+        {
+            RightItems = new SwipeItems(new[]
             {
-
-            }
-
-            static SwipeView LoadTemplate(OpportunityModel opportunityModel)
+                new DeleteSwipeItem().Bind(SwipeItem.CommandParameterProperty, nameof(OpportunityModel.Topic)),
+            })
             {
-                var beaconFundingImage = new CachedImage
+                Mode = SwipeMode.Execute
+            },
+
+            TappedCommand = new AsyncCommand<OpportunityModel>(ExecuteSwipeViewTappedCommand),
+
+            Margin = new Thickness(0, 5, 0, 15),
+
+            Content = new Grid
+            {
+                BackgroundColor = Color.White,
+                Padding = new Thickness(5, 0, 0, 0),
+                ColumnSpacing = 20,
+
+                RowDefinitions = Rows.Define(
+                    (Row.Title, Star),
+                    (Row.Description, Star)),
+
+                ColumnDefinitions = Columns.Define(
+                    (Column.Icon, Absolute(_rowHeight / 3)),
+                    (Column.Topic, Star)),
+
+                Children =
                 {
-                    Source = "beaconfundingicon",
-                    HeightRequest = _rowHeight
-                };
+                    new CachedImage { Source = "beaconfundingicon", HeightRequest = _rowHeight }
+                        .RowSpan(All<Row>()).Column(Column.Icon),
 
-                var topicTitleLabel = new Label
-                {
-                    Text = "Topic",
-                    FontAttributes = FontAttributes.Bold,
-                    VerticalTextAlignment = TextAlignment.End
-                };
+                    new Label { Text = "Topic", FontAttributes = FontAttributes.Bold }.TextStart().TextBottom()
+                        .Row(Row.Title).Column(Column.Topic),
 
-                var topicDescriptionLabel = new Label
-                {
-                    VerticalTextAlignment = TextAlignment.Start,
-                    Text = opportunityModel.Topic
-                };
-
-                var companyTitleLabel = new Label
-                {
-                    Text = "Company",
-                    FontAttributes = FontAttributes.Bold,
-                    VerticalTextAlignment = TextAlignment.End
-                };
-
-                var companyDescriptionLabel = new Label
-                {
-                    VerticalTextAlignment = TextAlignment.Start,
-                    Text = opportunityModel.Company
-                };
-
-                var leaseAmountTitleLabel = new Label
-                {
-                    Text = "Lease Amount",
-                    FontAttributes = FontAttributes.Bold,
-                    VerticalTextAlignment = TextAlignment.End
-                };
-
-                var leaseAmountDescriptionLabel = new Label
-                {
-                    VerticalTextAlignment = TextAlignment.Start,
-                    Text = opportunityModel.LeaseAmountAsCurrency
-                };
-
-                var ownerTitleLabel = new Label
-                {
-                    Text = "Owner",
-                    FontAttributes = FontAttributes.Bold,
-                    VerticalTextAlignment = TextAlignment.End
-                };
-
-                var ownerDescriptionLabel = new Label
-                {
-                    VerticalTextAlignment = TextAlignment.Start,
-                    Text = opportunityModel.Owner
-                };
-
-                var grid = new Grid
-                {
-                    BackgroundColor = Color.White,
-
-                    Padding = new Thickness(5, 0, 0, 0),
-
-                    ColumnSpacing = 20,
-                    RowDefinitions =
-                    {
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-                    },
-                        ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = new GridLength(_rowHeight / 3, GridUnitType.Absolute) },
-                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
-                    }
-                };
-
-                grid.Children.Add(beaconFundingImage, 0, 0);
-                Grid.SetRowSpan(beaconFundingImage, 2);
-
-                grid.Children.Add(topicTitleLabel, 1, 0);
-                grid.Children.Add(topicDescriptionLabel, 1, 1);
-
-                if (Device.Idiom != TargetIdiom.Phone)
-                {
-                    grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-
-
-                    grid.Children.Add(companyTitleLabel, 2, 0);
-                    grid.Children.Add(companyDescriptionLabel, 2, 1);
-
-                    grid.Children.Add(leaseAmountTitleLabel, 3, 0);
-                    grid.Children.Add(leaseAmountDescriptionLabel, 3, 1);
-
-                    grid.Children.Add(ownerTitleLabel, 4, 0);
-                    grid.Children.Add(ownerDescriptionLabel, 4, 1);
+                    new Label().TextStart().TextTop()
+                        .Row(Row.Description).Column(Column.Topic)
+                        .Bind(Label.TextProperty, nameof(OpportunityModel.Topic))
                 }
-
-                var deleteSwipeItem = new SwipeItem
-                {
-                    Text = "Delete",
-                    IconImageSource = "Delete",
-                    BackgroundColor = Color.Red,
-                    Command = new AsyncCommand<string>(ExecuteSwipeToDeleteCommand)
-                };
-                deleteSwipeItem.SetBinding(SwipeItem.CommandParameterProperty, nameof(OpportunityModel.Topic));
-
-                var rightSwipeItems = new SwipeItems
-                {
-                    Mode = SwipeMode.Execute
-                };
-                rightSwipeItems.Add(deleteSwipeItem);
-
-                var swipeViewTappedCommand = new AsyncCommand<OpportunityModel>(ExecuteSwipeViewTappedCommand);
-
-                var swipeView = new ExtendedSwipeView(swipeViewTappedCommand, opportunityModel)
-                {
-                    RightItems = rightSwipeItems,
-                    Content = grid,
-                    Margin = new Thickness(0, 5, 0, 15)
-                };
-
-                return swipeView;
             }
+        }.Bind(ExtendedSwipeView.TappedCommandParameterProperty, ".");
 
-            static Task ExecuteSwipeViewTappedCommand(OpportunityModel opportunityModel) =>
-                Application.Current.MainPage.Navigation.PushAsync(new OpportunityDetailsPage(opportunityModel));
+        static Task ExecuteSwipeViewTappedCommand(OpportunityModel opportunityModel) =>
+            Application.Current.MainPage.Navigation.PushAsync(new OpportunityDetailsPage(opportunityModel));
+
+        class DeleteSwipeItem : SwipeItem
+        {
+            public DeleteSwipeItem()
+            {
+                Text = "Delete";
+                IconImageSource = "Delete";
+                BackgroundColor = Color.Red;
+                Command = new AsyncCommand<string>(ExecuteSwipeToDeleteCommand);
+            }
 
             static async Task ExecuteSwipeToDeleteCommand(string topic)
             {
@@ -169,7 +94,7 @@ namespace InvestmentDataSampleApp
                 var opportunityPageLayout = (Layout<View>)opportunityPage.Content;
                 var refreshView = opportunityPageLayout.Children.OfType<RefreshView>().First();
 
-                return Device.InvokeOnMainThreadAsync(() => refreshView.IsRefreshing = true);
+                return MainThread.InvokeOnMainThreadAsync(() => refreshView.IsRefreshing = true);
             }
         }
     }

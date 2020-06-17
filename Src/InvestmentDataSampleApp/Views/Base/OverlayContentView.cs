@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace InvestmentDataSampleApp
@@ -83,7 +83,7 @@ namespace InvestmentDataSampleApp
             const double overlayContentViewMaxSize = 1.05;
             const double overlayContentViewNormalSize = 1;
 
-            return Device.InvokeOnMainThreadAsync(async () =>
+            return MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 IsVisible = true;
                 _backgroundOverlayBoxView.Opacity = 1;
@@ -98,7 +98,7 @@ namespace InvestmentDataSampleApp
 
         public Task HideView()
         {
-            return Device.InvokeOnMainThreadAsync(async () =>
+            return MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 await this.FadeTo(0, 1000, Easing.CubicIn);
 

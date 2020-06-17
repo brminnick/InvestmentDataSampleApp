@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -7,13 +6,10 @@ namespace InvestmentDataSampleApp
 {
     public class ExtendedSwipeView : SwipeView
     {
-        public ExtendedSwipeView(ICommand tappedCommand, object? tappedCommandProperty)
+        public ExtendedSwipeView()
         {
             CloseRequested += OnCloseRequested;
             SwipeEnded += OnSwipeEnded;
-
-            TappedCommand = tappedCommand;
-            TappedCommandProperty = tappedCommandProperty;
 
             var tappedGestureRecognizer = new TapGestureRecognizer();
             tappedGestureRecognizer.Tapped += HandleTapped;
@@ -21,10 +17,22 @@ namespace InvestmentDataSampleApp
             GestureRecognizers.Add(tappedGestureRecognizer);
         }
 
+        public static readonly BindableProperty TappedCommandProperty = BindableProperty.Create(nameof(TappedCommand), typeof(ICommand), typeof(ExtendedSwipeView));
+        public static readonly BindableProperty TappedCommandParameterProperty = BindableProperty.Create(nameof(TappedCommandParameter), typeof(object), typeof(ExtendedSwipeView));
+
         public bool IsSwiped { get; private set; }
 
-        public ICommand TappedCommand { get; }
-        public object? TappedCommandProperty { get; }
+        public ICommand? TappedCommand
+        {
+            get => (ICommand?)GetValue(TappedCommandProperty);
+            set => SetValue(TappedCommandProperty, value);
+        }
+
+        public object? TappedCommandParameter
+        {
+            get => (object?)GetValue(TappedCommandParameterProperty);
+            set => SetValue(TappedCommandParameterProperty, value);
+        }
 
         void OnCloseRequested(object sender, EventArgs e) => IsSwiped = false;
 
@@ -37,7 +45,7 @@ namespace InvestmentDataSampleApp
         void HandleTapped(object sender, EventArgs e)
         {
             if (!IsSwiped)
-                TappedCommand.Execute(TappedCommandProperty);
+                TappedCommand?.Execute(TappedCommandParameter);
             else
                 IsSwiped = false;
         }

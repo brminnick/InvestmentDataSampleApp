@@ -22,6 +22,6 @@ namespace InvestmentDataSampleApp
         }
 
         void HandleShakeDetected(object sender, EventArgs e) =>
-            Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Shake Detected", "You shook your device!", "Ok"));
+            MainThread.BeginInvokeOnMainThread(async () => await DisplayAlert("Shake Detected", "You shook your device!", "Ok"));
     }
 }
