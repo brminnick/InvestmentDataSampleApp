@@ -1,5 +1,7 @@
 # InvestmentDataSampleApp
 
+<a href="https://www.buymeacoffee.com/bminnick" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee"  ></a>
+
 This sample app demonstrates the following new features in Xamarin.Forms:
 - [Xamarin.Forms.SwipeView](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/swipeview?WT.mc_id=social-github-bramin)
 - [Xamarin.Forms.RefreshView](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/refreshview?WT.mc_id=social-github-bramin)
