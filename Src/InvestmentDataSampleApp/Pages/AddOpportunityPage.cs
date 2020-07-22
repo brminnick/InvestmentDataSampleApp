@@ -4,8 +4,8 @@ using InvestmentDataSampleApp.Shared;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Markup;
-using static Xamarin.Forms.Markup.GridRowsColumns;
 using static InvestmentDataSampleApp.MarkupExtensions;
+using static Xamarin.Forms.Markup.GridRowsColumns;
 
 namespace InvestmentDataSampleApp
 {
@@ -55,38 +55,38 @@ namespace InvestmentDataSampleApp
                     new AddOpportunityLabel("Topic")
                         .Row(Row.Topic).Column(Column.Description),
 
-                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.TopicEntry)
+                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.TopicEntry, 0)
                         .Row(Row.Topic).Column(Column.Entry)
                         .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.Topic)),
 
                     new AddOpportunityLabel("Company")
                         .Row(Row.Company).Column(Column.Description),
 
-                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.CompanyEntry)
+                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.CompanyEntry, 1).Assign(out Entry companyEntry)
                         .Row(Row.Company).Column(Column.Entry)
                         .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.Company)),
-
-                    new AddOpportunityLabel("DBA")
-                        .Row(Row.DBA).Column(Column.Description),
-
-                    new AddOpportunityEntry(ReturnType.Go, AutomationIdConstants.DBAEntry)
-                        .Row(Row.DBA).Column(Column.Entry)
-                        .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.DBA))
-                        .Bind(Entry.ReturnCommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped)),
-
-                    new AddOpportunityLabel("Lease Amount")
-                        .Row(Row.LeaseAmount).Column(Column.Description),
-
-                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.LeaseAmountEntry) { Keyboard = Keyboard.Numeric }
-                        .Row(Row.LeaseAmount).Column(Column.Entry)
-                        .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.LeaseAmount)),
 
                     new AddOpportunityLabel("Owner")
                         .Row(Row.Owner).Column(Column.Description),
 
-                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.OwnerEntry)
+                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.OwnerEntry, 2).Assign(out Entry ownerEntry)
                         .Row(Row.Owner).Column(Column.Entry)
                         .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.Owner)),
+
+                    new AddOpportunityLabel("Lease Amount")
+                        .Row(Row.LeaseAmount).Column(Column.Description),
+
+                    new AddOpportunityEntry(ReturnType.Next, AutomationIdConstants.LeaseAmountEntry, 3) { Keyboard = Keyboard.Numeric }.Assign(out Entry leaseAmountEntry)
+                        .Row(Row.LeaseAmount).Column(Column.Entry)
+                        .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.LeaseAmount)),
+
+                    new AddOpportunityLabel("DBA")
+                        .Row(Row.DBA).Column(Column.Description),
+
+                    new AddOpportunityEntry(ReturnType.Go, AutomationIdConstants.DBAEntry, 4).Assign(out Entry dbaEntry)
+                        .Row(Row.DBA).Column(Column.Entry)
+                        .Bind(Entry.TextProperty, nameof(AddOpportunityViewModel.DBA))
+                        .Bind(Entry.ReturnCommandProperty, nameof(AddOpportunityViewModel.SaveButtonTapped)),
 
                     new Button { Text = "Save", AutomationId = AutomationIdConstants.SaveButton }.CenterHorizontal()
                         .Row(Row.Save).ColumnSpan(All<Column>())
@@ -130,8 +130,9 @@ namespace InvestmentDataSampleApp
 
         class AddOpportunityEntry : Entry
         {
-            public AddOpportunityEntry(in ReturnType returnType, in string automationId)
+            public AddOpportunityEntry(in ReturnType returnType, in string automationId, in int tabIndex)
             {
+                TabIndex = tabIndex;
                 ReturnType = returnType;
                 AutomationId = automationId;
 

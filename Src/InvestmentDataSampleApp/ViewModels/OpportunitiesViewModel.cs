@@ -136,7 +136,7 @@ namespace InvestmentDataSampleApp
         }
 
         void OnOkButtonTapped() =>
-             _okButtonTappedEventManager.HandleEvent(this, EventArgs.Empty, nameof(OkButtonTapped));
+             _okButtonTappedEventManager.RaiseEvent(this, EventArgs.Empty, nameof(OkButtonTapped));
     }
 }
 

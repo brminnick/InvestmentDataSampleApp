@@ -65,7 +65,7 @@ namespace InvestmentDataSampleApp
         }
 
         public void OnSearchBarTextChanged(in string text) =>
-            _searchBarChangedEventManager.HandleEvent(this, text, nameof(SearchBarTextChanged));
+            _searchBarChangedEventManager.RaiseEvent(this, text, nameof(SearchBarTextChanged));
 
         protected override async void OnAppearing()
         {

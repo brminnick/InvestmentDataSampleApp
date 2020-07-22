@@ -112,10 +112,10 @@ namespace InvestmentDataSampleApp
         }
 
         void OnSaveError() =>
-            _saveErrorEventManager.HandleEvent(this, EventArgs.Empty, nameof(SaveError));
+            _saveErrorEventManager.RaiseEvent(this, EventArgs.Empty, nameof(SaveError));
 
         void OnSaveToDatabaseCompleted() =>
-            _saveToDatabaseCompleted.HandleEvent(this, EventArgs.Empty, nameof(SaveToDatabaseCompleted));
+            _saveToDatabaseCompleted.RaiseEvent(this, EventArgs.Empty, nameof(SaveToDatabaseCompleted));
     }
 }
 
