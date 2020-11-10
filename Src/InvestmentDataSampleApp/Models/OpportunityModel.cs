@@ -4,32 +4,26 @@ using SQLite;
 
 namespace InvestmentDataSampleApp
 {
-    public class OpportunityModel
+    public record OpportunityModel
     {
-        public OpportunityModel()
-        {
-            Topic = "";
-            Company = "";
-            DBA = "";
-            LeaseAmount = 0;
-            SalesStage = SalesStages.New;
-            Owner = "";
-            CreatedAt = DateTimeOffset.UtcNow;
-        }
-
         public string LeaseAmountAsCurrency => $"{LeaseAmount:C}";
 
         [PrimaryKey, AutoIncrement]
-        public int? ID { get; set; }
-        public string Topic { get; set; }
-        public string Company { get; set; }
-        public string DBA { get; set; }
-        public long LeaseAmount { get; set; }
-        public SalesStages SalesStage { get; set; }
-        public string Owner { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
+        public int? ID { get; init; }
+        public string Topic { get; init; } = string.Empty;
+        public string Company { get; init; } = string.Empty;
+        public string DBA { get; init; } = string.Empty;
+        public long LeaseAmount { get; init; }
+        public SalesStages SalesStage { get; init; } = SalesStages.New;
+        public string Owner { get; init; } = string.Empty;
+        public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
     }
 
     public enum SalesStages { New, Pending, Closed }
 }
 
+#warning .NET 5 workaround https://stackoverflow.com/a/62656145/5953643
+namespace System.Runtime.CompilerServices
+{
+    public class IsExternalInit { }
+}

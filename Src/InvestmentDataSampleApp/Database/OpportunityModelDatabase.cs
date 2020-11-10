@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace InvestmentDataSampleApp
 {
-    public abstract class OpportunityModelDatabase : BaseDatabase
+    abstract class OpportunityModelDatabase : BaseDatabase
     {
-        public static async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest_Filter(string filter)
+        static async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest_Filter(string filter)
         {
             var filterAsLowerCase = filter.ToLower();
             var allOpportunityData = await GetAllOpportunityData_OldestToNewest().ConfigureAwait(false);

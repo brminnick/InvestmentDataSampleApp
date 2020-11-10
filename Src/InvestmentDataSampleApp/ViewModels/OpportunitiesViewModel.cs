@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Xamarin.Forms;
 
@@ -13,7 +12,7 @@ namespace InvestmentDataSampleApp
 {
     public class OpportunitiesViewModel : BaseViewModel
     {
-        readonly WeakEventManager _okButtonTappedEventManager = new WeakEventManager();
+        readonly AsyncAwaitBestPractices.WeakEventManager _okButtonTappedEventManager = new();
 
         bool _isCollectionRefreshing;
         IReadOnlyList<OpportunityModel> _allOpportunitiesList = Enumerable.Empty<OpportunityModel>().ToList();
@@ -76,7 +75,6 @@ namespace InvestmentDataSampleApp
         {
             for (int i = 0; i < numberOfOpportunityModelsToGenerate; i++)
             {
-                var newOpportunity = new OpportunityModel();
 
                 var rnd = new Random((int)DateTime.Now.Ticks);
                 var companyIndex = rnd.Next(50);
@@ -88,13 +86,16 @@ namespace InvestmentDataSampleApp
                 var yearIndex = rnd.Next(2000, 2015);
                 var salesStage = (SalesStages)rnd.Next(2);
 
-                newOpportunity.Topic = $"{i + 715003} / Investment Data Corp";
-                newOpportunity.Company = $"{LoremIpsumConstants.LoremIpsum.Substring(companyIndex, 10)}";
-                newOpportunity.DBA = $"{LoremIpsumConstants.LoremIpsum.Substring(dbaIndex, 10)}";
-                newOpportunity.LeaseAmount = leaseAmount;
-                newOpportunity.SalesStage = salesStage;
-                newOpportunity.Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}";
-                newOpportunity.CreatedAt = new DateTimeOffset(yearIndex, monthIndex, dayIndex, 0, 0, 0, default);
+                var newOpportunity = new OpportunityModel
+                {
+                    Topic = $"{i + 715003} / Investment Data Corp",
+                    Company = $"{LoremIpsumConstants.LoremIpsum.Substring(companyIndex, 10)}",
+                    DBA = $"{LoremIpsumConstants.LoremIpsum.Substring(dbaIndex, 10)}",
+                    LeaseAmount = leaseAmount,
+                    SalesStage = salesStage,
+                    Owner = $"{LoremIpsumConstants.LoremIpsum.Substring(ownerIndex, 10)}",
+                    CreatedAt = new DateTimeOffset(yearIndex, monthIndex, dayIndex, 0, 0, 0, default)
+                };
 
                 await OpportunityModelDatabase.SaveOpportunity(newOpportunity).ConfigureAwait(false);
             }

@@ -1,8 +1,6 @@
 using System;
-using System.Windows.Input;
 using System.Threading.Tasks;
-
-using AsyncAwaitBestPractices;
+using System.Windows.Input;
 using AsyncAwaitBestPractices.MVVM;
 using Xamarin.Forms;
 
@@ -10,13 +8,13 @@ namespace InvestmentDataSampleApp
 {
     public class AddOpportunityViewModel : BaseViewModel
     {
-        readonly WeakEventManager _saveErrorEventManager = new WeakEventManager();
-        readonly WeakEventManager _saveToDatabaseCompleted = new WeakEventManager();
+        readonly AsyncAwaitBestPractices.WeakEventManager _saveErrorEventManager = new();
+        readonly AsyncAwaitBestPractices.WeakEventManager _saveToDatabaseCompleted = new();
 
         string _topic = string.Empty,
             _company = string.Empty,
             _dba = string.Empty,
-            _owner=string.Empty;
+            _owner = string.Empty;
 
         long _leaseAmount;
         SalesStages _salesStage;
