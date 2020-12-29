@@ -6,7 +6,7 @@ using AsyncAwaitBestPractices;
 using InvestmentDataSampleApp.Shared;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Markup;
+using Xamarin.CommunityToolkit.Markup;
 
 namespace InvestmentDataSampleApp
 {

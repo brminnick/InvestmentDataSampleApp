@@ -4,8 +4,8 @@ using AsyncAwaitBestPractices.MVVM;
 using FFImageLoading.Forms;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Markup;
-using static Xamarin.Forms.Markup.GridRowsColumns;
+using Xamarin.CommunityToolkit.Markup;
+using static Xamarin.CommunityToolkit.Markup.GridRowsColumns;
 using static InvestmentDataSampleApp.MarkupExtensions;
 
 namespace InvestmentDataSampleApp

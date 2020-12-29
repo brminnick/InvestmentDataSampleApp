@@ -6,21 +6,6 @@ namespace InvestmentDataSampleApp
 {
     abstract class OpportunityModelDatabase : BaseDatabase
     {
-        static async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest_Filter(string filter)
-        {
-            var filterAsLowerCase = filter.ToLower();
-            var allOpportunityData = await GetAllOpportunityData_OldestToNewest().ConfigureAwait(false);
-
-            return allOpportunityData.Where(x => x != null &&
-                (x.Company.ToLower().Contains(filterAsLowerCase) ||
-                    x.CreatedAt.ToString().ToLower().Contains(filterAsLowerCase) ||
-                    x.DBA.ToLower().Contains(filterAsLowerCase) ||
-                    x.LeaseAmountAsCurrency.ToLower().Contains(filterAsLowerCase) ||
-                    x.Owner.ToLower().Contains(filterAsLowerCase) ||
-                    x.SalesStage.ToString().ToLower().Contains(filterAsLowerCase) ||
-                    x.Topic.ToLower().Contains(filterAsLowerCase))).ToList();
-        }
-
         public static async Task<IList<OpportunityModel>> GetAllOpportunityData_OldestToNewest()
         {
             var databaseConnection = await GetDatabaseConnection<OpportunityModel>().ConfigureAwait(false);

@@ -22,7 +22,7 @@ namespace InvestmentDataSampleApp
     public enum SalesStages { New, Pending, Closed }
 }
 
-#warning .NET 5 workaround https://stackoverflow.com/a/62656145/5953643
+//.NET 5 workaround https://stackoverflow.com/a/62656145/5953643
 namespace System.Runtime.CompilerServices
 {
     public class IsExternalInit { }

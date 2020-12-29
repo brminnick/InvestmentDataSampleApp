@@ -3,9 +3,9 @@ using System.Text;
 using InvestmentDataSampleApp.Shared;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Markup;
+using Xamarin.CommunityToolkit.Markup;
 using static InvestmentDataSampleApp.MarkupExtensions;
-using static Xamarin.Forms.Markup.GridRowsColumns;
+using static Xamarin.CommunityToolkit.Markup.GridRowsColumns;
 
 namespace InvestmentDataSampleApp
 {

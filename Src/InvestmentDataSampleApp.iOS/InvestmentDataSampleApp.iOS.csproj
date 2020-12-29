@@ -91,12 +91,12 @@
         <Reference Include="System.Net.Http" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1558-pre3" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre3" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1829-pre6" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.6.1-preview1" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
-        <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.0" />
+        <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.1" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-        <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.8.0-beta" />
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
