@@ -2,9 +2,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <LangVersion>preview</LangVersion>
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
         <Folder Include="Constants\" />
@@ -17,13 +14,13 @@
         <Folder Include="Views\OpportunityDetails\" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1829-pre6" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.6.1-preview1" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.1.0" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
         <PackageReference Include="sqlite-net-pcl" Version="1.8.0-beta" />
         <PackageReference Include="Polly" Version="7.2.1" />
-        <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.0.0-pre6" />
+        <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.1.0" />
     </ItemGroup>
     <Import Project="..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems" Label="Shared" Condition="Exists('..\InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.projitems')" />
 </Project>

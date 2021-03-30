@@ -32,7 +32,7 @@ namespace InvestmentDataSampleApp
                 Mode = SwipeMode.Execute
             },
 
-            TappedCommand = new AsyncCommand<OpportunityModel>(ExecuteSwipeViewTappedCommand),
+            TappedCommand = new AsyncCommand<OpportunityModel>(model => model is not null ? ExecuteSwipeViewTappedCommand(model) : Task.CompletedTask),
 
             Margin = new Thickness(0, 5, 0, 15),
 
@@ -75,7 +75,7 @@ namespace InvestmentDataSampleApp
                 Text = "Delete";
                 IconImageSource = "Delete";
                 BackgroundColor = Color.Red;
-                Command = new AsyncCommand<string>(ExecuteSwipeToDeleteCommand);
+                Command = new AsyncCommand<string>(topic => !string.IsNullOrEmpty(topic) ? ExecuteSwipeToDeleteCommand(topic) : Task.CompletedTask);
             }
 
             static async Task ExecuteSwipeToDeleteCommand(string topic)

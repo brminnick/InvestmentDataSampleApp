@@ -7,10 +7,7 @@
         <OutputType>Library</OutputType>
         <RootNamespace>InvestmentDataSampleApp.UITests</RootNamespace>
         <AssemblyName>InvestmentDataSampleApp.UITests</AssemblyName>
-        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -41,9 +38,9 @@
         <Compile Include="BackdoorServices.cs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.UITest" Version="3.0.12" />
-        <PackageReference Include="NUnit" Version="3.12.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="Xamarin.UITest" Version="3.0.15" />
+        <PackageReference Include="NUnit" Version="3.13.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Pages\" />

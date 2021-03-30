@@ -12,6 +12,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvestmentDataSampleApp.iOS
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "InvestmentDataSampleApp.Shared", "InvestmentDataSampleApp.Shared\InvestmentDataSampleApp.Shared.shproj", "{7A9245C0-7019-4F2A-BD5E-40E690F66AA3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A2650D5-A670-4552-8731-88BE1AB2318A}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

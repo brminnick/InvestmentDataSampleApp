@@ -16,9 +16,7 @@
         <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
         <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
         <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-        <AndroidTlsProvider>
-        </AndroidTlsProvider>
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+        <AndroidTlsProvider>btls</AndroidTlsProvider>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -35,7 +33,6 @@
         <AndroidDexTool>d8</AndroidDexTool>
         <AndroidUseAapt2>true</AndroidUseAapt2>
         <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
-        <AndroidTlsProvider>btls</AndroidTlsProvider>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <Optimize>true</Optimize>
@@ -52,7 +49,6 @@
         <AndroidUseAapt2>true</AndroidUseAapt2>
         <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
         <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
-        <AndroidTlsProvider>btls</AndroidTlsProvider>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
@@ -67,9 +63,9 @@
         <Reference Include="Mono.Android.Export" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1829-pre6" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.6.1-preview1" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.1.0" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
         <PackageReference Include="sqlite-net-pcl" Version="1.8.0-beta" />
     </ItemGroup>
