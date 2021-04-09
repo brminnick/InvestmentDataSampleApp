@@ -61,6 +61,34 @@ namespace InvestmentDataSampleApp.iOS
                 searchPage.OnSearchBarTextChanged(searchController.SearchBar.Text ?? string.Empty);
         }
 
+        static async Task<UIBarButtonItem> GetUIBarButtonItem(ToolbarItem toolbarItem)
+        {
+            var image = await GetUIImage(toolbarItem.IconImageSource);
+
+            if (image is null)
+            {
+                return new UIBarButtonItem(toolbarItem.Text, UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => toolbarItem.Command?.Execute(toolbarItem.CommandParameter))
+                {
+                    AccessibilityIdentifier = toolbarItem.AutomationId
+                };
+            }
+            else
+            {
+                return new UIBarButtonItem(image, UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => toolbarItem.Command?.Execute(toolbarItem.CommandParameter))
+                {
+                    AccessibilityIdentifier = toolbarItem.AutomationId
+                };
+            }
+        }
+
+        static Task<UIImage?> GetUIImage(ImageSource source) => source switch
+        {
+            FileImageSource => new FileImageSourceHandler().LoadImageAsync(source),
+            UriImageSource => new ImageLoaderSourceHandler().LoadImageAsync(source),
+            StreamImageSource => new StreamImagesourceHandler().LoadImageAsync(source),
+            _ => Task.FromResult<UIImage?>(null)
+        };
+
         async Task UpdateBarButtonItems(UIViewController parentViewController, Page page)
         {
             var (leftBarButtonItems, rightBarButtonItems) = await GetToolbarItems(page.ToolbarItems);
@@ -96,33 +124,5 @@ namespace InvestmentDataSampleApp.iOS
 
             return (leftBarButtonItems, rightBarButtonItems);
         }
-
-        static async Task<UIBarButtonItem> GetUIBarButtonItem(ToolbarItem toolbarItem)
-        {
-            var image = await GetUIImage(toolbarItem.IconImageSource);
-
-            if (image is null)
-            {
-                return new UIBarButtonItem(toolbarItem.Text, UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => toolbarItem.Command?.Execute(toolbarItem.CommandParameter))
-                {
-                    AccessibilityIdentifier = toolbarItem.AutomationId
-                };
-            }
-            else
-            {
-                return new UIBarButtonItem(image, UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => toolbarItem.Command?.Execute(toolbarItem.CommandParameter))
-                {
-                    AccessibilityIdentifier = toolbarItem.AutomationId
-                };
-            }
-        }
-
-        static Task<UIImage?> GetUIImage(ImageSource source) => source switch
-        {
-            FileImageSource => new FileImageSourceHandler().LoadImageAsync(source),
-            UriImageSource => new ImageLoaderSourceHandler().LoadImageAsync(source),
-            StreamImageSource => new StreamImagesourceHandler().LoadImageAsync(source),
-            _ => Task.FromResult<UIImage?>(null)
-        };
     }
 }
