@@ -38,7 +38,7 @@
         <Compile Include="BackdoorServices.cs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.UITest" Version="3.0.15" />
+        <PackageReference Include="Xamarin.UITest" Version="3.0.16" />
         <PackageReference Include="NUnit" Version="3.13.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
