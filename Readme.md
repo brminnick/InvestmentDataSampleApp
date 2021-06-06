@@ -1,3 +1,5 @@
+[![Xamarin](https://github.com/brminnick/InvestmentDataSampleApp/actions/workflows/mobile.yml/badge.svg)](https://github.com/brminnick/InvestmentDataSampleApp/actions/workflows/mobile.yml)
+
 # InvestmentDataSampleApp
 
 This sample app demonstrates the following new features in Xamarin.Forms:
