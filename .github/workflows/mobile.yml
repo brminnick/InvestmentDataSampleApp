@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-    Build_Android:
+    Build:
       runs-on: macos-latest
 
       steps:
