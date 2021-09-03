@@ -94,7 +94,7 @@
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.0" />
         <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.2" />
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-        <PackageReference Include="sqlite-net-pcl" Version="1.8.0-beta" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json">
