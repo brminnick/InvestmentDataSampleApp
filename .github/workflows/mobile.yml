@@ -16,10 +16,10 @@ jobs:
       steps:
       - uses: actions/checkout@v1
         
-      - name: Setup .NET v5.0
+      - name: Setup .NET v6.0
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.x'
+          dotnet-version: '6.0.x'
         
       - name: Restore NuGet 
         run: |
@@ -27,8 +27,8 @@ jobs:
           
       - name: Build Android App
         run: |                    
-          mono /Applications/Visual\ studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/MSBuild.dll ./Src/InvestmentDataSampleApp.Droid/InvestmentDataSampleApp.Droid.csproj /verbosity:normal /p:Configuration=Release
+          msbuild ./Src/InvestmentDataSampleApp.Droid/InvestmentDataSampleApp.Droid.csproj /verbosity:normal /p:Configuration=Release
 
       - name: Build UI Test
         run: |                    
-          mono /Applications/Visual\ studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/MSBuild.dll ./Src/InvestmentDataSampleApp.UITests/InvestmentDataSampleApp.UITests.csproj /verbosity:normal /p:Configuration=Release
+          msbuild ./Src/InvestmentDataSampleApp.UITests/InvestmentDataSampleApp.UITests.csproj /verbosity:normal /p:Configuration=Release
