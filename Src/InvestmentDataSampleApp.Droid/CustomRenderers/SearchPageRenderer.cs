@@ -65,12 +65,12 @@ namespace InvestmentDataSampleApp.Droid
         void AddSearchToToolbar(in string pageTitle)
         {
             if (GetToolbar() is Toolbar toolBar
-                && toolBar.Menu.FindItem(Resource.Id.ActionSearch)?.ActionView?.JavaCast<SearchView>()?.GetType() != typeof(SearchView))
+                && toolBar.Menu?.FindItem(Resource.Id.ActionSearch)?.ActionView?.JavaCast<SearchView>()?.GetType() != typeof(SearchView))
             {
                 toolBar.Title = pageTitle;
                 toolBar.InflateMenu(Resource.Menu.MainMenu);
 
-                if (toolBar.Menu.FindItem(Resource.Id.ActionSearch)?.ActionView?.JavaCast<SearchView>() is SearchView searchView)
+                if (toolBar.Menu?.FindItem(Resource.Id.ActionSearch)?.ActionView?.JavaCast<SearchView>() is SearchView searchView)
                 {
                     searchView.QueryTextChange += HandleQueryTextChange;
                     searchView.ImeOptions = (int)ImeAction.Search;
@@ -83,7 +83,7 @@ namespace InvestmentDataSampleApp.Droid
         void HandleQueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
             if (Element is ISearchPage searchPage)
-                searchPage.OnSearchBarTextChanged(e.NewText);
+                searchPage.OnSearchBarTextChanged(e?.NewText ?? string.Empty);
         }
 
         Toolbar? GetToolbar() => Xamarin.Essentials.Platform.CurrentActivity.FindViewById<Toolbar>(Resource.Id.toolbar);
